@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "jesterbot"
+version = "0.1.0"
+description = ""
+authors = ["iwumekiriko <iwumekiriko@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+disnake = "^2.9.2"
+python-dotenv = "^1.0.1"
+i18nice = "^0.15.5"
+requests = "^2.32.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,16 @@
+{
+    "ru": {
+        "kiss_choice": "Поцеловать",
+        "hug_choice": "Обнять",
+        "pat_choice": "Погладить",
+        "hit_choice": "Ударить",
+
+        "cat_choice": "Кошачьи",
+        "anime_choice": "Аниме",
+
+        "kiss": "<@%{command_user}> целует <@%{command_target}>",
+        "hug": "<@%{command_user}> обнимает <@%{command_target}>",
+        "pat": "<@%{command_user}> гладит <@%{command_target}>",
+        "hit": "<@%{command_user}> бьет <@%{command_target}>"
+    }
+}
