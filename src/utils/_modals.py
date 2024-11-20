@@ -72,8 +72,6 @@ class BaseModal(disnake.ui.Modal):
         error: Exception,
         interaction: disnake.ModalInteraction
     ) -> None:
-        if isinstance(error, TimeoutError):
-            await interaction.response.send_message("123")
         return await super().on_error(error, interaction)
     
     async def _timeout_handler(self) -> None:
