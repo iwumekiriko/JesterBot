@@ -1,0 +1,20 @@
+{
+    "ru": {
+        "ticket_embed_title": "Система тикетов",
+        "ticket_embed_description": "Создай тикет и опиши проблему",
+
+        "support_question": "Вопрос саппортам",
+        "moderation_offense": "Нарушение правил",
+        "bot_issue": "Проблемы с ботом",
+
+        "ticket_thread_embed_title": "Тикет",
+        "ticket_thread_embed_desc": "**От пользователя:**<@%{user_id}>\n\n**Описание проблемы:**\n%{desc}\n\n**Дополнительная информация:**\n%{add_info}",
+        "_no": "Нет",
+
+        "start_ticket_button": "Принять тикет",
+        "ticket_started": "Тикет принят модератором <@%{moderator_id}>",
+
+        "approve_ticket_button": "Закрыть тикет",
+        "approve_ticket_button_error": "Данная кнопка не для вас"
+    }
+}

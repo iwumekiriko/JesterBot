@@ -1,0 +1,33 @@
+import disnake
+from disnake.ext import commands
+
+from src.bot import JesterBot
+from .views._ticket_creation_view import TicketCreationView
+from src.logger import get_logger
+
+
+logger = get_logger()
+
+
+class TicketsCog(commands.Cog):
+    def __init__(self, bot: JesterBot):
+        self._bot = bot
+
+    @commands.Cog.listener()
+    async def on_ready(self) -> None:
+        ticket_channel = self._bot.get_channel(1302453043324915752)
+        if not isinstance(ticket_channel, disnake.TextChannel):
+            logger.error("channel for tickets is not setted")
+            return
+        
+        try:
+            await ticket_channel.fetch_message(1303678703875653762)
+        except:
+            view = TicketCreationView()
+            await ticket_channel.send(
+                embed=view.create_embed(),
+                view=view
+            )
+
+        
+

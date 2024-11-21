@@ -9,11 +9,12 @@ COGS_PATH = "src/cogs"
 DEBUG = True
 
 
-TOKEN = os.getenv("TOKEN")
-TENOR_API_KEY = os.getenv("API_KEY")
+BOT_TOKEN = os.getenv("TOKEN")
+TENOR_API_KEY = os.getenv("TENOR_API_KEY")
 
 
 LOG_WEBHOOK: str = os.getenv("LOG_WEBHOOK") # type: ignore
+PATH_TO_API: str = os.getenv("PATH_TO_API") # type: ignore
 
 
 SUPPORT_ROLE_ID = 1303666566633754675
