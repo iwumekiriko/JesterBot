@@ -53,5 +53,6 @@ def inter_member(
 ) -> disnake.Member:
     _not_bot = bot_excluding(inter, arg)
     _not_self_nor_bot = self_excluding(inter, _not_bot)
-    _not_self_not_bot_nor_owner = owner_excluding(inter, _not_self_nor_bot)
-    return _not_self_not_bot_nor_owner
+    _not_self_nor_bot_nor_owner = owner_excluding(
+        inter, _not_self_nor_bot)
+    return _not_self_nor_bot_nor_owner

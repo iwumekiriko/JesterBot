@@ -1,9 +1,9 @@
 import aiohttp
-from disnake.ext import commands
 import random
 
 from ._interactions_choice import InteractionChoices, InteractionType
 from src._config import TENOR_API_KEY
+from src.utils._exceptions import BaseException
 
 
 async def get_gif(
@@ -24,4 +24,6 @@ async def get_gif(
                 json_response = await response.json()
                 return json_response['results'][random.randint(0, limit-1)]['media_formats']['gif']['url']
             else:
-                raise commands.BadArgument("API is not responding!")
+                error_message = await response.text()
+                raise BaseException("Tenor API is not responding."
+                                f"Status code: {response.status}. Error: {error_message}")

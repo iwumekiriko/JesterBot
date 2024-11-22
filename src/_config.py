@@ -9,7 +9,7 @@ COGS_PATH = "src/cogs"
 DEBUG = True
 
 
-BOT_TOKEN = os.getenv("TOKEN")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 TENOR_API_KEY = os.getenv("TENOR_API_KEY")
 
 

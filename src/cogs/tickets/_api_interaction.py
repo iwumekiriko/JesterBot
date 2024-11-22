@@ -5,6 +5,7 @@ from src.models import Ticket
 from src.logger import get_logger
 from src.utils._mapping import json_camel_to_snake
 from src._config import PATH_TO_API
+from src.utils._exceptions import BaseException
 
 
 logger = get_logger()
@@ -22,7 +23,7 @@ async def ticket_create(ticket: Ticket) -> None:
                     logger.info("ticket created successfully")
                 else:
                     error_message = await response.text()
-                    raise Exception("Tickets API is not responding."
+                    raise BaseException("Tickets API is not responding."
                                     f"Status code: {response.status}. Error: {error_message}")
                 
 
@@ -36,7 +37,7 @@ async def _ticket_get(ticket_id: int) -> Ticket:
                 return Ticket(**json_camel_to_snake(json_data))
             else:
                 error_message = await response.text()
-                raise Exception("Tickets API is not responding."
+                raise BaseException("Tickets API is not responding."
                                 f"Status code: {response.status}. Error: {error_message}")
             
 
@@ -57,10 +58,10 @@ async def ticket_start(ticket_id: int, moderator_id: int) -> str | None:
                 message = ""
             else:
                 error_message = await response.text()
-                raise Exception("Tickets API is not responding."
+                raise BaseException("Tickets API is not responding."
                                 f"Status code: {response.status}. Error: {error_message}")
-            
-    
+
+
 async def ticket_close(ticket_id: int, solution: str) -> None:
     ticket = await _ticket_get(ticket_id)
     ticket.solution = solution
@@ -77,7 +78,7 @@ async def ticket_close(ticket_id: int, solution: str) -> None:
                 logger.info("ticket closed successfully")
             else:
                 error_message = await response.text()
-                raise Exception("Tickets API is not responding."
+                raise BaseException("Tickets API is not responding."
                                 f"Status code: {response.status}. Error: {error_message}")
 
 
