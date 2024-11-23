@@ -23,7 +23,7 @@ async def ticket_create(ticket: Ticket) -> None:
                 if response.status == 200:
                     logger.info("Пользователь <@%d> создал тикет [<#%d>] с меткой {**%s**}",
                                  ticket.user_id, ticket.id, ticket.type_problem,
-                                 extra={"user_avatar": user_avatar(ticket.user_id)}) # type: ignore
+                                 extra={"user_avatar": user_avatar(ticket.user_id), "type": "ticket"}) # type: ignore
                 else:
                     error_message = await response.text()
                     raise BaseException("Tickets API is not responding."
@@ -57,8 +57,8 @@ async def ticket_start(ticket_id: int, moderator_id: int) -> str | None:
             data=data, headers=headers
         ) as response:
             if response.status == 200:
-                logger.info("Модератор <@%d> принял тикет [<#%d>] на себя", ticket.moderator_id, ticket.id,
-                             extra={"user_avatar": user_avatar(ticket.moderator_id)}) # type: ignore
+                logger.info("Модератор <@%d> принял тикет [<#%d>]", ticket.moderator_id, ticket.id,
+                             extra={"user_avatar": user_avatar(ticket.moderator_id), "type": "ticket"}) # type: ignore
             else:
                 error_message = await response.text()
                 raise BaseException("Tickets API is not responding."
@@ -80,7 +80,7 @@ async def ticket_close(ticket_id: int, solution: str) -> None:
             if response.status == 200:
                 logger.info("Модератор <@%d> закрыл тикет [<#%d>] с решением:\n\n%s",
                             ticket.moderator_id, ticket.id, ticket.solution,
-                            extra={"user_avatar": user_avatar(ticket.moderator_id)}) # type: ignore
+                            extra={"user_avatar": user_avatar(ticket.moderator_id), "type": "ticket"}) # type: ignore
             else:
                 error_message = await response.text()
                 raise BaseException("Tickets API is not responding."

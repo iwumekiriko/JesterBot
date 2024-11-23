@@ -94,12 +94,20 @@ class JesterBot(commands.Bot):
         self,
         interaction: disnake.ApplicationCommandInteraction,
     ) -> None:
+        options = interaction.data.options
+        if len(options) > 0:
+            command_options = ("**Параметры:**\n" +
+                "\n".join([f"-# {option['name'].upper()}: **{option['value']}**"
+                            for option in interaction.data.options]))
+
         logger.info(
-            'Пользователь <@%d> использовал команду **/%s** в канале <#%d>',
+            'Пользователь <@%d> использовал команду **/%s** в канале <#%d>\n\n%s',
             interaction.author.id,
             interaction.data.name,
             interaction.channel.id,
-            extra={"user_avatar": bot.get_user(interaction.author.id).avatar.url} # type: ignore
+            command_options,
+            extra={"user_avatar": interaction.user.guild_avatar.url, # type: ignore
+                    "type": "command_interaction"}
         )
         await super().on_application_command(interaction)
 

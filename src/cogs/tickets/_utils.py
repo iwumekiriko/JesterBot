@@ -24,6 +24,9 @@ async def _ticket_thread_create(
 
 
 async def ticket(data: list, type: ThreadClassification) -> None:
+    if not data[1]:
+        return
+
     inter: disnake.ModalInteraction = data[0]
     await inter.response.defer(with_message=False)
 

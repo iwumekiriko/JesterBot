@@ -13,7 +13,6 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 TENOR_API_KEY = os.getenv("TENOR_API_KEY")
 
 
-LOG_WEBHOOK: str = os.getenv("LOG_WEBHOOK") # type: ignore
 PATH_TO_API: str = os.getenv("PATH_TO_API") # type: ignore
 
 
@@ -25,3 +24,9 @@ SUPPORT_ROLE_ID = 1297268305635180636
 MODERATOR_ROLE_ID = 1297268306600005713
 DEVELOPER_ROLE_ID = 1299312675485909096
 OWNER_ID = 567303956448018456
+
+
+COMMAND_INTERACTIONS_WEBHOOK: str = os.getenv("COMMAND_INTERACTIONS_WEBHOOK") # type: ignore
+MESSAGE_WEBHOOK: str = os.getenv("MESSAGE_WEBHOOK") # type: ignore
+TICKET_WEBHOOK: str = os.getenv("TICKET_WEBHOOK") # type: ignore
+ELSE_WEBHOOK: str = os.getenv("ELSE_WEBHOOK") # type: ignore

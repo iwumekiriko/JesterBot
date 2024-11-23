@@ -4,9 +4,11 @@ from disnake.ext import commands
 
 from src.bot import JesterBot
 from src.localization import get_localizator
+from src.logger import get_logger
 
 
 _ = get_localizator("activity")
+logger = get_logger()
 
 
 MIN_EXP_PER_MESSAGE = 1
@@ -28,6 +30,23 @@ class TextActivityListenerCog(commands.Cog):
         exp = random.randint(MIN_EXP_PER_MESSAGE, MAX_EXP_PER_MESSAGE)
         await _give_exp_for_message(author.id, exp)
 
+    @commands.Cog.listener()
+    async def on_message_edit(
+        self,
+        before: disnake.Message,
+        after: disnake.Message
+    ) -> None:
+        logger.warning(
+            "Пользователь <@%d> изменил сообщение [%s].\n\n**До: **\n```%s```\n**После: **\n```%s```",
+            before.author.id, after.jump_url, before.content, after.content,
+            extra={ "user_avatar": before.author.guild_avatar.url, "type": "message" }) # type: ignore
+        
+    @commands.Cog.listener()
+    async def on_message_delete(self, message: disnake.Message) -> None:
+        logger.warning(
+            "Пользователь <@%d> удалил сообщение!\n\n**Текст сообщения: \n**```%s```",
+            message.author.id, message.content,
+            extra={ "user_avatar": message.author.guild_avatar.url, "type": "message" })# type: ignore
 
 async def _give_exp_for_message(
     author_id: int,
