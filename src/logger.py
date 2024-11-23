@@ -14,7 +14,7 @@ class DiscordHandler(logging.Handler):
                     "title": "Новая информация",
                     "description": f"!{record.levelname}\n\n{self.format(record)}",
                     "thumbnail": { "url": record.__dict__.get("user_avatar", None) },
-                    "timestamp": datetime.now().isoformat()
+                    "footer": { "text": datetime.now().strftime("%d %B %Y — %H:%M") }
             }] }
         post(_config.LOG_WEBHOOK, json=data)
 
