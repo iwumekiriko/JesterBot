@@ -26,4 +26,4 @@ async def get_gif(
             else:
                 error_message = await response.text()
                 raise BaseException("Tenor API is not responding."
-                                f"Status code: {response.status}. Error: {error_message}")
+                                    f"Status code: {response.status}. Error: {error_message}")

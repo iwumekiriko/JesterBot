@@ -23,7 +23,7 @@ class BaseEmbed(disnake.Embed):
         super().__init__(
             title = kwargs.get('title'),
             description = kwargs.get('description'),
-            color = 0xddbef8
+            color = 0xddbef8,
         )
 
 

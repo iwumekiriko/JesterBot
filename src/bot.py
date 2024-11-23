@@ -95,9 +95,12 @@ class JesterBot(commands.Bot):
         interaction: disnake.ApplicationCommandInteraction,
     ) -> None:
         logger.info(
-            'Command /%s called by %d on guild %d',
-            interaction.data.name,
+            'Пользователь <@%d> использовал команду **/%s** в канале <#%d>',
             interaction.author.id,
-            interaction.guild.id if interaction.guild else 0,
+            interaction.data.name,
+            interaction.channel.id,
+            extra={"user_avatar": bot.get_user(interaction.author.id).avatar.url} # type: ignore
         )
         await super().on_application_command(interaction)
+
+bot = JesterBot()

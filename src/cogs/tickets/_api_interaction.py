@@ -6,6 +6,7 @@ from src.logger import get_logger
 from src.utils._mapping import json_camel_to_snake
 from src._config import PATH_TO_API
 from src.utils._exceptions import BaseException
+from src.utils._convertes import user_avatar
 
 
 logger = get_logger()
@@ -17,14 +18,16 @@ async def ticket_create(ticket: Ticket) -> None:
         headers = {'Content-Type': 'application/json'}
         async with session.post(
             PATH_TO_API + "Tickets/Create",
-            data=data, headers=headers
+            data=data, headers=headers, ssl=False
         ) as response:
                 if response.status == 200:
-                    logger.info("ticket created successfully")
+                    logger.info("Пользователь %d создал тикет [id: %d] с меткой {%s}",
+                                 ticket.user_id, ticket.id, ticket.type_problem,
+                                 extra={"user_avatar": user_avatar(ticket.user_id)}) # type: ignore
                 else:
                     error_message = await response.text()
                     raise BaseException("Tickets API is not responding."
-                                    f"Status code: {response.status}. Error: {error_message}")
+                                        f"Status code: {response.status}. Error: {error_message}")
                 
 
 async def _ticket_get(ticket_id: int) -> Ticket:
@@ -38,7 +41,7 @@ async def _ticket_get(ticket_id: int) -> Ticket:
             else:
                 error_message = await response.text()
                 raise BaseException("Tickets API is not responding."
-                                f"Status code: {response.status}. Error: {error_message}")
+                                    f"Status code: {response.status}. Error: {error_message}")
             
 
 async def ticket_start(ticket_id: int, moderator_id: int) -> str | None:
@@ -54,12 +57,12 @@ async def ticket_start(ticket_id: int, moderator_id: int) -> str | None:
             data=data, headers=headers
         ) as response:
             if response.status == 200:
-                logger.info("ticket updated successfully")
-                message = ""
+                logger.info("Модератор %d принял тикет [id: %d] на себя", ticket.moderator_id, ticket.id,
+                             extra={"user_avatar": user_avatar(ticket.moderator_id)}) # type: ignore
             else:
                 error_message = await response.text()
                 raise BaseException("Tickets API is not responding."
-                                f"Status code: {response.status}. Error: {error_message}")
+                                    f"Status code: {response.status}. Error: {error_message}")
 
 
 async def ticket_close(ticket_id: int, solution: str) -> None:
@@ -75,11 +78,13 @@ async def ticket_close(ticket_id: int, solution: str) -> None:
             data=data, headers=headers
         ) as response:
             if response.status == 200:
-                logger.info("ticket closed successfully")
+                logger.info("Модератор %d закрыл тикет [id: %d] с решением:\n%s",
+                            ticket.moderator_id, ticket.id, ticket.solution,
+                            extra={"user_avatar": user_avatar(ticket.moderator_id)}) # type: ignore
             else:
                 error_message = await response.text()
                 raise BaseException("Tickets API is not responding."
-                                f"Status code: {response.status}. Error: {error_message}")
+                                    f"Status code: {response.status}. Error: {error_message}")
 
 
             

@@ -3,6 +3,7 @@ from disnake.ext import commands
 
 from src.bot import JesterBot
 from .views._ticket_creation_view import TicketCreationView
+from src.utils._convertes import user_avatar
 from src.logger import get_logger
 from src._config import TICKET_CHANNEL, TICKET_MESSAGE
 
@@ -18,7 +19,8 @@ class TicketsCog(commands.Cog):
     async def on_ready(self) -> None:
         ticket_channel = self._bot.get_channel(TICKET_CHANNEL)
         if not isinstance(ticket_channel, disnake.TextChannel):
-            logger.error("channel for tickets is not setted")
+            logger.error("Канал для тикетов недоступен!",
+                          extra={"user_avatar": user_avatar(jester=True)})
             return
         
         try:
