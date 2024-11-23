@@ -17,7 +17,7 @@ async def ticket_create(ticket: Ticket) -> None:
         headers = {'Content-Type': 'application/json'}
         async with session.post(
             PATH_TO_API + "Tickets/Create",
-            ssl=False, data=data, headers=headers
+            data=data, headers=headers
         ) as response:
                 if response.status == 200:
                     logger.info("ticket created successfully")
@@ -30,7 +30,7 @@ async def ticket_create(ticket: Ticket) -> None:
 async def _ticket_get(ticket_id: int) -> Ticket:
     async with aiohttp.ClientSession() as session:
         async with session.get(
-            PATH_TO_API + f"Tickets/Get?id={ticket_id}", ssl=False
+            PATH_TO_API + f"Tickets/Get?id={ticket_id}"
         ) as response:
             if response.status == 200:
                 json_data = await response.json()
@@ -51,7 +51,7 @@ async def ticket_start(ticket_id: int, moderator_id: int) -> str | None:
     async with aiohttp.ClientSession() as session:
         async with session.put(
             PATH_TO_API + f"Tickets/Start?id={ticket_id}",
-            ssl=False, data=data, headers=headers
+            data=data, headers=headers
         ) as response:
             if response.status == 200:
                 logger.info("ticket updated successfully")
@@ -72,7 +72,7 @@ async def ticket_close(ticket_id: int, solution: str) -> None:
     async with aiohttp.ClientSession() as session:
         async with session.put(
             PATH_TO_API + f"Tickets/Close?id={ticket_id}",
-            ssl=False, data=data, headers=headers
+            data=data, headers=headers
         ) as response:
             if response.status == 200:
                 logger.info("ticket closed successfully")
