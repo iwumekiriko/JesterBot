@@ -29,14 +29,14 @@ async def moderator_modal_form(interaction: MessageCommandInteraction):
         placeholder=_("problem_placeholder"),
         style=TextInputStyle.long
     )
-    offender = ModalTextInput(
-        label=_("offender_id"),
-        placeholder=_("offender_placeholder"),
-        required=False
-    )
+    # offender = ModalTextInput(
+    #     label=_("offender_id"),
+    #     placeholder=_("offender_placeholder"),
+    #     required=False
+    # )
     data = await BaseModal(
         _("moderation_offense"),
-        components=[problem, offender],
+        components=[problem],
         interaction=interaction
     ).receive_data()
     await ticket(data, ThreadClassification.MODERATOR)
@@ -48,14 +48,14 @@ async def bot_modal_form(interaction: MessageCommandInteraction):
         placeholder=_("problem_placeholder"),
         style=TextInputStyle.long
     )
-    command = ModalTextInput(
-        label=_("command_name"),
-        placeholder=_("command_placeholder"),
-        required=False
-    )
+    # command = ModalTextInput(
+    #     label=_("command_name"),
+    #     placeholder=_("command_placeholder"),
+    #     required=False
+    # )
     data = await BaseModal(
         _("bot_issue"),
-        components=[problem, command],
+        components=[problem],
         interaction=interaction,
     ).receive_data()
     await ticket(data, ThreadClassification.DEVELOPER)
