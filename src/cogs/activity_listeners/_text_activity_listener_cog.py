@@ -36,6 +36,9 @@ class TextActivityListenerCog(commands.Cog):
         before: disnake.Message,
         after: disnake.Message
     ) -> None:
+        if before.author.bot:
+            return
+
         logger.warning(
             "Пользователь <@%d> изменил сообщение [%s].\n\n**До: **\n```%s```\n**После: **\n```%s```",
             before.author.id, after.jump_url, before.content, after.content,
@@ -43,6 +46,9 @@ class TextActivityListenerCog(commands.Cog):
         
     @commands.Cog.listener()
     async def on_message_delete(self, message: disnake.Message) -> None:
+        if message.author.bot:
+            return
+
         logger.warning(
             "Пользователь <@%d> удалил сообщение!\n\n**Текст сообщения: \n**```%s```",
             message.author.id, message.content,

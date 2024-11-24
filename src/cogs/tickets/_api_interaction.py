@@ -21,8 +21,8 @@ async def ticket_create(ticket: Ticket) -> None:
             data=data, headers=headers, ssl=False
         ) as response:
                 if response.status == 200:
-                    logger.info("Пользователь <@%d> создал тикет [<#%d>] с меткой {**%s**}",
-                                 ticket.user_id, ticket.id, ticket.type_problem,
+                    logger.info("Пользователь <@%d> создал тикет [<#%d>].\n\n**Метка: **{ %s }\n**Проблема: **\n```%s```",
+                                 ticket.user_id, ticket.id, ticket.type_problem, ticket.description_problem,
                                  extra={"user_avatar": user_avatar(ticket.user_id), "type": "ticket"}) # type: ignore
                 else:
                     error_message = await response.text()
@@ -33,7 +33,7 @@ async def ticket_create(ticket: Ticket) -> None:
 async def _ticket_get(ticket_id: int) -> Ticket:
     async with aiohttp.ClientSession() as session:
         async with session.get(
-            PATH_TO_API + f"Tickets/Get?id={ticket_id}"
+            PATH_TO_API + f"Tickets/Get?id={ticket_id}", ssl=False
         ) as response:
             if response.status == 200:
                 json_data = await response.json()
@@ -44,7 +44,7 @@ async def _ticket_get(ticket_id: int) -> Ticket:
                                     f"Status code: {response.status}. Error: {error_message}")
             
 
-async def ticket_start(ticket_id: int, moderator_id: int) -> str | None:
+async def ticket_start(ticket_id: int, moderator_id: int) -> Ticket:
     ticket = await _ticket_get(ticket_id)
     ticket.moderator_id = moderator_id
 
@@ -54,18 +54,19 @@ async def ticket_start(ticket_id: int, moderator_id: int) -> str | None:
     async with aiohttp.ClientSession() as session:
         async with session.put(
             PATH_TO_API + f"Tickets/Start?id={ticket_id}",
-            data=data, headers=headers
+            data=data, headers=headers, ssl=False
         ) as response:
             if response.status == 200:
                 logger.info("Модератор <@%d> принял тикет [<#%d>]", ticket.moderator_id, ticket.id,
                              extra={"user_avatar": user_avatar(ticket.moderator_id), "type": "ticket"}) # type: ignore
+                return ticket
             else:
                 error_message = await response.text()
                 raise BaseException("Tickets API is not responding."
                                     f"Status code: {response.status}. Error: {error_message}")
 
 
-async def ticket_close(ticket_id: int, solution: str) -> None:
+async def ticket_close(ticket_id: int, solution: str) -> Ticket:
     ticket = await _ticket_get(ticket_id)
     ticket.solution = solution
 
@@ -75,12 +76,13 @@ async def ticket_close(ticket_id: int, solution: str) -> None:
     async with aiohttp.ClientSession() as session:
         async with session.put(
             PATH_TO_API + f"Tickets/Close?id={ticket_id}",
-            data=data, headers=headers
+            data=data, headers=headers, ssl=False
         ) as response:
             if response.status == 200:
-                logger.info("Модератор <@%d> закрыл тикет [<#%d>] с решением:\n\n%s",
+                logger.info("Модератор <@%d> закрыл тикет [<#%d>]\n\n**Решение: **\n```%s```",
                             ticket.moderator_id, ticket.id, ticket.solution,
                             extra={"user_avatar": user_avatar(ticket.moderator_id), "type": "ticket"}) # type: ignore
+                return ticket
             else:
                 error_message = await response.text()
                 raise BaseException("Tickets API is not responding."

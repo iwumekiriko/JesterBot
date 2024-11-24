@@ -24,7 +24,7 @@ async def _ticket_thread_create(
 
 
 async def ticket(data: list, type: ThreadClassification) -> None:
-    if not data[1]:
+    if len(data) < 2:
         return
 
     inter: disnake.ModalInteraction = data[0]
@@ -39,23 +39,26 @@ async def ticket(data: list, type: ThreadClassification) -> None:
         type_problem=type.name.lower()
     )
     await ticket_create(ticket)
-    await _send_ticket(thread, type, ticket)
+    await _send_ticket(
+        thread, type, ticket,
+        inter.user.avatar.url # type: ignore
+    )
 
 
 async def _send_ticket(
-        thread: disnake.Thread,
-        type: ThreadClassification,
-        ticket: Ticket
+    thread: disnake.Thread,
+    type: ThreadClassification,
+    ticket: Ticket,
+    user_avatar: str
 ) -> None:
     message = await thread.send(
             content=f"<@{ticket.user_id}> <@&{type.value}>",
             embed = TicketEmbed(
-                title=_("ticket_thread_embed_title"),
                 description=_("ticket_thread_embed_desc",
                                user_id=ticket.user_id,
-                               desc=ticket.description_problem,
-                               add_info=ticket.additional_info or _("_no"))
-            ),
+                               desc=ticket.description_problem))
+            .set_footer(text=_("ticket_wait_status"))
+            .set_thumbnail(user_avatar),
             view=TicketThreadView()
         )
     await message.pin()

@@ -7,12 +7,15 @@
         "moderation_offense": "Нарушение правил",
         "bot_issue": "Проблемы с ботом",
 
-        "ticket_thread_embed_title": "Тикет",
-        "ticket_thread_embed_desc": "**От пользователя:**<@%{user_id}>\n\n**Описание проблемы:**\n%{desc}\n\n**Дополнительная информация:**\n%{add_info}",
-        "_no": "Нет",
+        "ticket_thread_embed_desc": "### Тикет от пользователя <@%{user_id}>\n\n**Описание проблемы:**\n```%{desc}```",
+
+        "ticket_wait_status": "Статус: Ожидает рассмотрения",
+        "ticket_active_status": "Статус: Активен",
+        "ticket_closed_status": "Статус: Закрыт",
 
         "start_ticket_button": "Принять тикет",
         "ticket_started": "Тикет принят модератором <@%{moderator_id}>",
+        "ticket_start_instruction": "Тикет принят в работу!\nНастоятельно просим соблюдать в обсуждении все правила Дискорда и сервера.\nНе забудь после решения проблемы закрыть тикет и написать мини-отчет.",
 
         "approve_ticket_button": "Закрыть тикет",
         "approve_ticket_button_error": "Данная кнопка не для вас"
