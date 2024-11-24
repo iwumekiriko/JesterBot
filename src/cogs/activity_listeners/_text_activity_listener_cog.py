@@ -40,8 +40,8 @@ class TextActivityListenerCog(commands.Cog):
             return
 
         logger.warning(
-            "Пользователь <@%d> изменил сообщение [%s].\n\n**До: **\n```%s```\n**После: **\n```%s```",
-            before.author.id, after.jump_url, before.content, after.content,
+            "Пользователь <@%d> изменил сообщение [%s].\n\n**До: **\n```%s```\n**После: **\n```%s```\n-# ID сообщения: %d",
+            before.author.id, after.jump_url, before.content, after.content, after.id,
             extra={ "user_avatar": before.author.guild_avatar.url, "type": "message" }) # type: ignore
         
     @commands.Cog.listener()
@@ -50,8 +50,8 @@ class TextActivityListenerCog(commands.Cog):
             return
 
         logger.warning(
-            "Пользователь <@%d> удалил сообщение!\n\n**Текст сообщения: \n**```%s```",
-            message.author.id, message.content,
+            "Пользователь <@%d> удалил сообщение!\n\n**Текст сообщения: \n**```%s```\n-# ID сообщения: %d",
+            message.author.id, message.content, message.id,
             extra={ "user_avatar": message.author.guild_avatar.url, "type": "message" })# type: ignore
 
 async def _give_exp_for_message(
