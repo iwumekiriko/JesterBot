@@ -21,7 +21,7 @@ async def ticket_create(ticket: Ticket) -> None:
             data=data, headers=headers, ssl=False
         ) as response:
                 if response.status == 200:
-                    logger.info("Пользователь <@%d> создал тикет [<#%d>].\n\n**Метка: **{ %s }\n**Проблема: **\n```%s```",
+                    logger.info("Пользователь <@%d> создал тикет [<#%d>]\n\n**Метка: **{ %s }\n**Проблема: **\n```%s```",
                                  ticket.user_id, ticket.id, ticket.type_problem, ticket.description_problem,
                                  extra={"user_avatar": user_avatar(ticket.user_id), "type": "ticket"}) # type: ignore
                 else:
@@ -53,7 +53,7 @@ async def ticket_start(ticket_id: int, moderator_id: int) -> Ticket:
 
     async with aiohttp.ClientSession() as session:
         async with session.put(
-            PATH_TO_API + f"Tickets/Start?id={ticket_id}",
+            PATH_TO_API + f"Tickets/Start",
             data=data, headers=headers, ssl=False
         ) as response:
             if response.status == 200:
@@ -75,7 +75,7 @@ async def ticket_close(ticket_id: int, solution: str) -> Ticket:
 
     async with aiohttp.ClientSession() as session:
         async with session.put(
-            PATH_TO_API + f"Tickets/Close?id={ticket_id}",
+            PATH_TO_API + f"Tickets/Close",
             data=data, headers=headers, ssl=False
         ) as response:
             if response.status == 200:

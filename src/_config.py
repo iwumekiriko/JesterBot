@@ -29,4 +29,6 @@ OWNER_ID = 567303956448018456
 COMMAND_INTERACTIONS_WEBHOOK: str = os.getenv("COMMAND_INTERACTIONS_WEBHOOK") # type: ignore
 MESSAGE_WEBHOOK: str = os.getenv("MESSAGE_WEBHOOK") # type: ignore
 TICKET_WEBHOOK: str = os.getenv("TICKET_WEBHOOK") # type: ignore
+GUILD_WEBHOOK: str = os.getenv("GUILD_WEBHOOK") # type: ignore
+MEMBER_WEBHOOK: str = os.getenv("MEMBER_WEBHOOK") # type: ignore
 ELSE_WEBHOOK: str = os.getenv("ELSE_WEBHOOK") # type: ignore

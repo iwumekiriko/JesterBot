@@ -5,6 +5,7 @@ from disnake.ext import commands
 from src.bot import JesterBot
 from src.localization import get_localizator
 from src.logger import get_logger
+from src.cogs.members._api_interaction import get_member
 
 
 _ = get_localizator("activity")
@@ -42,7 +43,7 @@ class TextActivityListenerCog(commands.Cog):
         logger.warning(
             "Пользователь <@%d> изменил сообщение [%s].\n\n**До: **\n```%s```\n**После: **\n```%s```\n-# ID сообщения: %d",
             before.author.id, after.jump_url, before.content, after.content, after.id,
-            extra={ "user_avatar": before.author.guild_avatar.url, "type": "message" }) # type: ignore
+            extra={ "user_avatar": before.author.display_avatar.url, "type": "message" }) # type: ignore
         
     @commands.Cog.listener()
     async def on_message_delete(self, message: disnake.Message) -> None:
@@ -52,7 +53,7 @@ class TextActivityListenerCog(commands.Cog):
         logger.warning(
             "Пользователь <@%d> удалил сообщение!\n\n**Текст сообщения: \n**```%s```\n-# ID сообщения: %d",
             message.author.id, message.content, message.id,
-            extra={ "user_avatar": message.author.guild_avatar.url, "type": "message" })# type: ignore
+            extra={ "user_avatar": message.author.display_avatar.url, "type": "message" })# type: ignore
 
 async def _give_exp_for_message(
     author_id: int,

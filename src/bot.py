@@ -99,6 +99,8 @@ class JesterBot(commands.Bot):
             command_options = ("**Параметры:**\n" +
                 "\n".join([f"-# {option['name'].upper()}: **{option['value']}**"
                             for option in interaction.data.options]))
+        else:
+            command_options = ""
 
         logger.info(
             'Пользователь <@%d> использовал команду **/%s** в канале <#%d>\n\n%s',
@@ -106,7 +108,7 @@ class JesterBot(commands.Bot):
             interaction.data.name,
             interaction.channel.id,
             command_options,
-            extra={"user_avatar": interaction.user.guild_avatar.url, # type: ignore
+            extra={"user_avatar": interaction.user.display_avatar.url, # type: ignore
                     "type": "command_interaction"}
         )
         await super().on_application_command(interaction)

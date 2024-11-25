@@ -25,7 +25,9 @@ log_webhooks = {
     "message": _config.MESSAGE_WEBHOOK,
     "command_interaction": _config.COMMAND_INTERACTIONS_WEBHOOK,
     "ticket": _config.TICKET_WEBHOOK,
-    "else": _config.ELSE_WEBHOOK
+    "members": _config.MEMBER_WEBHOOK,
+    "guild": _config.GUILD_WEBHOOK,
+    "else": _config.ELSE_WEBHOOK,
 }
 
 
