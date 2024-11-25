@@ -97,7 +97,10 @@ class JesterBot(commands.Bot):
         options = interaction.data.options
         command_options = ("**Параметры:**\n" +
             "\n".join([f"-# {option['name'].upper()}: **{option['value']}**"
-                for option in options])) if len(options) > 0 else ""
+                if option['name'] not in ["member", "участник"] else
+                    f"-# {option['name'].upper()}: <@{option['value']}>"
+                for option in options
+            ])) if len(options) > 0 else ""
 
         logger.info(
             'Пользователь <@%d> использовал команду **/%s** в канале <#%d>\n\n%s',
