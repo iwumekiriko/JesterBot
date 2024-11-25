@@ -34,7 +34,7 @@ class OnGuildCog(commands.Cog):
         member_id = member.id
         member_data = await get_member(member_id, guild_id)
  
-        logger.info("Участник [<@%d>] покинул сервер.\n\n**Кол-во участников: **%d\n**Id пользователя:** %d\n**Присоединился: **<t:%d:F>",
+        logger.info("Участник [<@%d>] покинул сервер.\n\n**Кол-во участников на сервере: **%d\n**Id пользователя:** %d\n**Присоединился: **<t:%d:F>",
                      member.id, member.guild.member_count, member_id, member.joined_at.timestamp(), # type: ignore
                      extra={ "user_avatar": member.display_avatar.url, "type": "guild" })
 

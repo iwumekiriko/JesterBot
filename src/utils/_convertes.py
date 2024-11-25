@@ -62,5 +62,5 @@ def user_avatar(user_id: int = 0, jester: bool = False) -> str | None:
     from src.bot import bot
     if user_id == 0 and not jester: return None 
 
-    return (bot.get_user(user_id).avatar.url or None # type: ignore
+    return (bot.get_user(user_id).display_avatar.url or None # type: ignore
         if not jester else bot.user.avatar.url) # type: ignore
