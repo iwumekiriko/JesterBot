@@ -95,12 +95,9 @@ class JesterBot(commands.Bot):
         interaction: disnake.ApplicationCommandInteraction,
     ) -> None:
         options = interaction.data.options
-        if len(options) > 0:
-            command_options = ("**Параметры:**\n" +
-                "\n".join([f"-# {option['name'].upper()}: **{option['value']}**"
-                            for option in interaction.data.options]))
-        else:
-            command_options = ""
+        command_options = ("**Параметры:**\n" +
+            "\n".join([f"-# {option['name'].upper()}: **{option['value']}**"
+                for option in options])) if len(options) > 0 else ""
 
         logger.info(
             'Пользователь <@%d> использовал команду **/%s** в канале <#%d>\n\n%s',

@@ -39,6 +39,9 @@ class TextActivityListenerCog(commands.Cog):
     ) -> None:
         if before.author.bot:
             return
+        
+        if before.content == after.content:
+            return
 
         logger.warning(
             "Пользователь <@%d> изменил сообщение [%s].\n\n**До: **\n```%s```\n**После: **\n```%s```\n-# ID сообщения: %d",
