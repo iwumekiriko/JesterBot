@@ -6,6 +6,7 @@ from src.utils._convertes import bot_excluding
 from ._api_interaction import get_member
 from src.utils._embeds import BaseEmbed
 from src.localization import get_localizator
+from src.utils._experience import get_level_from_exp
 
 
 _ = get_localizator("profile")
@@ -35,6 +36,7 @@ class ProfileCog(commands.Cog):
                     "profile_embed_desc",
                     exp=member_data.experience,
                     coins=member_data.coins,
+                    level=get_level_from_exp(member_data.experience), # type: ignore
                     messages=member_data.message_count,
                 )
             ).set_thumbnail(member.display_avatar.url)
