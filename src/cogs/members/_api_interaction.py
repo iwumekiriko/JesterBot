@@ -20,7 +20,7 @@ async def get_member(user_id: int, guild_id: int) -> Member:
                 return Member(**json_camel_to_snake(json_data))
             else:
                 error_message = await response.text()
-                raise BaseException("Members API is not responding. "
+                raise BaseException("Members API [Get] is not responding. "
                                     f"Status code: {response.status}. Error: {error_message}")
             
 
@@ -36,7 +36,7 @@ async def member_joined(member: Member) -> None:
         ) as response:
             if not response.status == 200:
                 error_message = await response.text()
-                raise BaseException("Members API is not responding."
+                raise BaseException("Members API [OnGuild] is not responding. "
                                     f"Status code: {response.status}. Error: {error_message}")
             
 
@@ -52,5 +52,5 @@ async def member_left(member: Member) -> None:
         ) as response:
             if not response.status == 200:
                 error_message = await response.text()
-                raise BaseException("Members API is not responding."
+                raise BaseException("Members API [OnGuild] is not responding. "
                                     f"Status code: {response.status}. Error: {error_message}")

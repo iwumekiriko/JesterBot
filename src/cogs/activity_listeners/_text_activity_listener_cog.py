@@ -5,15 +5,18 @@ from disnake.ext import commands
 from src.bot import JesterBot
 from src.localization import get_localizator
 from src.logger import get_logger
-from src.cogs.members._api_interaction import get_member
+from ._api_interaction import add_experience, add_coins
+from src.utils._experience import get_level_from_exp
+from src.models import Member
+from src._config import EXP_FOR_MESSAGE
+from src.utils._embeds import BaseEmbed
 
 
 _ = get_localizator("activity")
 logger = get_logger()
 
 
-MIN_EXP_PER_MESSAGE = 1
-MAX_EXP_PER_MESSAGE = 2
+REWARD_MESSAGE_DELETE_AFTER = 30
 
 
 class TextActivityListenerCog(commands.Cog):
@@ -24,12 +27,23 @@ class TextActivityListenerCog(commands.Cog):
     async def on_message(self, message: disnake.Message) -> None:
         author = message.author
         channel = message.channel
-        
-        if message.content == "мяу" and not author.bot:
-            await channel.send(_("meow"))
 
-        exp = random.randint(MIN_EXP_PER_MESSAGE, MAX_EXP_PER_MESSAGE)
-        await _give_exp_for_message(author.id, exp)
+        if not isinstance(author, disnake.Member):
+            return
+        
+        if not isinstance(channel, disnake.TextChannel):
+            return
+        
+        if author.bot:
+            return
+
+        if message.content == "мяу":
+            await message.add_reaction("<a:zlozlozlozlozlozlozlozlozlozlo:1299735705148330097>")
+
+        if message.content == "фыр":
+            await message.add_reaction("<:kwolik:1302188971270344826>")
+        
+        await _give_exp_for_message(author, channel)
 
     @commands.Cog.listener()
     async def on_message_edit(
@@ -58,8 +72,44 @@ class TextActivityListenerCog(commands.Cog):
             message.author.id, message.content, message.id,
             extra={ "user_avatar": message.author.display_avatar.url, "type": "message" })# type: ignore
 
+
 async def _give_exp_for_message(
-    author_id: int,
-    exp: int
+    author: disnake.Member,
+    channel: disnake.TextChannel    
 ) -> None:
-    pass
+    member = await add_experience(author)
+    if _is_new_lvl(member):
+        await add_coins(member)
+        await _send_reward_message(member, channel)
+
+
+def _is_new_lvl(member: Member) -> bool:
+    if not member.experience:
+        return False
+    
+    exp_before = member.experience - EXP_FOR_MESSAGE
+    exp_after = member.experience
+
+    level_before = get_level_from_exp(exp_before)
+    level_after = get_level_from_exp(exp_after)
+
+    return True if level_before < level_after else False
+
+
+async def _send_reward_message(member: Member, channel: disnake.TextChannel) -> None:
+    if not member.experience:
+        return
+
+    level_after = get_level_from_exp(member.experience)
+    level_before = level_after - 1
+
+    await channel.send(content=f"<@{member.user_id}>",
+        embed = BaseEmbed(
+            title=_("reward_embed_title"),
+            description=_(
+                "reward_embed_desc",
+                level_before=level_before,
+                level_after=level_after,
+                rewards=300
+            )
+        ), delete_after=REWARD_MESSAGE_DELETE_AFTER )

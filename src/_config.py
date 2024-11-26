@@ -32,3 +32,6 @@ TICKET_WEBHOOK: str = os.getenv("TICKET_WEBHOOK") # type: ignore
 GUILD_WEBHOOK: str = os.getenv("GUILD_WEBHOOK") # type: ignore
 MEMBER_WEBHOOK: str = os.getenv("MEMBER_WEBHOOK") # type: ignore
 ELSE_WEBHOOK: str = os.getenv("ELSE_WEBHOOK") # type: ignore
+
+
+EXP_FOR_MESSAGE = 3

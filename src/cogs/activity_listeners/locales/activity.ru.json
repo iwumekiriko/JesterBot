@@ -1,5 +1,6 @@
 {
     "ru": {
-        "meow": "мяу"
+        "reward_embed_title": "Поздравляем, вы получили новый уровень!",
+        "reward_embed_desc": "Уровень: **%{level_before} -> %{level_after}**\nМонетки: **+%{rewards}**"
     }
 }

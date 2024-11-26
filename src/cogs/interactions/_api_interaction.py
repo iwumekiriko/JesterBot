@@ -25,5 +25,5 @@ async def get_gif(
                 return json_response['results'][random.randint(0, limit-1)]['media_formats']['gif']['url']
             else:
                 error_message = await response.text()
-                raise BaseException("Tenor API is not responding."
+                raise BaseException("Tenor API is not responding. "
                                     f"Status code: {response.status}. Error: {error_message}")
