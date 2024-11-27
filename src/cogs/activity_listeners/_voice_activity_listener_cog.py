@@ -55,7 +55,8 @@ class VoiceActivityListenerCog(commands.Cog):
                         extra={"user_avatar": member.display_avatar.url})
             await add_voice_time(member, int(time.time() - self._counter.pop(member)))
 
-        elif before.channel is not None and after.channel is not None:
+        elif (before.channel is not None and after.channel is not None 
+                and before.channel != after.channel):
             logger.debug("Пользователь <@%d> переходит в войс канал [%s] **->** [%s]",
                         member.id, before.channel.jump_url, after.channel.jump_url,
                         extra={"user_avatar": member.display_avatar.url})
