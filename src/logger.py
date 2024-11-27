@@ -56,7 +56,7 @@ def _create_logger() -> None:
     logger.setLevel(level=level)
     
     discord_handler = DiscordHandler()
-    discord_handler.setLevel(logging.INFO)
+    discord_handler.setLevel(level)
     logger.addHandler(discord_handler)
 
 

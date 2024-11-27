@@ -36,10 +36,17 @@ class JesterBot(commands.Bot):
             self.add_view(TicketThreadView())
             self.persistent_views_added = True
         
+        await self._sync_voice_users()
+        print(f"[{datetime.now().strftime('%c')}] {self.user}'s ready!")
+
+    async def _sync_voice_users(self) -> None:
         cog = self.get_cog("VoiceActivityListenerCog")
         await cog.sync() # type: ignore
 
-        print(f"[{datetime.now().strftime('%c')}] {self.user}'s ready!")
+        for guild in self.guilds:
+            for voice_channel in guild.voice_channels:
+                for member in voice_channel.members:
+                    cog.count_user(member) # type: ignore
 
     def load_cogs(self):
         _cog_mngr = CogManager(_config.COGS_PATH)
@@ -115,5 +122,9 @@ class JesterBot(commands.Bot):
                     "type": "command_interaction"}
         )
         await super().on_application_command(interaction)
+
+    async def on_disconnect(self) -> None:
+        cog = self.get_cog("VoiceActivityListenerCog")
+        await cog.sync() # type: ignore
 
 bot = JesterBot()

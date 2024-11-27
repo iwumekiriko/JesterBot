@@ -30,6 +30,9 @@ class VoiceActivityListenerCog(commands.Cog):
             await add_voice_time(member, voice_seconds)
             self._counter[member] = current_time
 
+    def count_user(self, member: disnake.Member):
+        self._counter[member] = self._counter.get(member, time.time())
+
     @commands.Cog.listener()
     async def on_voice_state_update(
         self,
@@ -43,7 +46,7 @@ class VoiceActivityListenerCog(commands.Cog):
         if before.channel is None and after.channel is not None:
             logger.debug("Пользователь <@%d> заходит в войс канал", member.id,
                         extra={"user_avatar": member.display_avatar.url})
-            self._counter[member] = self._counter.get(member, time.time())
+            self.count_user(member)
 
         elif before.channel is not None and after.channel is None:
             await add_voice_time(member, int(time.time() - self._counter.pop(member)))
@@ -51,7 +54,5 @@ class VoiceActivityListenerCog(commands.Cog):
                         extra={"user_avatar": member.display_avatar.url})
             
         else:
-            logger.debug("Пользователь <@%d> изменил свой voiceState", member.id,
-                         extra={"user_avatar": member.display_avatar.url})
-            self._counter[member] = self._counter.get(member, time.time())
+            self.count_user(member)
     
