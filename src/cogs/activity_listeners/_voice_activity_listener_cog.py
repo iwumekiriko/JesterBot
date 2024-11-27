@@ -44,15 +44,19 @@ class VoiceActivityListenerCog(commands.Cog):
             return
         
         if before.channel is None and after.channel is not None:
-            logger.debug("Пользователь <@%d> заходит в войс канал", member.id,
+            logger.debug("Пользователь <@%d> заходит в войс канал [%s]",
+                        member.id, after.channel.jump_url,
                         extra={"user_avatar": member.display_avatar.url})
             self.count_user(member)
 
         elif before.channel is not None and after.channel is None:
-            await add_voice_time(member, int(time.time() - self._counter.pop(member)))
-            logger.debug("Пользователь <@%d> выходит из войс канала", member.id,
+            logger.debug("Пользователь <@%d> выходит из войс канала [%s]",
+                        member.id, before.channel.jump_url,
                         extra={"user_avatar": member.display_avatar.url})
-            
-        else:
+            await add_voice_time(member, int(time.time() - self._counter.pop(member)))
+
+        elif before.channel is not None and after.channel is not None:
+            logger.debug("Пользователь <@%d> перешел в войс канал [%s]",
+                        member.id, after.channel.jump_url,
+                        extra={"user_avatar": member.display_avatar.url})
             self.count_user(member)
-    
