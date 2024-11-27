@@ -1,6 +1,6 @@
 {
     "ru": {
         "profile_embed_title": "Профиль пользователя %{username}",
-        "profile_embed_desc": "Опыт: **%{exp}**\nУровень: **%{level}**\nКол-во сообщений: **%{messages}**\nМонетки: **%{coins}**"
+        "profile_embed_desc": "Опыт: **%{exp}**\nУровень: **%{level}**\nКол-во сообщений: **%{messages}**\nМонетки: **%{coins}**\nВремя в войсе: **%{voice_time}**"
     }
 }

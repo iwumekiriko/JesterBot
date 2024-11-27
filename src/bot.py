@@ -35,6 +35,9 @@ class JesterBot(commands.Bot):
             self.add_view(TicketCreationView())
             self.add_view(TicketThreadView())
             self.persistent_views_added = True
+        
+        cog = self.get_cog("VoiceActivityListenerCog")
+        await cog.sync() # type: ignore
 
         print(f"[{datetime.now().strftime('%c')}] {self.user}'s ready!")
 

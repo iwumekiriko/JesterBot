@@ -19,7 +19,7 @@ class TicketsCog(commands.Cog):
     async def on_ready(self) -> None:
         ticket_channel = self._bot.get_channel(TICKET_CHANNEL)
         if not isinstance(ticket_channel, disnake.TextChannel):
-            logger.error("Канал для тикетов недоступен!",
+            logger.debug("Канал для тикетов недоступен!",
                           extra={"user_avatar": user_avatar(jester=True),
                                  "type": "else"})
             return

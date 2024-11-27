@@ -7,6 +7,7 @@ from ._api_interaction import get_member
 from src.utils._embeds import BaseEmbed
 from src.localization import get_localizator
 from src.utils._experience import get_level_from_exp
+from src.utils._time import seconds_to_hms
 
 
 _ = get_localizator("profile")
@@ -38,6 +39,7 @@ class ProfileCog(commands.Cog):
                     coins=member_data.coins,
                     level=get_level_from_exp(member_data.experience), # type: ignore
                     messages=member_data.message_count,
+                    voice_time=seconds_to_hms(member_data.voice_time) # type: ignore
                 )
             ).set_thumbnail(member.display_avatar.url)
         )

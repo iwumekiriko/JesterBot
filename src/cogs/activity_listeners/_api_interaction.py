@@ -36,4 +36,18 @@ async def add_coins(member: mdlMember) -> None:
                 error_message = await response.text()
                 raise BaseException("Members API [Experience] is not responding. "
                                     f"Status code: {response.status}. Error: {error_message}")
+            
+
+async def add_voice_time(member: dsMember, seconds: int) -> None:
+    user_id = member.id
+    guild_id = member.guild.id
+
+    async with aiohttp.ClientSession() as session:
+        async with session.put(
+            PATH_TO_API + f"Members/VoiceTime/{user_id}/{guild_id}/update?seconds={seconds}", ssl=False
+        ) as response:
+            if not response.status == 200:
+                error_message = await response.text()
+                raise BaseException("Members API [VoiceTime] is not responding. "
+                                    f"Status code: {response.status}. Error: {error_message}")
                 
