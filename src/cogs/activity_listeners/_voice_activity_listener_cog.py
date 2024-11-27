@@ -59,4 +59,5 @@ class VoiceActivityListenerCog(commands.Cog):
             logger.debug("Пользователь <@%d> переходит в войс канал [%s] **->** [%s]",
                         member.id, before.channel.jump_url, after.channel.jump_url,
                         extra={"user_avatar": member.display_avatar.url})
+            await add_voice_time(member, int(time.time() - self._counter.pop(member)))
             self.count_user(member)

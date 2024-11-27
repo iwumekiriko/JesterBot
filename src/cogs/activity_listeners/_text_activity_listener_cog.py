@@ -1,4 +1,4 @@
-import random
+import re
 import disnake
 from disnake.ext import commands
 
@@ -36,14 +36,27 @@ class TextActivityListenerCog(commands.Cog):
         
         if author.bot:
             return
+        
+        await self._check_for_reaction_messages(message)
+        await _give_exp_for_message(author, channel)
 
-        if message.content == "мяу":
+    async def _check_for_reaction_messages(
+            self, message: disnake.Message
+    ) -> None:
+        if len(re.findall(r"\b{}\b".format("мяу"), message.content.lower())) > 0:
             await message.add_reaction("<a:zlozlozlozlozlozlozlozlozlozlo:1299735705148330097>")
 
-        if message.content == "фыр":
+        if len(re.findall(r"\b{}\b".format("фыр"), message.content.lower())) > 0:
             await message.add_reaction("<:kwolik:1302188971270344826>")
-        
-        await _give_exp_for_message(author, channel)
+
+        if len(re.findall(r"\b{}\b".format("хрю"), message.content.lower())) > 0:
+            await message.add_reaction("🐖")
+
+        if len(re.findall(r"\b{}\b".format("кря"), message.content.lower())) > 0:
+            await message.add_reaction("🦆")
+
+        if self.bot.user.mention in message.content:
+            await message.add_reaction("🤡")
 
     @commands.Cog.listener()
     async def on_message_edit(
