@@ -39,7 +39,7 @@ class DiscordHandler(logging.Handler):
         data = { "embeds": [{
                     "description": f"# {embed_titles[record.levelname]}\n\n{self.format(record)}",
                     "thumbnail": { "url": record.__dict__.get("user_avatar", None) },
-                    "footer": { "text": current_time.strftime("%d %B %Y — %H:%M") },
+                    "footer": { "text": current_time().strftime("%d %B %Y — %H:%M") },
                     "color": embed_colors[record.levelname]
             }] }
         post(log_webhooks[record.__dict__.get("type", "else")], json=data)
