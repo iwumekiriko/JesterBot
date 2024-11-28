@@ -1,3 +1,6 @@
+import pytz
+from datetime import datetime
+
 from src.localization import get_localizator
 
 
@@ -9,3 +12,8 @@ def seconds_to_hms(seconds: int) -> str:
     minutes = (seconds % 3600) // 60
     seconds = seconds % 60
     return f"{hours}{_('_hours')} {minutes}{_('_minutes')} {seconds}{_('_seconds')}"
+
+
+def current_time() -> datetime:
+    tz = pytz.timezone('Europe/Moscow')
+    return tz.localize(datetime.now())

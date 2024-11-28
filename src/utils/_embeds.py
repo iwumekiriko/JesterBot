@@ -47,3 +47,14 @@ class ExceptionEmbed(disnake.Embed):
             description=message,
             color=0xe74c3c
         )
+
+
+class EvalEmbed(disnake.Embed):
+    def __init__(
+        self, **kwargs
+    ) -> None:
+        super().__init__(
+            title = kwargs.get('title'),
+            description = kwargs.get('description'),
+            color=0xd8bfd8
+        )

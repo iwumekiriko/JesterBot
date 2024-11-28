@@ -667,6 +667,17 @@ files = [
 cli = ["click (>=5.0)"]
 
 [[package]]
+name = "pytz"
+version = "2024.2"
+description = "World timezone definitions, modern and historical"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pytz-2024.2-py2.py3-none-any.whl", hash = "sha256:31c7c1817eb7fae7ca4b8c7ee50c72f93aa2dd863de768e1ef4245d426aa0725"},
+    {file = "pytz-2024.2.tar.gz", hash = "sha256:2aa355083c50a0f93fa581709deac0c9ad65cca8a9e9beac660adcbd493c798a"},
+]
+
+[[package]]
 name = "requests"
 version = "2.32.3"
 description = "Python HTTP for Humans."
@@ -814,4 +825,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "419bd80a587b9440940d503bf076d8df829bb74ec9adaec136613b6d63e68725"
+content-hash = "48fc04215fcb95de4d8ef934f19a102950baa693d99128809ba33c61c20cdbfe"
