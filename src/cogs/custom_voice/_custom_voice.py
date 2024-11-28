@@ -32,7 +32,8 @@ class CustomVoiceCog(commands.Cog):
         if after.channel is not None:
             await self._check_for_custom_voice(member, after.channel) # type: ignore
             
-        await self._check_for_delete(before.channel, after.channel) # type: ignore
+        await self._check_for_timer_stop(after.channel) # type: ignore
+        await self._check_for_delete(before.channel) # type: ignore
 
 
     
@@ -60,8 +61,7 @@ class CustomVoiceCog(commands.Cog):
     async def _check_for_delete(
         self,
         before_channel: disnake.VoiceChannel | None,
-        after_channel: disnake.VoiceChannel | None,
-    ) -> None:        
+    ) -> None:
         if before_channel is None:
             return
 
@@ -72,13 +72,6 @@ class CustomVoiceCog(commands.Cog):
             return
         
         if before_channel.members:
-            return
-        
-        if after_channel is not None and after_channel.id in self._delete_timers:
-            self._delete_timers[after_channel.id].cancel()
-            del self._delete_timers[after_channel.id]
-            logger.debug("Голосовой канал [%s] больше не в состоянии удаления.", after_channel.jump_url,
-                            extra={"user_avatar": user_avatar(jester=True)})
             return
 
         async def delete_channel(channel: disnake.VoiceChannel):
@@ -96,3 +89,13 @@ class CustomVoiceCog(commands.Cog):
                      extra={"user_avatar": user_avatar(jester=True)})
         self._delete_timers[before_channel.id] = task
         
+    async def _check_for_timer_stop(
+        self,
+        after_channel: disnake.VoiceChannel | None,
+    ) -> None:
+        if after_channel is not None and after_channel.id in self._delete_timers:
+            self._delete_timers[after_channel.id].cancel()
+            del self._delete_timers[after_channel.id]
+            logger.debug("Голосовой канал [%s] больше не в состоянии удаления.", after_channel.jump_url,
+                            extra={"user_avatar": user_avatar(jester=True)})
+            return
