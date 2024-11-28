@@ -1,11 +1,7 @@
 import disnake 
 from disnake.ext import commands
 
-from src.logger import get_logger
 from src.utils._embeds import EvalEmbed, ExceptionEmbed
-
-
-logger = get_logger()
 
 
 class EvalCog(commands.Cog):

@@ -1,11 +1,6 @@
 import i18n
 from typing import Any
 
-from src.logger import get_logger
-
-
-logger = get_logger()
-
 
 i18n.set("locale", "ru")
 i18n.set("fallback", "ru")
