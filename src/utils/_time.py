@@ -16,4 +16,4 @@ def seconds_to_hms(seconds: int) -> str:
 
 def current_time() -> datetime:
     tz = pytz.timezone('Europe/Moscow')
-    return tz.localize(datetime.now())
+    return datetime.now(tz)

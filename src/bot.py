@@ -36,7 +36,7 @@ class JesterBot(commands.Bot):
             self.add_view(TicketThreadView())
             self.persistent_views_added = True
         
-        await self._sync_voice_users()
+        # await self._sync_voice_users()
         print(f"[{datetime.now().strftime('%c')}] {self.user}'s ready!")
 
     async def _sync_voice_users(self) -> None:
