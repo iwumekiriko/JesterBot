@@ -51,7 +51,8 @@ class CustomVoiceCog(commands.Cog):
         
         custom_channel = await voice_category.create_voice_channel(
             name = f"Канал пользователя {member.name}")
-        await custom_channel.set_permissions(member, manage_channels=True)
+        await custom_channel.set_permissions(
+            member, manage_channels=True, view_channel=True, connect=True)
         try:
             await member.move_to(custom_channel)
         except:

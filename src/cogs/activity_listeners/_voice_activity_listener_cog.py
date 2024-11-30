@@ -1,4 +1,3 @@
-import asyncio
 import time
 import disnake
 from disnake.ext import commands
@@ -12,14 +11,10 @@ from src.utils._tasks import loop
 logger = get_logger()
 
 
-CUSTOM_VOICE_DELETE_TIME = 10
-
-
 class VoiceActivityListenerCog(commands.Cog):
     def __init__(self, bot: JesterBot) -> None:
         self.bot = bot
         self._counter: dict[disnake.Member, float] = {}
-        self._delete_timers = {}
 
     @loop(minutes=1)
     async def sync(self) -> None:
@@ -67,8 +62,3 @@ class VoiceActivityListenerCog(commands.Cog):
                         extra={"user_avatar": member.display_avatar.url})
             await add_voice_time(member, int(time.time() - self._counter.pop(member)))
             self.count_user(member)
-       
-        
-
-        
-
