@@ -5,7 +5,7 @@ from src.bot import JesterBot
 from .views._ticket_creation_view import TicketCreationView
 from src.utils._convertes import user_avatar
 from src.logger import get_logger
-from src._config import TICKET_CHANNEL, TICKET_MESSAGE
+from src._config import TICKET_CHANNEL_ID, TICKET_MESSAGE_ID
 
 
 logger = get_logger()
@@ -17,7 +17,7 @@ class TicketsCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self) -> None:
-        ticket_channel = self._bot.get_channel(TICKET_CHANNEL)
+        ticket_channel = self._bot.get_channel(TICKET_CHANNEL_ID)
         if not isinstance(ticket_channel, disnake.TextChannel):
             logger.debug("Канал для тикетов недоступен!",
                           extra={"user_avatar": user_avatar(jester=True),
@@ -25,7 +25,7 @@ class TicketsCog(commands.Cog):
             return
         
         try:
-            await ticket_channel.fetch_message(TICKET_MESSAGE)
+            await ticket_channel.fetch_message(TICKET_MESSAGE_ID)
         except:
             view = TicketCreationView()
             await ticket_channel.send(

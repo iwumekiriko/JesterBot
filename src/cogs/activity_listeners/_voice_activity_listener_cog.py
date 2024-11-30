@@ -7,8 +7,6 @@ from src.bot import JesterBot
 from ._api_interaction import add_voice_time
 from src.logger import get_logger
 from src.utils._tasks import loop
-from src._config import CUSTOM_VOICE_CREATION_CHANNEL, CUSTOM_VOICE_CATEGORY_ID
-from src.utils._convertes import user_avatar
 
 
 logger = get_logger()

@@ -4,20 +4,20 @@ from disnake.ext import commands
 
 from src.logger import get_logger
 from src.bot import JesterBot
-from src._config import CUSTOM_VOICE_CATEGORY_ID, CUSTOM_VOICE_CREATION_CHANNEL
+from src._config import CUSTOM_VOICE_CATEGORY_ID, CUSTOM_VOICE_CREATION_CHANNEL_ID
 from src.utils._convertes import user_avatar
 
 
 logger = get_logger()
 
 
-CUSTOM_VOICE_DELETE_TIME = 120
+CUSTOM_VOICE_DELETE_TIME = 30
 
 
 class CustomVoiceCog(commands.Cog):
     def __init__(self, bot: JesterBot) -> None:
         self.bot = bot
-        self._delete_timers = {}
+        self._delete_timers: dict[int, asyncio.Task] = {}
 
     @commands.Cog.listener()
     async def on_voice_state_update(
@@ -28,13 +28,13 @@ class CustomVoiceCog(commands.Cog):
     ) -> None:
         if member.bot:
             return
+        
+        if isinstance(after.channel, disnake.VoiceChannel):
+            await self._check_for_custom_voice(member, after.channel)
+            await self._check_for_timer_stop(after.channel)
 
-        if after.channel is not None:
-            await self._check_for_custom_voice(member, after.channel) # type: ignore
-            
-        await self._check_for_timer_stop(after.channel) # type: ignore
-        await self._check_for_delete(before.channel) # type: ignore
-
+        if isinstance(before.channel, disnake.VoiceChannel):
+            await self._check_for_delete(before.channel)
 
     
     async def _check_for_custom_voice(
@@ -42,7 +42,7 @@ class CustomVoiceCog(commands.Cog):
         member: disnake.Member,
         channel: disnake.VoiceChannel
     ) -> None:
-        if CUSTOM_VOICE_CREATION_CHANNEL != channel.id:
+        if channel.id != CUSTOM_VOICE_CREATION_CHANNEL_ID:
             return
         
         voice_category = channel.category
@@ -50,25 +50,22 @@ class CustomVoiceCog(commands.Cog):
             return
         
         custom_channel = await voice_category.create_voice_channel(
-            name = f"Канал пользователя {member.name}"
-        )
+            name = f"Канал пользователя {member.name}")
+        await custom_channel.set_permissions(member, manage_channels=True)
         try:
             await member.move_to(custom_channel)
         except:
-            logger.warning("Не удалось перенести пользователя <@%d> в кастомный войс канал.", member.id,
-                         extra={"user_avatar": user_avatar(jester=True)})
+            logger.warning("Не удалось перенести пользователя <@%d> в кастомный войс канал.",
+                            member.id, extra={"user_avatar": user_avatar(jester=True)})
 
     async def _check_for_delete(
         self,
-        before_channel: disnake.VoiceChannel | None,
+        before_channel: disnake.VoiceChannel
     ) -> None:
-        if before_channel is None:
-            return
-
         if before_channel.category and not before_channel.category.id == CUSTOM_VOICE_CATEGORY_ID:
             return
         
-        if before_channel.id == CUSTOM_VOICE_CREATION_CHANNEL:
+        if before_channel.id == CUSTOM_VOICE_CREATION_CHANNEL_ID:
             return
         
         if before_channel.members:
@@ -91,11 +88,12 @@ class CustomVoiceCog(commands.Cog):
         
     async def _check_for_timer_stop(
         self,
-        after_channel: disnake.VoiceChannel | None,
+        after_channel: disnake.VoiceChannel
     ) -> None:
-        if after_channel is not None and after_channel.id in self._delete_timers:
-            self._delete_timers[after_channel.id].cancel()
-            del self._delete_timers[after_channel.id]
-            logger.debug("Голосовой канал [%s] больше не в состоянии удаления.", after_channel.jump_url,
-                            extra={"user_avatar": user_avatar(jester=True)})
+        if after_channel.id not in self._delete_timers:
             return
+
+        self._delete_timers[after_channel.id].cancel()
+        del self._delete_timers[after_channel.id]
+        logger.debug("Голосовой канал [%s] больше не подлежит тотальному уничтожению!!!!", after_channel.jump_url,
+                        extra={"user_avatar": user_avatar(jester=True)})
