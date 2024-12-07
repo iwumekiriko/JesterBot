@@ -49,10 +49,13 @@ class DiscordHandler(logging.Handler):
                     "color": embed_colors[record.levelname],
             }] }
 
-        webhook_url = getattr(cfg.webhooks_cfg(
-            params.get("guild_id", cfg.base_guild_id)),
-            log_webhooks[params.get("type", "else")])
-        post(webhook_url, json=data)
+        try:
+            webhook_url = getattr(cfg.webhooks_cfg(
+                params.get("guild_id", cfg.base_guild_id)),
+                log_webhooks[params.get("type", "else")])
+            post(webhook_url, json=data)
+        except:
+            print("используй /config")
 
 
 def get_logger() -> logging.Logger:
