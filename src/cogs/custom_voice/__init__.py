@@ -1,5 +1,5 @@
 from src.bot import JesterBot
-from ._custom_voice import CustomVoiceCog
+from ._custom_voice_cog import CustomVoiceCog
 
 
 def setup(bot: JesterBot) -> None:

@@ -5,7 +5,8 @@ from src.bot import JesterBot
 from .views._ticket_creation_view import TicketCreationView
 from src.utils._convertes import user_avatar
 from src.logger import get_logger
-from src._config import TICKET_CHANNEL_ID, TICKET_MESSAGE_ID
+from ._api_interaction import set_ticket_message
+from src.models.config import TicketsConfig
 
 
 logger = get_logger()
@@ -17,21 +18,35 @@ class TicketsCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self) -> None:
-        ticket_channel = self._bot.get_channel(TICKET_CHANNEL_ID)
-        if not isinstance(ticket_channel, disnake.TextChannel):
-            logger.debug("Канал для тикетов недоступен!",
-                          extra={"user_avatar": user_avatar(jester=True),
-                                 "type": "else"})
-            return
-        
-        try:
-            await ticket_channel.fetch_message(TICKET_MESSAGE_ID)
-        except:
-            view = TicketCreationView()
-            await ticket_channel.send(
-                embed=view.create_embed(),
-                view=view
-            )
+        from src.config import cfg
+
+        for guild in self._bot.guilds:
+            ticket_cfg: TicketsConfig = cfg.config[guild.id]["Tickets"]
+            ticket_channel_id = ticket_cfg.ticket_channel_id
+            ticket_message_id = ticket_cfg.ticket_message_id
+
+            if not ticket_channel_id:
+                return
+
+            ticket_channel = self._bot.get_channel(ticket_channel_id)
+            if not isinstance(ticket_channel, disnake.TextChannel):
+                logger.debug("Канал для тикетов недоступен!",
+                            extra={"user_avatar": user_avatar(jester=True),
+                                    "type": "else"})
+                return
+            
+            try:
+                await ticket_channel.fetch_message(ticket_message_id) # type: ignore
+            except:
+                view = TicketCreationView()
+                message = await ticket_channel.send(
+                    embed=view.create_embed(),
+                    view=view
+                )
+                logger.info("Тикет сообщение не было найдено. Создано новое.",
+                            extra={"user_avatar": user_avatar(jester=True), 
+                                   "type": "else", "guild_id": ticket_channel.guild.id})
+                await set_ticket_message(guild.id, ticket_channel_id, message.id)
 
         
 

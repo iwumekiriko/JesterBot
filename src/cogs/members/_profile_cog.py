@@ -29,7 +29,7 @@ class ProfileCog(commands.Cog):
         if not member:
             member = interaction.author
 
-        member_data = await get_member(member.id, guild.id)
+        member_data = await get_member(guild.id, member.id)
         await interaction.followup.send(
             embed = BaseEmbed(
                 title = _("profile_embed_title", username=member.display_name),

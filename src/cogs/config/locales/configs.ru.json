@@ -1,0 +1,46 @@
+{
+    "ru": {
+        "-----------------------------------": "Параметры меню выбора для команды /config",
+
+        "experience_cfg_0": "Управление опытом 1",
+        "roles_cfg_0": "Управление ролями 1",
+        "tickets_cfg_0": "Управление тикетами 1",
+        "voice_cfg_0": "Управление войсами 1",
+        "webhooks_cfg_0": "Управление вебхуками 1",
+        "webhooks_cfg_1": "Управление вебхуками 2",
+
+
+        "----------------------------------": "Название эмбеда для команды /config",
+        "experience_config_embed_title": "Настройки опыта",
+        "roles_config_embed_title": "Настройки ролей",
+        "tickets_config_embed_title": "Настройки тикетов",
+        "voice_config_embed_title": "Настройки войса",
+        "webhooks_config_embed_title": "Настройки вебхуков",
+
+        "---------------------------------": "Кнопка для изменения конфига",
+        "change_cfg_button": "Изменить настройки",
+
+
+        "--------------------------------": "Поля эмбеда для команды /config",
+        "exp_for_message_field": "Кол-во опыта за сообщение",
+        "exp_for_voice_minute_field": "Кол-во опыта за 1 минуту в войсе",
+
+        "support_role_id_field": "Id роли саппорта",
+        "moderator_role_id_field": "Id роли модератора",
+        "developer_role_id_field": "Id роли разработчика",
+
+        "ticket_channel_id_field": "Id канала для тикетов",
+        "ticket_message_id_field": "Id сообщения для тикетов",
+
+        "custom_voice_creation_channel_id_field": "Id канала для создания кастом войса",
+        "custom_voice_category_id_field": "Id категории для кастом войсов",
+        "custom_voice_deletion_time_field": "Кол-во секунд для удаления кастом войсов",
+
+        "command_interactions_webhook_url_field": "Логи команд",
+        "messages_webhook_url_field": "Логи сообщений",
+        "tickets_webhook_url_field": "Логи тикетов",
+        "guild_webhook_url_field": "Логи сервера",
+        "members_webhook_url_field": "Логи пользователей",
+        "else_webhook_url_field": "Логи остальное"
+    }
+}

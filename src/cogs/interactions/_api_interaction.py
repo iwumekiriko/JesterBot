@@ -2,7 +2,7 @@ import aiohttp
 import random
 
 from ._interactions_choice import InteractionChoices, InteractionType
-from src._config import TENOR_API_KEY
+from src.settings import TENOR_API_KEY
 from src.utils._exceptions import BaseException
 
 

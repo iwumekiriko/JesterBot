@@ -1,0 +1,43 @@
+{
+    "ru": {
+        "------------------------------------": "Модальное окно с настройками опыта",
+
+        "exp_for_message_input": "Кол-во опыта за сообщение",
+        "exp_for_voice_minute_input": "Кол-во опыта за 1 минуту в войсе",
+        "experience_cfg_modal": "Управление опытом",
+
+
+        "-----------------------------------": "Модальное окно с настройками ролей",
+
+        "moderator_role_id_input": "Id роли модератора",
+        "support_role_id_input": "Id роли саппорта",
+        "developer_role_id_input": "Id роли разработчика",
+        "roles_cfg_modal": "Управление ролями",
+
+
+        "----------------------------------": "Модальное окно с настройками тикетов",
+
+        "ticket_channel_id_input": "Id канала для тикетов",
+        "ticket_message_id_input": "Id сообщения для тикетов",
+        "tickets_cfg_modal": "Управление тикетами",
+
+        
+        "---------------------------------": "Модальное окно с настройками войса",
+
+        "custom_voice_creation_channel_id_input": "Id канала для создания кастом войса",
+        "custom_voice_category_id_input": "Id категории для кастом войсов",
+        "custom_voice_deletion_time_input": "Кол-во секунд для удаления кастом войсов",
+        "voice_cfg_modal": "Управление войсами",
+
+
+        "--------------------------------": "Модальное окно с настройками вебхуков",
+        
+        "command_interactions_webhook_url_input": "Логи команд",
+        "messages_webhook_url_input": "Логи сообщений",
+        "tickets_webhook_url_input": "Логи тикетов",
+        "guild_webhook_url_input": "Логи сервера",
+        "members_webhook_url_input": "Логи пользователей",
+        "else_webhook_url_input": "Логи остальное",
+        "webhooks_cfg_modal": "Управление вебхуками"
+    }
+}

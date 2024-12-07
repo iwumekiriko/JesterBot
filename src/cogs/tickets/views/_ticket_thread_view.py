@@ -2,10 +2,10 @@ import disnake
 
 from src.localization import get_localizator
 from src.utils._views import BaseView
-from src._config import SUPPORT_ROLE_ID, MODERATOR_ROLE_ID, DEVELOPER_ROLE_ID
 from .._api_interaction import ticket_start, ticket_close
 from src.utils._embeds import TicketEmbed
 from src.utils._convertes import user_avatar
+from src.models.config import RolesConfig
 
 
 _ = get_localizator("tickets")
@@ -22,17 +22,22 @@ class TicketThreadView(BaseView):
         self,
         interaction: disnake.MessageCommandInteraction
     ) -> bool:
+        from src.config import cfg
+        
         if not interaction.guild:
             return True
 
         if not isinstance(member := interaction.user, disnake.Member):
             return False
-
-        if not (any(role.id in {
-            SUPPORT_ROLE_ID,
-            DEVELOPER_ROLE_ID,
-            MODERATOR_ROLE_ID
-        } for role in member.roles)):
+        
+        roles_cfg = cfg.roles_cfg(interaction.guild_id) # type: ignore
+        roles = [
+            roles_cfg.developer_role_id,
+            roles_cfg.moderator_role_id,
+            roles_cfg.support_role_id
+        ]
+        
+        if not (any(role.id in roles for role in member.roles)):
             await interaction.response.send_message(
                 _("approve_ticket_button_error"), ephemeral=True)
             return False

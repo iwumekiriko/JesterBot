@@ -12,3 +12,11 @@ def json_camel_to_snake(json: dict) -> dict:
         kwargs[camel_to_snake(key)] = value
 
     return kwargs
+
+
+def retrieve_name(x, Vars=vars()) -> str | None:
+    for k in Vars:
+        if isinstance(x, type(Vars[k])):
+            if x is Vars[k]:
+                return k
+    return None

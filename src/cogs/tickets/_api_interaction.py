@@ -1,12 +1,14 @@
 import aiohttp
 import json
 
+from src.settings import PATH_TO_API
 from src.models import Ticket
+from src.models.config import TicketsConfig
 from src.logger import get_logger
 from src.utils._mapping import json_camel_to_snake
-from src._config import PATH_TO_API
 from src.utils._exceptions import BaseException
 from src.utils._convertes import user_avatar
+from src._api_interaction import set_cfg
 
 
 logger = get_logger()
@@ -89,5 +91,16 @@ async def ticket_close(ticket_id: int, solution: str) -> Ticket:
                                     f"Status code: {response.status}. Error: {error_message}")
 
 
+async def set_ticket_message(
+    guild_id: int,
+    ticket_channel_id: int,
+    ticket_message_id: int
+) -> None:
+    await set_cfg(
+        TicketsConfig(
+            guild_id,
+            ticket_channel_id,
+            ticket_message_id
+        ))
             
 

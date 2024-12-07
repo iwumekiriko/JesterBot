@@ -4,8 +4,8 @@ from disnake.ext import commands
 
 from src.logger import get_logger
 from src.bot import JesterBot
-from src._config import CUSTOM_VOICE_CATEGORY_ID, CUSTOM_VOICE_CREATION_CHANNEL_ID
 from src.utils._convertes import user_avatar
+from src.models.config import VoiceConfig
 
 
 logger = get_logger()
@@ -42,6 +42,14 @@ class CustomVoiceCog(commands.Cog):
         member: disnake.Member,
         channel: disnake.VoiceChannel
     ) -> None:
+        from src.config import cfg
+        
+
+        guild_id = channel.guild.id
+        voice_cfg = cfg.voice_cfg(guild_id)
+
+        CUSTOM_VOICE_CREATION_CHANNEL_ID = voice_cfg.custom_voice_creation_channel_id
+
         if channel.id != CUSTOM_VOICE_CREATION_CHANNEL_ID:
             return
         
@@ -50,7 +58,7 @@ class CustomVoiceCog(commands.Cog):
             return
         
         custom_channel = await voice_category.create_voice_channel(
-            name = f"Канал пользователя {member.name}")
+            name = f"Канал {member.name}")
         await custom_channel.set_permissions(
             member, manage_channels=True, view_channel=True, connect=True)
         try:
@@ -63,6 +71,16 @@ class CustomVoiceCog(commands.Cog):
         self,
         before_channel: disnake.VoiceChannel
     ) -> None:
+        from src.config import cfg
+
+        guild_id = before_channel.guild.id
+        voice_cfg = cfg.voice_cfg(guild_id)
+
+        CUSTOM_VOICE_CREATION_CHANNEL_ID = voice_cfg.custom_voice_creation_channel_id
+        CUSTOM_VOICE_CATEGORY_ID = voice_cfg.custom_voice_category_id
+        CUSTOM_VOICE_DELETE_TIME = voice_cfg.custom_voice_deletion_time or 30
+
+
         if before_channel.category and not before_channel.category.id == CUSTOM_VOICE_CATEGORY_ID:
             return
         

@@ -1,12 +1,10 @@
 from src.bot import JesterBot
-from ._on_guild_cog import OnGuildCog
-from ._profile_cog import ProfileCog
+from ._config_cog import ConfigCog
 from src.settings import API_REQUIRED
 
 
 def setup(bot: JesterBot) -> None:
-    bot.add_cog(ProfileCog(bot))
     if not API_REQUIRED:
         return
 
-    bot.add_cog(OnGuildCog(bot))
+    bot.add_cog(ConfigCog(bot))

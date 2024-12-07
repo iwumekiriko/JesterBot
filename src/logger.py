@@ -1,8 +1,9 @@
 import logging
 from requests import post
 
-from src import _config
+from src import settings
 from src.utils._time import current_time
+from src.utils._exceptions import LogWebhooksNotSetException
 
 
 embed_colors = {
@@ -13,6 +14,7 @@ embed_colors = {
     "DEBUG": 0x00bffff
 }
 
+
 embed_titles = {
     "ERROR": "ОШИБКА",
     "INFO": "ИНФОРМАЦИЯ",
@@ -21,13 +23,14 @@ embed_titles = {
     "DEBUG": "ДЕБАГ"
 }
 
+
 log_webhooks = {
-    "message": _config.MESSAGE_WEBHOOK,
-    "command_interaction": _config.COMMAND_INTERACTIONS_WEBHOOK,
-    "ticket": _config.TICKET_WEBHOOK,
-    "members": _config.MEMBER_WEBHOOK,
-    "guild": _config.GUILD_WEBHOOK,
-    "else": _config.ELSE_WEBHOOK,
+    "message": "messages_webhook_url",
+    "command_interaction": "command_interactions_webhook_url",
+    "ticket": "tickets_webhook_url",
+    "members": "members_webhook_url",
+    "guild": "guild_webhook_url",
+    "else": "else_webhook_url",
 }
 
 
@@ -36,23 +39,33 @@ class DiscordHandler(logging.Handler):
         super().__init__()
 
     def emit(self, record: logging.LogRecord) -> None:
+        from src.config import cfg
+        params = record.__dict__
+
         data = { "embeds": [{
                     "description": f"# {embed_titles[record.levelname]}\n\n{self.format(record)}",
-                    "thumbnail": { "url": record.__dict__.get("user_avatar", None) },
+                    "thumbnail": { "url": params.get("user_avatar", None) },
                     "footer": { "text": current_time().strftime("%d %B %Y — %H:%M") },
-                    "color": embed_colors[record.levelname]
+                    "color": embed_colors[record.levelname],
             }] }
-        post(log_webhooks[record.__dict__.get("type", "else")], json=data)
+        
+        try:
+            webhook_url = getattr(cfg.webhooks_cfg(
+                params.get("guild_id", cfg.base_guild_id)),
+                log_webhooks[params.get("type", "else")])
+            post(webhook_url, json=data)
+        except:
+            print("Не настроен вебхук для логов! [/config]")
 
 
 def get_logger() -> logging.Logger:
-    return logging.getLogger(_config.APP_NAME)
+    return logging.getLogger(settings.APP_NAME)
 
 
 def _create_logger() -> None:
-    level = logging.DEBUG if _config.DEBUG else logging.INFO
+    level = logging.DEBUG if settings.DEBUG else logging.INFO
 
-    logger = logging.getLogger(_config.APP_NAME)
+    logger = logging.getLogger(settings.APP_NAME)
     logger.setLevel(level=level)
     
     discord_handler = DiscordHandler()

@@ -1,7 +1,6 @@
 import disnake
 from disnake.ext import commands
 
-from src._config import OWNER_ID
 from src.localization import get_localizator
 
 
@@ -42,7 +41,7 @@ def owner_excluding(
     arg: disnake.Member | disnake.User
 ) -> disnake.Member:
     member = _member(inter, arg)
-    if member.id == OWNER_ID:
+    if member.id == 567303956448018456:
         raise commands.BadArgument(_("not_for_owner_error"))
     return member
 

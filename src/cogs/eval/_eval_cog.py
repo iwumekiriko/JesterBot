@@ -37,13 +37,15 @@ class EvalCog(commands.Cog):
                 title="Успешно выполнено!",
                 description=self._prepare_response(response),
             ).set_thumbnail(url=ctx.author.display_avatar.url)
-            await ctx.send(embed=embed)
+            await ctx.send(embed=embed,
+                           allowed_mentions=disnake.AllowedMentions(users=False))
 
         except Exception as error:
             embed = ExceptionEmbed(
                 message=f"```{type(error).__name__}: {str(error)}```",
             ).set_thumbnail(url=ctx.author.display_avatar.url)
-            await ctx.send(embed=embed)
+            await ctx.send(embed=embed, 
+                           allowed_mentions=disnake.AllowedMentions(users=False))
 
     @commands.command(aliases=['eval'])
     async def _eval(self, ctx, *, code: str) -> None:

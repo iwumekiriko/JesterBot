@@ -52,7 +52,7 @@ async def _send_ticket(
     user_avatar: str
 ) -> None:
     message = await thread.send(
-            content=f"<@{ticket.user_id}> <@&{type.value}>",
+            content=f"<@{ticket.user_id}> <@&{type.get_role_id(thread.guild.id)}>",
             embed = TicketEmbed(
                 description=_("ticket_thread_embed_desc",
                                user_id=ticket.user_id,

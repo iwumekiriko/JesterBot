@@ -1,13 +1,13 @@
 import disnake
 from disnake.ext import commands
 
-from src import _config 
 from datetime import datetime
 from src._cog_manager import CogManager
 from src.logger import get_logger
 from src.localization import get_localizator
 from src.utils._exceptions import BaseException
 from src.utils._embeds import ExceptionEmbed
+from src import settings
 
 
 logger = get_logger()
@@ -18,7 +18,7 @@ class JesterBot(commands.Bot):
     def __init__(self) -> None:
         intents = disnake.Intents.all()
         command_sync_flags = commands.CommandSyncFlags.all()
-        command_sync_flags.sync_commands_debug = _config.DEBUG
+        command_sync_flags.sync_commands_debug = settings.DEBUG
 
         super().__init__(
             intents=intents,
@@ -28,6 +28,10 @@ class JesterBot(commands.Bot):
         self.load_cogs()
         self.persistent_views_added = False
 
+    async def on_connect(self) -> None:
+        from src.config import cfg
+        await cfg.load()
+
     async def on_ready(self) -> None:
         if not self.persistent_views_added:
             from src.cogs.tickets.views._ticket_creation_view import TicketCreationView
@@ -35,11 +39,14 @@ class JesterBot(commands.Bot):
             self.add_view(TicketCreationView())
             self.add_view(TicketThreadView())
             self.persistent_views_added = True
-        
+
         await self._sync_voice_users()
         print(f"[{datetime.now().strftime('%c')}] {self.user}'s ready!")
 
     async def _sync_voice_users(self) -> None:
+        if not settings.API_REQUIRED:
+            return
+
         cog = self.get_cog("VoiceActivityListenerCog")
         await cog.sync() # type: ignore
 
@@ -48,8 +55,8 @@ class JesterBot(commands.Bot):
                 for member in voice_channel.members:
                     cog.count_user(member) # type: ignore
 
-    def load_cogs(self):
-        _cog_mngr = CogManager(_config.COGS_PATH)
+    def load_cogs(self) -> None:
+        _cog_mngr = CogManager(settings.COGS_PATH)
         for cog in _cog_mngr.cogs:
             self.load_extension(cog)
 
@@ -113,9 +120,10 @@ class JesterBot(commands.Bot):
             ])) if len(options) > 0 else ""
 
         logger.info(
-            'Пользователь <@%d> использовал команду **/%s** в канале <#%d>\n\n%s',
+            'Пользователь <@%d> использовал команду </%s:%d> в канале <#%d>\n\n%s',
             interaction.author.id,
             interaction.data.name,
+            interaction.data.id,
             interaction.channel.id,
             command_options,
             extra={"user_avatar": interaction.user.display_avatar.url, # type: ignore

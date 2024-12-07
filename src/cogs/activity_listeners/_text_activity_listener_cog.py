@@ -8,7 +8,6 @@ from src.logger import get_logger
 from ._api_interaction import add_experience, add_coins
 from src.utils._experience import get_level_from_exp
 from src.models import Member
-from src._config import EXP_FOR_MESSAGE
 from src.utils._embeds import BaseEmbed
 
 
@@ -83,7 +82,7 @@ class TextActivityListenerCog(commands.Cog):
         logger.warning(
             "Пользователь <@%d> удалил сообщение!\n\n**Текст сообщения: \n**```%s```\n-# ID сообщения: %d",
             message.author.id, message.content, message.id,
-            extra={ "user_avatar": message.author.display_avatar.url, "type": "message" })# type: ignore
+            extra={ "user_avatar": message.author.display_avatar.url, "type": "message", "images": [attch.url for attch in message.attachments] }) # type: ignore
 
 
 async def _give_exp_for_message(
@@ -97,10 +96,16 @@ async def _give_exp_for_message(
 
 
 def _is_new_lvl(member: Member) -> bool:
+    from src.config import cfg
+
     if not member.experience:
         return False
     
-    exp_before = member.experience - EXP_FOR_MESSAGE
+    exp_for_message = cfg.exp_cfg(member.guild_id).exp_for_message
+    if not exp_for_message:
+        return False
+
+    exp_before = member.experience - exp_for_message
     exp_after = member.experience
 
     level_before = get_level_from_exp(exp_before)

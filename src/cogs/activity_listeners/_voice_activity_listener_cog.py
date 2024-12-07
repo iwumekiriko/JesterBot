@@ -24,11 +24,17 @@ class VoiceActivityListenerCog(commands.Cog):
         await self._sync()
 
     async def _sync(self) -> None:
-        for member, join_time in self._counter.items():
-            current_time = time.time()
-            voice_seconds = int(current_time - join_time)
-            await add_voice_time(member, voice_seconds)
-            self._counter[member] = current_time
+        try:
+            for member, join_time in self._counter.items():
+                current_time = time.time()
+                voice_seconds = int(current_time - join_time)
+                try:
+                    await add_voice_time(member, voice_seconds)
+                    self._counter[member] = current_time
+                except:
+                    self.count_user(member)
+        except RuntimeError:
+            pass
 
     def count_user(self, member: disnake.Member):
         self._counter[member] = self._counter.get(member, time.time())

@@ -22,7 +22,7 @@ def loop(minutes: int = 1):
                     try:
                         loop.run_until_complete(func(*args, **kwargs))
                     except Exception as e:
-                        logger.critical("Ошибка в бесконечном цикле!\n\nОшибка:\n%s", e, exc_info=True)
+                        logger.error("Ошибка при обновлении времени в войсах пользователей!\n\n%s", e, exc_info=True)
                     time.sleep(minutes * 60)
 
             thread = threading.Thread(target=run_loop)

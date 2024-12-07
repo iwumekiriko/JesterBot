@@ -1,0 +1,121 @@
+import disnake
+from typing import Optional, Callable
+
+from src.localization import get_localizator
+from src.logger import get_logger
+from src.utils._views import BaseView
+from .._modal_forms import *
+from src.config import cfg
+from src.models.config.base_config import BaseConfig
+from src.utils._embeds import BaseEmbed
+
+
+logger = get_logger()
+_ = get_localizator("configs")
+
+
+class ConfigView(BaseView):
+    def __init__(
+        self,
+        guild_id: int
+    ) -> None:
+        super().__init__(timeout=300)
+        self.guild_id = guild_id
+        self.current_cfg: tuple[BaseConfig, int] = (cfg.exp_cfg(guild_id), 0)
+
+        self.config_map: dict[tuple[str, Optional[str]], str] = {
+            (_("experience_cfg_0"), "🧪"): "exp_cfg",
+            (_("roles_cfg_0"), "🥐"): "roles_cfg",
+            (_("tickets_cfg_0"), "🎟️"): "tickets_cfg",
+            (_("voice_cfg_0"), "🔊"): "voice_cfg",
+            (_("webhooks_cfg_0"), "🕸️"): "webhooks_cfg",
+            (_("webhooks_cfg_1"), "🕸️"): "webhooks_cfg",
+        }
+
+        self.config_modals: dict[str, Callable] = {
+            "Experience": experience_cfg_modal_form,
+            "Roles": roles_cfg_modal_form,
+            "Tickets": tickets_cfg_modal_form,
+            "Voice": voice_cfg_modal_form,
+            "Webhooks": webhooks_cfg_modal_form
+        }
+
+        self.add_item(ConfigSelect(self.config_map))
+        self.add_item(ChangeCfgButton())
+
+    def create_embed(self) -> disnake.Embed:
+        cfg = self.current_cfg[0]
+        page = self.current_cfg[1]
+        desc = ""
+
+        for field, value in list(vars(cfg).items())[page*5+1:page+5+1]:
+            if isinstance(value, str) and len(value) > 40:
+                value = f"{value[:35]}...{value[-5:]}"
+            desc += f"**{_(field + '_field')}: **\n```{value}```\n"
+
+        return BaseEmbed(
+            title=_(f"{cfg.short_name.lower()}_config_embed_title"),
+            description=desc
+        )
+    
+    async def _response(
+        self,
+        interaction: disnake.ApplicationCommandInteraction
+    ) -> None:
+        await interaction.response.send_message(
+            embed=self.create_embed(),
+            view=self,
+            ephemeral=True
+        )
+    
+
+class ConfigSelect(disnake.ui.Select):
+    view: ConfigView
+
+    def __init__(self, config_map: dict) -> None:
+        options = [disnake.SelectOption(
+            label = name, emoji = emoji
+        ) for name, emoji in config_map]
+        super().__init__(options=options)
+
+    async def callback(
+        self,
+        interaction: disnake.MessageInteraction
+    ) -> None:
+        view = self.view
+        name = self.values[0]
+        self.view.current_cfg = (getattr(cfg, next((
+            value for key, value in view.config_map.items()
+                if key[0] == name)))(interaction.guild_id), int(name[-1]) - 1)
+        await interaction.response.edit_message(
+            embed = view.create_embed(),
+            view = view
+        )
+
+
+class ChangeCfgButton(disnake.ui.Button):
+    view: ConfigView
+
+    def __init__(self) -> None:
+        super().__init__(
+            label=_("change_cfg_button"),
+            style=disnake.ButtonStyle.grey
+        )
+
+    async def callback(
+        self,
+        interaction: disnake.MessageCommandInteraction
+    ) -> None:
+        view = self.view
+        cfg = view.current_cfg[0]
+        params = {f"base_{k}": v for k, v in vars(cfg).items() if k != 'guild_id'}
+        inter: disnake.ModalInteraction | None = (
+            await view.config_modals[cfg.short_name]
+            (interaction, **params, page=view.current_cfg[1]))
+        if not inter:
+            return
+        
+        await inter.response.edit_message(
+            embed=view.create_embed(),
+            view=view
+        )
