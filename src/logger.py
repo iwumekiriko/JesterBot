@@ -48,14 +48,11 @@ class DiscordHandler(logging.Handler):
                     "footer": { "text": current_time().strftime("%d %B %Y — %H:%M") },
                     "color": embed_colors[record.levelname],
             }] }
-        
-        try:
-            webhook_url = getattr(cfg.webhooks_cfg(
-                params.get("guild_id", cfg.base_guild_id)),
-                log_webhooks[params.get("type", "else")])
-            post(webhook_url, json=data)
-        except:
-            print("Не настроен вебхук для логов! [/config]")
+
+        webhook_url = getattr(cfg.webhooks_cfg(
+            params.get("guild_id", cfg.base_guild_id)),
+            log_webhooks[params.get("type", "else")])
+        post(webhook_url, json=data)
 
 
 def get_logger() -> logging.Logger:
