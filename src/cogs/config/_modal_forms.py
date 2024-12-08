@@ -77,6 +77,7 @@ async def tickets_cfg_modal_form(
     interaction: MessageCommandInteraction,
     base_ticket_channel_id: int | None = 0,
     base_ticket_message_id: int | None = 0,
+    base_ticket_report_channel_id: int | None = 0,
     page: int = 0
 ):
     ticket_channel_id = ModalTextInput(
@@ -91,7 +92,13 @@ async def tickets_cfg_modal_form(
         placeholder="ticket_message_id",
         required=False
     )
-    components=[ticket_channel_id, ticket_message_id]
+    ticket_report_channel_id = ModalTextInput(
+        label=_("ticket_report_channel_id_input"),
+        value=str(base_ticket_report_channel_id),
+        placeholder="ticket_report_channel_id",
+        required=False
+    )
+    components=[ticket_channel_id, ticket_message_id, ticket_report_channel_id]
     data = await BaseModal(
         _("tickets_cfg_modal"),
         components=components,

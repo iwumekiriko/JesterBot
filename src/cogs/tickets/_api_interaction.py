@@ -9,6 +9,7 @@ from src.utils._mapping import json_camel_to_snake
 from src.utils._exceptions import BaseException
 from src.utils._convertes import user_avatar
 from src._api_interaction import set_cfg
+from src.config import cfg as config
 
 
 logger = get_logger()
@@ -23,8 +24,8 @@ async def ticket_create(ticket: Ticket) -> None:
             data=data, headers=headers, ssl=False
         ) as response:
                 if response.status == 200:
-                    logger.info("Пользователь <@%d> создал тикет [<#%d>]\n\n**Метка: **{ %s }\n**Проблема: **\n```%s```",
-                                 ticket.user_id, ticket.id, ticket.type_problem, ticket.description_problem,
+                    logger.info("Пользователь <@%d> создал тикет [<#%d>]",
+                                 ticket.user_id, ticket.id,
                                  extra={"user_avatar": user_avatar(ticket.user_id), "type": "ticket"}) # type: ignore
                 else:
                     error_message = await response.text()
@@ -81,8 +82,8 @@ async def ticket_close(ticket_id: int, solution: str) -> Ticket:
             data=data, headers=headers, ssl=False
         ) as response:
             if response.status == 200:
-                logger.info("Модератор <@%d> закрыл тикет [<#%d>]\n\n**Решение: **\n```%s```",
-                            ticket.moderator_id, ticket.id, ticket.solution,
+                logger.info("Модератор <@%d> закрыл тикет [<#%d>]",
+                            ticket.moderator_id, ticket.id,
                             extra={"user_avatar": user_avatar(ticket.moderator_id), "type": "ticket"}) # type: ignore
                 return ticket
             else:
@@ -93,14 +94,12 @@ async def ticket_close(ticket_id: int, solution: str) -> Ticket:
 
 async def set_ticket_message(
     guild_id: int,
-    ticket_channel_id: int,
     ticket_message_id: int
 ) -> None:
-    await set_cfg(
-        TicketsConfig(
+    cfg = TicketsConfig(
             guild_id,
-            ticket_channel_id,
-            ticket_message_id
-        ))
+            ticket_message_id)
+    config.set(cfg)
+    await set_cfg(cfg)
             
 

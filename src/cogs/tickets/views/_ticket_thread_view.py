@@ -5,7 +5,7 @@ from src.utils._views import BaseView
 from .._api_interaction import ticket_start, ticket_close
 from src.utils._embeds import TicketEmbed
 from src.utils._convertes import user_avatar
-from src.models.config import RolesConfig
+from src.utils._time import current_time
 
 
 _ = get_localizator("tickets")
@@ -60,6 +60,8 @@ class ApproveTicketButton(disnake.ui.Button):
         interaction: disnake.MessageCommandInteraction
     ) -> None:
         from .._modal_forms import solution_modal_form
+        from src.config import cfg
+
         data = await solution_modal_form(interaction)
         if len(data) < 2:
             return
@@ -76,10 +78,38 @@ class ApproveTicketButton(disnake.ui.Button):
                                user_id=ticket.user_id,
                                desc=ticket.description_problem))
                 .set_footer(text=_("ticket_closed_status"))
-                .add_field(name="Решение проблемы: ", value=f"```{ticket.solution}```", inline=False)
+                .add_field(name=_("ticket_solution"), value=f"```{ticket.solution}```", inline=False)
                 .set_thumbnail(user_avatar(user_id=ticket.user_id)), # type: ignore
             view=self.view
         )
+
+        await inter.channel.send(
+            content=f"<@{ticket.user_id}>",
+            embed=TicketEmbed(
+                title=_("ticket_thread_end_embed_title"),
+                description=_("ticket_thread_end_embed_desc", 
+                              moderator_id=ticket.moderator_id,
+                              solution=ticket.solution))
+                .set_thumbnail(user_avatar(user_id=ticket.moderator_id)) # type: ignore
+        )
+
+        report_channel_id = cfg.tickets_cfg(inter.guild_id).ticket_report_channel_id # type: ignore
+        if report_channel_id and inter.guild:
+            rep_channel = inter.guild.get_channel(report_channel_id)
+            await rep_channel.send( # type: ignore
+                embed=TicketEmbed(
+                    title = _("ticket_report_embed_title"),
+                    description = _("ticket_report_embed_desc",
+                                    user_id=ticket.user_id,
+                                    moderator_id=ticket.moderator_id,
+                                    problem=ticket.description_problem,
+                                    solution=ticket.solution,
+                                    ticket_url=inter.message.jump_url)) # type: ignore
+                    .set_thumbnail(user_avatar(user_id=ticket.moderator_id)) # type: ignore
+                    .set_footer(text=current_time().strftime("%d %B %Y — %H:%M"))
+            )
+            
+
 
         if isinstance(thread := interaction.channel, disnake.Thread):
             await thread.edit(locked=True, archived=True)
@@ -113,6 +143,7 @@ class StartTicketButton(disnake.ui.Button):
         ) 
         
         await interaction.channel.send(_("ticket_started",
+                                        user_id=ticket.user_id,
                                         moderator_id=interaction.user.id))
         await interaction.response.send_message(
             _("ticket_start_instruction"), ephemeral=True)

@@ -31,6 +31,7 @@
 
         "ticket_channel_id_field": "Id канала для тикетов",
         "ticket_message_id_field": "Id сообщения для тикетов",
+        "ticket_report_channel_id_field": "Id канала для отчетов о тикетах",
 
         "custom_voice_creation_channel_id_field": "Id канала для создания кастом войса",
         "custom_voice_category_id_field": "Id категории для кастом войсов",

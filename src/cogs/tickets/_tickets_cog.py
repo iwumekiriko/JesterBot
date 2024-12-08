@@ -21,7 +21,7 @@ class TicketsCog(commands.Cog):
         from src.config import cfg
 
         for guild in self._bot.guilds:
-            ticket_cfg: TicketsConfig = cfg.config[guild.id]["Tickets"]
+            ticket_cfg = cfg.tickets_cfg(guild.id)
             ticket_channel_id = ticket_cfg.ticket_channel_id
             ticket_message_id = ticket_cfg.ticket_message_id
 
@@ -46,7 +46,7 @@ class TicketsCog(commands.Cog):
                 logger.info("Тикет сообщение не было найдено. Создано новое.",
                             extra={"user_avatar": user_avatar(jester=True), 
                                    "type": "else", "guild_id": ticket_channel.guild.id})
-                await set_ticket_message(guild.id, ticket_channel_id, message.id)
+                await set_ticket_message(guild.id, message.id)
 
         
 

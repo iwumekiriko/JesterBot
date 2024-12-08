@@ -19,6 +19,7 @@
 
         "ticket_channel_id_input": "Id канала для тикетов",
         "ticket_message_id_input": "Id сообщения для тикетов",
+        "ticket_report_channel_id_input": "Id канала для отчетов о тикетах",
         "tickets_cfg_modal": "Управление тикетами",
 
         

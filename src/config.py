@@ -67,6 +67,7 @@ class Config:
             case TicketsConfig():
                 config.ticket_channel_id = TICKET_CHANNEL_ID
                 config.ticket_message_id = TICKET_MESSAGE_ID
+                config.ticket_report_channel_id = TICKET_REPORT_CHANNEL_ID
 
             case VoiceConfig():
                 config.custom_voice_creation_channel_id = CUSTOM_VOICE_CREATION_CHANNEL_ID

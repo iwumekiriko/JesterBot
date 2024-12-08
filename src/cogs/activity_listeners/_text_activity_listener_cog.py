@@ -30,17 +30,18 @@ class TextActivityListenerCog(commands.Cog):
         if not isinstance(author, disnake.Member):
             return
         
-        if not isinstance(channel, disnake.TextChannel):
+        if (not isinstance(channel, disnake.TextChannel)
+            and not isinstance(channel, disnake.Thread)):
             return
         
         if author.bot:
             return
         
-        await self._check_for_reaction_messages(message)
         await _give_exp_for_message(author, channel)
+        await self._check_for_reaction_messages(message)
 
     async def _check_for_reaction_messages(
-            self, message: disnake.Message
+        self, message: disnake.Message
     ) -> None:
         if len(re.findall(r"\b{}\b".format("мяу"), message.content.lower())) > 0:
             await message.add_reaction("<a:zlozlozlozlozlozlozlozlozlozlo:1299735705148330097>")
@@ -54,8 +55,14 @@ class TextActivityListenerCog(commands.Cog):
         if len(re.findall(r"\b{}\b".format("кря"), message.content.lower())) > 0:
             await message.add_reaction("🦆")
 
+        if len(re.findall(r"\b{}\b".format("гав"), message.content.lower())) > 0:
+            await message.add_reaction("<:z_proebali:1313506419185549433>")
+
+        if len(re.findall(r"\b{}\b".format("гол"), message.content.lower())) > 0:
+            await message.add_reaction("<:k_GOAL:1313506931259871292>")
+
         if self.bot.user.mention in message.content:
-            await message.add_reaction("🤡")
+            await message.add_reaction("<:joe_artem:1314324435271946260>")
 
     @commands.Cog.listener()
     async def on_message_edit(
@@ -87,7 +94,7 @@ class TextActivityListenerCog(commands.Cog):
 
 async def _give_exp_for_message(
     author: disnake.Member,
-    channel: disnake.TextChannel    
+    channel: disnake.TextChannel | disnake.Thread    
 ) -> None:
     member = await add_experience(author)
     if _is_new_lvl(member):
@@ -105,7 +112,7 @@ def _is_new_lvl(member: Member) -> bool:
     if not exp_for_message:
         return False
 
-    exp_before = member.experience - exp_for_message
+    exp_before = member.experience - int(exp_for_message)
     exp_after = member.experience
 
     level_before = get_level_from_exp(exp_before)
@@ -114,7 +121,10 @@ def _is_new_lvl(member: Member) -> bool:
     return True if level_before < level_after else False
 
 
-async def _send_reward_message(member: Member, channel: disnake.TextChannel) -> None:
+async def _send_reward_message(
+    member: Member,
+    channel: disnake.TextChannel | disnake.Thread
+) -> None:
     if not member.experience:
         return
 
