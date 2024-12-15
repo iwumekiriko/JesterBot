@@ -89,6 +89,6 @@ async def _give_exp_for_message(
     channel: disnake.TextChannel | disnake.Thread    
 ) -> None:
     member = await add_experience(author)
-    if is_new_lvl(member, "exp"):
+    if is_new_lvl(member, "message"):
         await add_coins(member)
         await send_reward_message(member, channel)
