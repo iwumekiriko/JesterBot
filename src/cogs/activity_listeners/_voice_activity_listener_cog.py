@@ -5,7 +5,7 @@ from disnake.ext import commands
 from src.bot import JesterBot
 from ._api_interaction import add_voice_time
 from src.logger import get_logger
-from src.utils._tasks import loop
+from src.utils._tasks import loop1
 from src.utils._experience import is_new_lvl
 from ._utils import send_reward_message
 
@@ -18,7 +18,11 @@ class VoiceActivityListenerCog(commands.Cog):
         self.bot = bot
         self._counter: dict[disnake.Member, float] = {}
 
-    @loop(seconds=60)
+    @commands.Cog.listener()
+    async def on_ready(self) -> None:
+        self.sync.start(self) # type: ignore
+
+    @loop1(seconds=60)
     async def sync(self) -> None:
         if not self._counter:
             return

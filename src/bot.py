@@ -46,13 +46,12 @@ class JesterBot(commands.Bot):
     async def _sync_voice_users(self) -> None:
         if not settings.API_REQUIRED:
             return
-
+        
         cog = self.get_cog("VoiceActivityListenerCog")
-        await cog.sync() # type: ignore
-
         for guild in self.guilds:
             for voice_channel in guild.voice_channels:
                 for member in voice_channel.members:
+                    print(member)
                     cog.count_user(member) # type: ignore
 
     def load_cogs(self) -> None:
