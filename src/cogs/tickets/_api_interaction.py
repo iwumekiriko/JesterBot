@@ -24,7 +24,7 @@ async def ticket_create(ticket: Ticket) -> None:
             data=data, headers=headers, ssl=False
         ) as response:
                 if response.status == 200:
-                    logger.info("Пользователь <@%d> создал тикет [<#%d>]",
+                    logger.info("Пользователь <@%d> создаёт тикет [<#%d>]",
                                  ticket.user_id, ticket.id,
                                  extra={"user_avatar": user_avatar(ticket.user_id), "type": "ticket"}) # type: ignore
                 else:
@@ -60,7 +60,7 @@ async def ticket_start(ticket_id: int, moderator_id: int) -> Ticket:
             data=data, headers=headers, ssl=False
         ) as response:
             if response.status == 200:
-                logger.info("Модератор <@%d> принял тикет [<#%d>]", ticket.moderator_id, ticket.id,
+                logger.info("Модератор <@%d> принимает тикет [<#%d>]", ticket.moderator_id, ticket.id,
                              extra={"user_avatar": user_avatar(ticket.moderator_id), "type": "ticket"}) # type: ignore
                 return ticket
             else:
@@ -82,9 +82,11 @@ async def ticket_close(ticket_id: int, solution: str) -> Ticket:
             data=data, headers=headers, ssl=False
         ) as response:
             if response.status == 200:
-                logger.info("Модератор <@%d> закрыл тикет [<#%d>]",
+                logger.info("Модератор <@%d> закрывает тикет [<#%d>]",
                             ticket.moderator_id, ticket.id,
                             extra={"user_avatar": user_avatar(ticket.moderator_id), "type": "ticket"}) # type: ignore
+                return ticket
+            if response.status == 400:
                 return ticket
             else:
                 error_message = await response.text()

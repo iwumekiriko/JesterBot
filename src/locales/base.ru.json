@@ -12,6 +12,5 @@
 
         
         "modal_timeout_exception": "Завершился таймер модального окна. Ответ не был получен.",
-        "log_webhooks_not_set_exception": "Вебхуки для логов не настроены! Попробуйте /config"
     }
 }

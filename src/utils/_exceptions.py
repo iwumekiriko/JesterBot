@@ -18,9 +18,7 @@ class ModalTimeoutException(BaseException):
         super().__init__(self.message)
 
 
-class LogWebhooksNotSetException(BaseException):
-    def __init__(self, message: Optional[str] = None) -> None:
-        if message is None:
-            message = _("log_webhooks_not_set_exception")
+class LoggerException(BaseException):
+    def __init__(self, message: str) -> None:
         self.message = message
         super().__init__(self.message)

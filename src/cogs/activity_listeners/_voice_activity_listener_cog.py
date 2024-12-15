@@ -6,6 +6,8 @@ from src.bot import JesterBot
 from ._api_interaction import add_voice_time
 from src.logger import get_logger
 from src.utils._tasks import loop
+from src.utils._experience import is_new_lvl
+from ._utils import send_reward_message
 
 
 logger = get_logger()
@@ -16,7 +18,7 @@ class VoiceActivityListenerCog(commands.Cog):
         self.bot = bot
         self._counter: dict[disnake.Member, float] = {}
 
-    @loop(minutes=1)
+    @loop(seconds=60)
     async def sync(self) -> None:
         if not self._counter:
             return
@@ -29,7 +31,7 @@ class VoiceActivityListenerCog(commands.Cog):
                 current_time = time.time()
                 voice_seconds = int(current_time - join_time)
                 try:
-                    await add_voice_time(member, voice_seconds)
+                    await self._add_time(member, voice_seconds)
                     self._counter[member] = current_time
                 except:
                     self.count_user(member)
@@ -50,21 +52,30 @@ class VoiceActivityListenerCog(commands.Cog):
             return
         
         if before.channel is None and after.channel is not None:
-            logger.debug("Пользователь <@%d> заходит в войс канал [%s]",
-                        member.id, after.channel.jump_url,
-                        extra={"user_avatar": member.display_avatar.url})
+            logger.info("Пользователь <@%d> заходит в войс канал [%s | %s]",
+                        member.id, after.channel.jump_url, after.channel.name,
+                        extra={"user_avatar": member.display_avatar.url, "type": "voice"})
             self.count_user(member)
 
         elif before.channel is not None and after.channel is None:
-            logger.debug("Пользователь <@%d> выходит из войс канала [%s]",
-                        member.id, before.channel.jump_url,
-                        extra={"user_avatar": member.display_avatar.url})
-            await add_voice_time(member, int(time.time() - self._counter.pop(member)))
+            logger.info("Пользователь <@%d> выходит из войс канала [%s | %s]",
+                        member.id, before.channel.jump_url, before.channel.name,
+                        extra={"user_avatar": member.display_avatar.url, "type": "voice"})
+            await self._add_time(member, int(time.time() - self._counter.pop(member)))
 
         elif (before.channel is not None and after.channel is not None 
                 and before.channel != after.channel):
-            logger.debug("Пользователь <@%d> переходит в войс канал [%s] **->** [%s]",
+            logger.info("Пользователь <@%d> переходит в войс канал [%s] **->** [%s]",
                         member.id, before.channel.jump_url, after.channel.jump_url,
-                        extra={"user_avatar": member.display_avatar.url})
-            await add_voice_time(member, int(time.time() - self._counter.pop(member)))
+                        extra={"user_avatar": member.display_avatar.url, "type": "voice"})
+            await self._add_time(member, int(time.time() - self._counter.pop(member)))
             self.count_user(member)
+
+
+    async def _add_time(self, member: disnake.Member, seconds: int) -> None:
+        member_data = await add_voice_time(member, seconds)
+        is_lvled = is_new_lvl(member_data, "voice")
+        if is_lvled:
+            from src.config import cfg
+            offtop_id = cfg.channels_cfg(member.guild.id).offtop_channel_id or 0
+            await send_reward_message(member_data, offtop_id)

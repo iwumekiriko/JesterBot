@@ -1,4 +1,3 @@
-import asyncio
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -26,6 +25,9 @@ class Config:
     def roles_cfg(self, guild_id: int) -> RolesConfig:
         return self._cfg[guild_id]["Roles"]
     
+    def channels_cfg(self, guild_id: int) -> ChannelsConfig:
+        return self._cfg[guild_id]["Channels"]
+    
     def tickets_cfg(self, guild_id: int) -> TicketsConfig:
         return self._cfg[guild_id]["Tickets"]
     
@@ -39,6 +41,7 @@ class Config:
         from src.bot import bot
         cfgs: list[type[BaseConfig]] = [ExperienceConfig,
                                         RolesConfig,
+                                        ChannelsConfig,
                                         TicketsConfig,
                                         VoiceConfig,
                                         WebhooksConfig]
@@ -63,6 +66,10 @@ class Config:
                 config.support_role_id = SUPPORT_ROLE_ID
                 config.moderator_role_id = MODERATOR_ROLE_ID
                 config.developer_role_id = DEVELOPER_ROLE_ID
+
+            case ChannelsConfig():
+                config.general_channel_id = GENERAL_CHANNEL_ID
+                config.offtop_channel_id = OFFTOP_CHANNEL_ID
             
             case TicketsConfig():
                 config.ticket_channel_id = TICKET_CHANNEL_ID

@@ -7,7 +7,7 @@ from src.localization import get_localizator
 _ = get_localizator()
 
 
-def _member(
+def is_member(
     inter: disnake.ApplicationCommandInteraction,
     arg: disnake.User | disnake.Member
 ) -> disnake.Member:
@@ -20,7 +20,7 @@ def bot_excluding(
     inter: disnake.ApplicationCommandInteraction,
     arg: disnake.Member | disnake.User
 ) -> disnake.Member:
-    member = _member(inter, arg)
+    member = is_member(inter, arg)
     if member.bot:
         raise commands.BadArgument(_("not_for_bot_error"))
     return member
@@ -30,7 +30,7 @@ def self_excluding(
     inter: disnake.ApplicationCommandInteraction,
     arg: disnake.Member | disnake.User
 ) -> disnake.Member:
-    member = _member(inter, arg)
+    member = is_member(inter, arg)
     if member == inter.user:
         raise commands.BadArgument(_("not_for_self_error"))
     return member
@@ -40,7 +40,7 @@ def owner_excluding(
     inter: disnake.ApplicationCommandInteraction,
     arg: disnake.Member | disnake.User
 ) -> disnake.Member:
-    member = _member(inter, arg)
+    member = is_member(inter, arg)
     if member.id == 567303956448018456:
         raise commands.BadArgument(_("not_for_owner_error"))
     return member

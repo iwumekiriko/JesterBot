@@ -4,6 +4,7 @@
 
         "experience_cfg_0": "Управление опытом 1",
         "roles_cfg_0": "Управление ролями 1",
+        "channels_cfg_0": "Управление каналами 1",
         "tickets_cfg_0": "Управление тикетами 1",
         "voice_cfg_0": "Управление войсами 1",
         "webhooks_cfg_0": "Управление вебхуками 1",
@@ -13,6 +14,7 @@
         "----------------------------------": "Название эмбеда для команды /config",
         "experience_config_embed_title": "Настройки опыта",
         "roles_config_embed_title": "Настройки ролей",
+        "channels_config_embed_title": "Настройки каналов",
         "tickets_config_embed_title": "Настройки тикетов",
         "voice_config_embed_title": "Настройки войса",
         "webhooks_config_embed_title": "Настройки вебхуков",
@@ -29,6 +31,9 @@
         "moderator_role_id_field": "Id роли модератора",
         "developer_role_id_field": "Id роли разработчика",
 
+        "general_channel_id_field": "Id канала общего чата",
+        "offtop_channel_id_field": "Id канала оффтопа",
+
         "ticket_channel_id_field": "Id канала для тикетов",
         "ticket_message_id_field": "Id сообщения для тикетов",
         "ticket_report_channel_id_field": "Id канала для отчетов о тикетах",
@@ -42,6 +47,7 @@
         "tickets_webhook_url_field": "Логи тикетов",
         "guild_webhook_url_field": "Логи сервера",
         "members_webhook_url_field": "Логи пользователей",
+        "voice_webhook_url_field": "Логи войс каналов",
         "else_webhook_url_field": "Логи остальное"
     }
 }

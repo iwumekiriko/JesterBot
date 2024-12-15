@@ -9,7 +9,7 @@ from src.logger import get_logger
 logger = get_logger()
 
 
-def loop(minutes: int = 1):
+def threading_loop(seconds: int = 60):
     def decorator(func):
         @functools.wraps(func)
         async def wrapper(*args, **kwargs):
@@ -23,7 +23,7 @@ def loop(minutes: int = 1):
                         loop.run_until_complete(func(*args, **kwargs))
                     except Exception as e:
                         logger.error("Ошибка при обновлении времени в войсах пользователей!\n\n%s", e, exc_info=True)
-                    time.sleep(minutes * 60)
+                    time.sleep(seconds)
 
             thread = threading.Thread(target=run_loop)
             thread.daemon = True
@@ -31,5 +31,19 @@ def loop(minutes: int = 1):
 
             return stop_event
 
+        return wrapper
+    return decorator
+
+
+def loop(seconds: int = 60):
+    def decorator(func):
+        @functools.wraps(func)
+        async def wrapper(*args, **kwargs):
+            while True:
+                try:
+                    await func(*args, **kwargs)
+                except Exception as e:
+                    logger.error("Error in looped function: %s", e, exc_info=True)
+                await asyncio.sleep(seconds)
         return wrapper
     return decorator

@@ -100,10 +100,15 @@ class JesterBot(commands.Bot):
                 ephemeral=True
             )
         if isinstance(exception, commands.BadArgument):
-            await interaction.response.send_message(
-                embed=ExceptionEmbed(str(exception)),
-                ephemeral=True
-            )
+            embed = ExceptionEmbed(str(exception))
+            if interaction.response.is_done():
+                await interaction.followup.send(
+                    embed=embed,
+                    ephemeral=True)
+            else:
+                await interaction.response.send_message(
+                    embed=embed,
+                    ephemeral=True)
         else:
             return await super().on_slash_command_error(interaction, exception)
 
@@ -120,7 +125,7 @@ class JesterBot(commands.Bot):
             ])) if len(options) > 0 else ""
 
         logger.info(
-            'Пользователь <@%d> использовал команду </%s:%d> в канале <#%d>\n\n%s',
+            'Пользователь <@%d> использует команду </%s:%d> в канале <#%d>\n\n%s',
             interaction.author.id,
             interaction.data.name,
             interaction.data.id,

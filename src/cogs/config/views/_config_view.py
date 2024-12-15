@@ -26,6 +26,7 @@ class ConfigView(BaseView):
         self.config_map: dict[tuple[str, Optional[str]], str] = {
             (_("experience_cfg_0"), "🧪"): "exp_cfg",
             (_("roles_cfg_0"), "🥐"): "roles_cfg",
+            (_("channels_cfg_0"), "🍵"): "channels_cfg",
             (_("tickets_cfg_0"), "🎟️"): "tickets_cfg",
             (_("voice_cfg_0"), "🔊"): "voice_cfg",
             (_("webhooks_cfg_0"), "🕸️"): "webhooks_cfg",
@@ -35,6 +36,7 @@ class ConfigView(BaseView):
         self.config_modals: dict[str, Callable] = {
             "Experience": experience_cfg_modal_form,
             "Roles": roles_cfg_modal_form,
+            "Channels": channels_cfg_modal_form,
             "Tickets": tickets_cfg_modal_form,
             "Voice": voice_cfg_modal_form,
             "Webhooks": webhooks_cfg_modal_form
@@ -48,7 +50,10 @@ class ConfigView(BaseView):
         page = self.current_cfg[1]
         desc = ""
 
-        for field, value in list(vars(cfg).items())[page*5+1:page+5+1]:
+        for field, value in (
+            (fields := list(vars(cfg).items()))
+            [(start:=page*5+1):min(start+5+1, len(fields))]
+        ):
             if isinstance(value, str) and len(value) > 40:
                 value = f"{value[:35]}...{value[-5:]}"
             desc += f"**{_(field + '_field')}: **\n```{value}```\n"
@@ -62,10 +67,10 @@ class ConfigView(BaseView):
         self,
         interaction: disnake.ApplicationCommandInteraction
     ) -> None:
-        await interaction.response.send_message(
+        await interaction.response.defer(ephemeral=True)
+        await interaction.followup.send(
             embed=self.create_embed(),
             view=self,
-            ephemeral=True
         )
     
 

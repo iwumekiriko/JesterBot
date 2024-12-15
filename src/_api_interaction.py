@@ -20,7 +20,7 @@ async def get_cfg(guild_id: int, cfg_type: type[T]) -> T:
                 return cfg_type(**json_camel_to_snake(json_data))
             else:
                 error_message = await response.text()
-                raise BaseException(f"Config API [{cfg_type.short_name}] is not responding. "
+                raise BaseException(f"Config API [{cfg_type.__name__}] is not responding. "
                                     f"Status code: {response.status}. Error: {error_message}")
 
 

@@ -6,16 +6,12 @@ from src.bot import JesterBot
 from src.localization import get_localizator
 from src.logger import get_logger
 from ._api_interaction import add_experience, add_coins
-from src.utils._experience import get_level_from_exp
-from src.models import Member
-from src.utils._embeds import BaseEmbed
-
+from ._utils import send_reward_message
+from src.utils._experience import is_new_lvl
+from src.utils._text import prepare_block_text
 
 _ = get_localizator("activity")
 logger = get_logger()
-
-
-REWARD_MESSAGE_DELETE_AFTER = 30
 
 
 class TextActivityListenerCog(commands.Cog):
@@ -43,23 +39,18 @@ class TextActivityListenerCog(commands.Cog):
     async def _check_for_reaction_messages(
         self, message: disnake.Message
     ) -> None:
-        if len(re.findall(r"\b{}\b".format("мяу"), message.content.lower())) > 0:
-            await message.add_reaction("<a:zlozlozlozlozlozlozlozlozlozlo:1299735705148330097>")
-
-        if len(re.findall(r"\b{}\b".format("фыр"), message.content.lower())) > 0:
-            await message.add_reaction("<:kwolik:1302188971270344826>")
-
-        if len(re.findall(r"\b{}\b".format("хрю"), message.content.lower())) > 0:
-            await message.add_reaction("🐖")
-
-        if len(re.findall(r"\b{}\b".format("кря"), message.content.lower())) > 0:
-            await message.add_reaction("🦆")
-
-        if len(re.findall(r"\b{}\b".format("гав"), message.content.lower())) > 0:
-            await message.add_reaction("<:z_proebali:1313506419185549433>")
-
-        if len(re.findall(r"\b{}\b".format("гол"), message.content.lower())) > 0:
-            await message.add_reaction("<:k_GOAL:1313506931259871292>")
+        reactions = {
+            r"\bмяу\b": "<a:zlozlozlozlozlozlozlozlozlozlo:1299735705148330097>",
+            r"\bфыр\b": "<:kwolik:1302188971270344826>",
+            r"\bхрю\b": "🐖",
+            r"\bкря\b": "🦆",
+            r"\bгав\b": "<:z_proebali:1313506419185549433>",
+            r"\bгол\b": "<:k_GOAL:1313506931259871292>",
+        }
+        lower_content = message.content.lower()
+        for keyword, reaction in reactions.items():
+            if re.search(keyword, lower_content):
+                await message.add_reaction(reaction)
 
         if self.bot.user.mention in message.content:
             await message.add_reaction("<:joe_artem:1314324435271946260>")
@@ -77,19 +68,20 @@ class TextActivityListenerCog(commands.Cog):
             return
 
         logger.warning(
-            "Пользователь <@%d> изменил сообщение [%s].\n\n**До: **\n```%s```\n**После: **\n```%s```\n-# ID сообщения: %d",
-            before.author.id, after.jump_url, before.content, after.content, after.id,
+            "Пользователь <@%d> изменяет сообщение [%s].\n\n**До: **\n%s\n**После: **\n%s\n-# ID сообщения: %d",
+            before.author.id, after.jump_url,
+            prepare_block_text(before.content), prepare_block_text(after.content), after.id,
             extra={ "user_avatar": before.author.display_avatar.url, "type": "message" }) # type: ignore
         
     @commands.Cog.listener()
     async def on_message_delete(self, message: disnake.Message) -> None:
         if message.author.bot:
             return
-
+        
         logger.warning(
-            "Пользователь <@%d> удалил сообщение!\n\n**Текст сообщения: \n**```%s```\n-# ID сообщения: %d",
-            message.author.id, message.content, message.id,
-            extra={ "user_avatar": message.author.display_avatar.url, "type": "message", "images": [attch.url for attch in message.attachments] }) # type: ignore
+            "Сообщение от <@%d> было удалено\n\n**Текст сообщения: \n**%s\n-# ID сообщения: %d",
+            message.author.id, prepare_block_text(message.content), message.id,
+            extra={ "user_avatar": message.author.display_avatar.url, "type": "message" }) # type: ignore
 
 
 async def _give_exp_for_message(
@@ -97,47 +89,6 @@ async def _give_exp_for_message(
     channel: disnake.TextChannel | disnake.Thread    
 ) -> None:
     member = await add_experience(author)
-    if _is_new_lvl(member):
+    if is_new_lvl(member, "exp"):
         await add_coins(member)
-        await _send_reward_message(member, channel)
-
-
-def _is_new_lvl(member: Member) -> bool:
-    from src.config import cfg
-
-    if not member.experience:
-        return False
-    
-    exp_for_message = cfg.exp_cfg(member.guild_id).exp_for_message
-    if not exp_for_message:
-        return False
-
-    exp_before = member.experience - int(exp_for_message)
-    exp_after = member.experience
-
-    level_before = get_level_from_exp(exp_before)
-    level_after = get_level_from_exp(exp_after)
-
-    return True if level_before < level_after else False
-
-
-async def _send_reward_message(
-    member: Member,
-    channel: disnake.TextChannel | disnake.Thread
-) -> None:
-    if not member.experience:
-        return
-
-    level_after = get_level_from_exp(member.experience)
-    level_before = level_after - 1
-
-    await channel.send(content=f"<@{member.user_id}>",
-        embed = BaseEmbed(
-            title=_("reward_embed_title"),
-            description=_(
-                "reward_embed_desc",
-                level_before=level_before,
-                level_after=level_after,
-                rewards=300
-            )
-        ), delete_after=REWARD_MESSAGE_DELETE_AFTER )
+        await send_reward_message(member, channel)

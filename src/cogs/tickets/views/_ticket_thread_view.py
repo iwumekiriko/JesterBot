@@ -71,6 +71,11 @@ class ApproveTicketButton(disnake.ui.Button):
         await inter.response.defer(with_message=False)
         ticket = await ticket_close(interaction.channel.id, data[1])
 
+        if not ticket.moderator_id:
+            await inter.followup.send(_("close_ticket_button_error"),
+                                               ephemeral=True)
+            return
+
         self.disabled = True
         await inter.message.edit( # type: ignore
             embed=TicketEmbed(

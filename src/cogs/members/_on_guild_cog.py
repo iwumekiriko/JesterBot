@@ -20,7 +20,7 @@ class OnGuildCog(commands.Cog):
         guild_id = member.guild.id
         member_id = member.id
         member_data = await get_member(member_id, guild_id)
-        logger.info("Новый участник [<@%d>] зашел на сервер!\n\n**Кол-во участников на сервере: **%d\n**Id пользователя:** %d",
+        logger.info("Новый участник [<@%d>] заходит на сервер!\n\n**Кол-во участников на сервере: **%d\n**Id пользователя:** %d",
                      member.id, member.guild.member_count, member_id,
                      extra={ "user_avatar": member.display_avatar.url, "type": "guild" })
 
@@ -33,7 +33,7 @@ class OnGuildCog(commands.Cog):
         member_id = member.id
         member_data = await get_member(member_id, guild_id)
  
-        logger.info("Участник [<@%d>] покинул сервер.\n\n**Кол-во участников на сервере: **%d\n**Id пользователя:** %d\n**Присоединился: **<t:%d:F>",
+        logger.info("Участник [<@%d>] покидает сервер.\n\n**Кол-во участников на сервере: **%d\n**Id пользователя:** %d\n**Присоединился: **<t:%d:F>",
                      member.id, member.guild.member_count, member_id, member.joined_at.timestamp(), # type: ignore
                      extra={ "user_avatar": member.display_avatar.url, "type": "guild" })
 
@@ -47,12 +47,10 @@ class OnGuildCog(commands.Cog):
         after: disnake.Member
     ) -> None:
         if before.display_avatar != after.display_avatar:
-            logger.warning("Пользователь <@%d> изменил аватар!", after.id,
+            logger.warning("Пользователь <@%d> изменяет аватар!", after.id,
                            extra={ "user_avatar": after.display_avatar.url, "type": "members" })
         
-        if before.nick != after.nick:
-            before_nick = before.nick or before.global_name
-            after_nick = after.nick or after.global_name
-            logger.warning("Пользователь <@%d> изменил никнейм!\n `%s` **->** `%s`",
-                           after.id, before_nick, after_nick,
+        if before.display_name != after.display_name:
+            logger.warning("Пользователь <@%d> изменяет никнейм!\n `%s` **->** `%s`",
+                           after.id, before.display_name, after.display_name,
                            extra={ "user_avatar": after.display_avatar.url, "type": "members" })

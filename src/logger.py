@@ -1,9 +1,10 @@
+import json
 import logging
-from requests import post
+from requests import post, exceptions
 
 from src import settings
 from src.utils._time import current_time
-from src.utils._exceptions import LogWebhooksNotSetException
+from src.utils._exceptions import LoggerException
 
 
 embed_colors = {
@@ -30,6 +31,7 @@ log_webhooks = {
     "ticket": "tickets_webhook_url",
     "members": "members_webhook_url",
     "guild": "guild_webhook_url",
+    "voice": "voice_webhook_url",
     "else": "else_webhook_url",
 }
 
@@ -42,20 +44,31 @@ class DiscordHandler(logging.Handler):
         from src.config import cfg
         params = record.__dict__
 
-        data = { "embeds": [{
-                    "description": f"# {embed_titles[record.levelname]}\n\n{self.format(record)}",
-                    "thumbnail": { "url": params.get("user_avatar", None) },
-                    "footer": { "text": current_time().strftime("%d %B %Y — %H:%M") },
-                    "color": embed_colors[record.levelname],
+        data = { "embeds": 
+            [{
+                "description": f"## {embed_titles[record.levelname]}\n\n{self.format(record)}",
+                "thumbnail": { "url": params.get("user_avatar", None) },
+                "footer": { "text": current_time().strftime("%d %B %Y — %H:%M") },
+                "color": embed_colors[record.levelname],
             }] }
+        files = {}
+        for l_file in params.get("files", []):
+            if l_file: files[l_file.filename] = l_file.fp
 
-        try:
+        try:        
             webhook_url = getattr(cfg.webhooks_cfg(
                 params.get("guild_id", cfg.base_guild_id)),
                 log_webhooks[params.get("type", "else")])
-            post(webhook_url, json=data)
-        except:
-            print("используй /config")
+            post(webhook_url, data={"payload_json": json.dumps(data)})
+            if files:
+                post(webhook_url, files=files)
+
+        except exceptions.MissingSchema as e:
+            print("Параметры вебхуков для логов не были правильно настроены.\n"
+                "Используйте /config или введите их вручную в 'src/manual_config.py'")
+
+        except Exception as e:
+            raise LoggerException(str(e))
 
 
 def get_logger() -> logging.Logger:

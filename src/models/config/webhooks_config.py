@@ -11,6 +11,7 @@ class WebhooksConfig(BaseConfig):
     tickets_webhook_url: str | None = None
     guild_webhook_url: str | None = None
     members_webhook_url: str | None = None
+    voice_webhook_url: str | None = None
     else_webhook_url: str | None = None
 
     def to_dict(self) -> dict:
@@ -21,5 +22,6 @@ class WebhooksConfig(BaseConfig):
             "ticketsWebhookUrl": self.tickets_webhook_url,
             "guildWebhookUrl": self.guild_webhook_url,
             "membersWebhookUrl": self.members_webhook_url,
+            "voiceWebhookUrl": self.voice_webhook_url,
             "elseWebhookUrl": self.else_webhook_url
         }

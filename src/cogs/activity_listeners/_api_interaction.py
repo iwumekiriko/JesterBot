@@ -38,7 +38,7 @@ async def add_coins(member: mdlMember) -> None:
                                     f"Status code: {response.status}. Error: {error_message}")
             
 
-async def add_voice_time(member: dsMember, seconds: int) -> None:
+async def add_voice_time(member: dsMember, seconds: int) -> mdlMember:
     user_id = member.id
     guild_id = member.guild.id
 
@@ -46,7 +46,10 @@ async def add_voice_time(member: dsMember, seconds: int) -> None:
         async with session.put(
             PATH_TO_API + f"Members/VoiceTime/{guild_id}/{user_id}/update?seconds={seconds}", ssl=False
         ) as response:
-            if not response.status == 200:
+            if response.status == 200:
+                json_data = await response.json()
+                return mdlMember(**json_camel_to_snake(json_data))
+            else:
                 error_message = await response.text()
                 raise BaseException("Members API [VoiceTime] is not responding. "
                                     f"Status code: {response.status}. Error: {error_message}")

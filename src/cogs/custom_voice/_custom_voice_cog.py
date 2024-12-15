@@ -65,7 +65,7 @@ class CustomVoiceCog(commands.Cog):
             await member.move_to(custom_channel)
         except:
             logger.warning("Не удалось перенести пользователя <@%d> в кастомный войс канал.",
-                            member.id, extra={"user_avatar": user_avatar(jester=True)})
+                            member.id, extra={"user_avatar": user_avatar(jester=True), "type": "voice"})
 
     async def _check_for_delete(
         self,
@@ -96,12 +96,12 @@ class CustomVoiceCog(commands.Cog):
                 await channel.delete()
             except:
                 logger.warning("Попытка удалить кастомный войс [%s] (id: %d) канал прошла неудачно.",
-                                channel.jump_url, channel.id,
-                               extra={"user_avatar": user_avatar(jester=True)})
+                               channel.jump_url, channel.id,
+                               extra={"user_avatar": user_avatar(jester=True), "type": "voice"})
 
         task = asyncio.create_task(delete_channel(before_channel))
-        logger.debug("Голосовой канал [%s] удалится через %d секунд",
-                     before_channel.jump_url, CUSTOM_VOICE_DELETE_TIME,
+        logger.debug("Голосовой канал [%s | %s] удалится через %d секунд",
+                     before_channel.jump_url, before_channel.name, CUSTOM_VOICE_DELETE_TIME,
                      extra={"user_avatar": user_avatar(jester=True)})
         self._delete_timers[before_channel.id] = task
         
@@ -114,5 +114,6 @@ class CustomVoiceCog(commands.Cog):
 
         self._delete_timers[after_channel.id].cancel()
         del self._delete_timers[after_channel.id]
-        logger.debug("Голосовой канал [%s] больше не подлежит тотальному уничтожению!!!!", after_channel.jump_url,
-                        extra={"user_avatar": user_avatar(jester=True)})
+        logger.debug("Голосовой канал [%s | %s] больше не подлежит тотальному уничтожению!!!!",
+                        after_channel.jump_url, after_channel.name,
+                        extra={"user_avatar": user_avatar(jester=True), "type": "voice"})

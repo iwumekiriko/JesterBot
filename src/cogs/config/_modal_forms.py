@@ -10,6 +10,9 @@ from src.models.config import *
 _ = get_localizator("config_modals")
 
 
+FIELDS_PER_PAGE = 5
+
+
 async def experience_cfg_modal_form(
     interaction: MessageCommandInteraction,
     base_exp_for_message: int | None = 3,
@@ -28,7 +31,8 @@ async def experience_cfg_modal_form(
         placeholder="exp_for_voice_minute",
         required=False
     )
-    components=[exp_for_message, exp_for_voice_minute]
+    components_data = [exp_for_message, exp_for_voice_minute]
+    components = _page_components(components_data, page)
     data = await BaseModal(
         _("experience_cfg_modal"),
         components=components,
@@ -63,13 +67,43 @@ async def roles_cfg_modal_form(
         placeholder="developer_role_id",
         required=False
     )
-    components = [support_role_id, moderator_role_id, developer_role_id]
+    components_data = [support_role_id, moderator_role_id, developer_role_id]
+    components = _page_components(components_data, page)
     data = await BaseModal(
         _("roles_cfg_modal"),
         components=components,
         interaction=interaction
     ).receive_data()
     await set_local_cfg(_make_data(components, data), RolesConfig)
+    return data[0]
+
+
+async def channels_cfg_modal_form(
+    interaction: MessageCommandInteraction,
+    base_general_channel_id: int | None = 0,
+    base_offtop_channel_id: int | None = 0,
+    page: int = 0
+):
+    general_channel_id = ModalTextInput(
+        label=_("general_channel_id_input"),
+        value=str(base_general_channel_id),
+        placeholder="general_channel_id",
+        required=False
+    )
+    offtop_channel_id = ModalTextInput(
+        label=_("offtop_channel_id_input"),
+        value=str(base_offtop_channel_id),
+        placeholder="offtop_channel_id",
+        required=False
+    )
+    components_data = [general_channel_id, offtop_channel_id]
+    components = _page_components(components_data, page)
+    data = await BaseModal(
+        _("channels_cfg_modal"),
+        components=components,
+        interaction=interaction
+    ).receive_data()
+    await set_local_cfg(_make_data(components, data), ChannelsConfig)
     return data[0]
 
 
@@ -98,7 +132,8 @@ async def tickets_cfg_modal_form(
         placeholder="ticket_report_channel_id",
         required=False
     )
-    components=[ticket_channel_id, ticket_message_id, ticket_report_channel_id]
+    components_data = [ticket_channel_id, ticket_message_id, ticket_report_channel_id]
+    components = _page_components(components_data, page)
     data = await BaseModal(
         _("tickets_cfg_modal"),
         components=components,
@@ -133,11 +168,11 @@ async def voice_cfg_modal_form(
         placeholder="custom_voice_deletion_time",
         required=False
     )
-    components=[
+    components_data = [
             custom_voice_creation_channel_id,
             custom_voice_category_id,
-            custom_voice_deletion_time
-        ]
+            custom_voice_deletion_time]
+    components = _page_components(components_data, page)
     data = await BaseModal(
         _("voice_cfg_modal"),
         components=components,
@@ -149,12 +184,13 @@ async def voice_cfg_modal_form(
 
 async def webhooks_cfg_modal_form(
     interaction: MessageCommandInteraction,
-    base_command_interactions_webhook_url: int | None = 0,
-    base_messages_webhook_url: int | None = 0,
-    base_tickets_webhook_url: int | None = 0,
-    base_guild_webhook_url: int | None = 0,
-    base_members_webhook_url: int | None = 0,
-    base_else_webhook_url: int | None = 0,
+    base_command_interactions_webhook_url: str | None = "",
+    base_messages_webhook_url: str | None = "",
+    base_tickets_webhook_url: str | None = "",
+    base_guild_webhook_url: str | None = "",
+    base_members_webhook_url: str | None = "",
+    base_voice_webhook_url: str | None = "",
+    base_else_webhook_url: str | None = "",
     page: int = 0
 ):
     command_interactions_webhook_url = ModalTextInput(
@@ -192,6 +228,13 @@ async def webhooks_cfg_modal_form(
         placeholder="members_webhook_url",
         required=False
     )
+    voice_webhook_url = ModalTextInput(
+        label=_("voice_webhook_url_input"),
+        value=str(base_voice_webhook_url),
+        style=TextInputStyle.long,
+        placeholder="voice_webhook_url",
+        required=False
+    )
     else_webhook_url = ModalTextInput(
         label=_("else_webhook_url_input"),
         value=str(base_else_webhook_url),
@@ -199,14 +242,15 @@ async def webhooks_cfg_modal_form(
         placeholder="else_webhook_url",
         required=False
     )
-    components=[
+    components_data = [
             command_interactions_webhook_url,
             messages_webhook_url,
             tickets_webhook_url,
             guild_webhook_url,
             members_webhook_url,
-            else_webhook_url
-        ][page*5:page+5]
+            voice_webhook_url,
+            else_webhook_url]
+    components = _page_components(components_data, page)
     data = await BaseModal(
         _("webhooks_cfg_modal"),
         components=components,
@@ -223,3 +267,8 @@ def _make_data(components: list, data: Any) -> dict:
     cfg_data["guild_id"] = data[0].guild.id
     return cfg_data
     
+
+def _page_components(components: list, page: int) -> list:
+    start_index = page * FIELDS_PER_PAGE
+    end_index = min(start_index + FIELDS_PER_PAGE, len(components))
+    return components[start_index:end_index]
