@@ -24,31 +24,25 @@ class UserInteractionsCog(commands.Cog):
     def __init__(self, bot: JesterBot):
         self.bot = bot
 
-    @commands.slash_command()
+    @commands.slash_command(description=_("user_interaction_desc"))
     async def user_interaction(
         self,
         interaction: disnake.GuildCommandInteraction,
-        member: disnake.Member=commands.Param(converter=inter_member),
-        choice=commands.Param(
-            choices={choice.translated_name: choice for choice in InteractionChoices}),
-        type=commands.Param(
-            choices={type.translated_name: type for type in InteractionType})
+        member: disnake.Member = commands.Param(
+            converter=inter_member, description=_("user_interaction_member_param")),
+        action = commands.Param(
+            choices={choice.translated_name: choice for choice in InteractionChoices},
+            description=_("user_interaction_action_param")),
+        type = commands.Param(
+            choices={type.translated_name: type for type in InteractionType},
+            description=_("user_interaction_type_param"))
     ) -> None:
-        """
-        Взаимодействуйте с пользователем
-
-        Parameters
-        ----------
-        member: Участник, с которым вы хотите взаимодействовать
-        choice: Действие, которое вы хотите сделать
-        type: Стилизация гиф картинки
-        """
         await interaction.response.send_message(
             content=member.mention,
             embed=BaseEmbed(
-                description=_(choice,
+                description=_(action,
                             command_user=interaction.user.id,
                             command_target=member.id)
-            ).set_image(await get_gif(choice, type, limit=limits[choice])))
+            ).set_image(await get_gif(action, type, limit=limits[action])))
 
 

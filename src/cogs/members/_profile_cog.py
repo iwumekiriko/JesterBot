@@ -17,11 +17,12 @@ class ProfileCog(commands.Cog):
     def __init__(self, bot: JesterBot) -> None:
         self.bot = bot
 
-    @commands.slash_command()
+    @commands.slash_command(description=_("profile_desc"))
     async def profile(
         self,
         interaction: disnake.GuildCommandInteraction,
-        member: disnake.Member=commands.Param(converter=bot_excluding, default=None) 
+        member: disnake.Member=commands.Param(
+            converter=bot_excluding, default=None, description=_("profile_member_param")) 
     ) -> None:
         await interaction.response.defer()
 
