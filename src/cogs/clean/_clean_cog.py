@@ -26,7 +26,7 @@ class CleanCog(commands.Cog):
     async def clean(
         self,
         interaction: disnake.GuildCommandInteraction,
-        amount: int = commands.Param(default=None, description=_("clean_amount_param")),
+        amount: int = commands.Param(default=20, description=_("clean_amount_param")),
         member: disnake.Member = commands.Param(converter=is_member, default=None, description=_("clean_member_param")),
         time = commands.Param(
             choices={choice.translated_name: choice for choice in TimeChoices}, default=None, description=_("clean_time_param")),
