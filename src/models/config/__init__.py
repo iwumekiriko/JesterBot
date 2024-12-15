@@ -3,6 +3,7 @@ from .roles_config import RolesConfig
 from .tickets_config import TicketsConfig
 from .voice_config import VoiceConfig
 from .webhooks_config import WebhooksConfig
+from .shop_config import ShopConfig
 
 
 __all__ = (
@@ -10,5 +11,6 @@ __all__ = (
     'RolesConfig',
     'TicketsConfig',
     'VoiceConfig',
-    'WebhooksConfig'
+    'WebhooksConfig',
+    'ShopConfig'
 )   

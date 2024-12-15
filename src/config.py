@@ -41,7 +41,8 @@ class Config:
                                         RolesConfig,
                                         TicketsConfig,
                                         VoiceConfig,
-                                        WebhooksConfig]
+                                        WebhooksConfig,
+                                        ShopConfig]
         
         for guild in bot.guilds:
             _local_cfg = {}
