@@ -1,10 +1,5 @@
-# type: ignore
-
 import asyncio
 import functools
-import threading
-import time
-from typing import Callable, Awaitable
 
 from src.logger import get_logger
 

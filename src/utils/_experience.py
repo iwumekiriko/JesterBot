@@ -48,10 +48,10 @@ def is_new_lvl(member: Member, type: str) -> bool:
     if not received_exp:
         return False
 
-    exp_before = member.experience
-    exp_after = member.experience + int(received_exp)
+    exp_before = member.experience - int(received_exp)
+    exp_now = member.experience
 
     level_before = get_level_from_exp(exp_before)
-    level_after = get_level_from_exp(exp_after)
+    level_after = get_level_from_exp(exp_now)
 
     return level_before < level_after
