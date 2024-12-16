@@ -3,7 +3,7 @@ import disnake
 from disnake.ext import commands
 
 from src.bot import JesterBot
-from ._api_interaction import add_voice_time
+from ._api_interaction import add_voice_time, add_coins
 from src.logger import get_logger
 from src.utils._tasks import loop1
 from src.utils._experience import is_new_lvl
@@ -82,4 +82,5 @@ class VoiceActivityListenerCog(commands.Cog):
         if is_lvled:
             from src.config import cfg
             offtop_id = cfg.channels_cfg(member.guild.id).offtop_channel_id or 0
+            await add_coins(member_data)
             await send_reward_message(member_data, offtop_id)
