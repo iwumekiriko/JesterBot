@@ -3,7 +3,7 @@ import random
 
 from ._interactions_choice import InteractionChoices, InteractionType
 from src.settings import TENOR_API_KEY
-from src.utils._exceptions import BaseException
+from src.utils._exceptions import CustomException
 
 
 async def get_gif(
@@ -25,5 +25,5 @@ async def get_gif(
                 return json_response['results'][random.randint(0, limit-1)]['media_formats']['gif']['url']
             else:
                 error_message = await response.text()
-                raise BaseException("Tenor API is not responding. "
+                raise CustomException("Tenor API is not responding. "
                                     f"Status code: {response.status}. Error: {error_message}")

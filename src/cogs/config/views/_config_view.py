@@ -3,11 +3,11 @@ from typing import Optional, Callable
 
 from src.localization import get_localizator
 from src.logger import get_logger
-from src.utils._views import BaseView
+from src.utils.ui._views import BaseView
 from .._modal_forms import *
 from src.config import cfg
 from src.models.config.base_config import BaseConfig
-from src.utils._embeds import BaseEmbed
+from src.utils.ui._embeds import BaseEmbed
 
 
 logger = get_logger()
@@ -52,7 +52,7 @@ class ConfigView(BaseView):
 
         for field, value in (
             (fields := list(vars(cfg).items()))
-            [(start:=page*5+1):min(start+5+1, len(fields))]
+            [(start:=page*5+2):min(start+5, len(fields))]
         ):
             if isinstance(value, str) and len(value) > 40:
                 value = f"{value[:35]}...{value[-5:]}"
@@ -113,7 +113,7 @@ class ChangeCfgButton(disnake.ui.Button):
     ) -> None:
         view = self.view
         cfg = view.current_cfg[0]
-        params = {f"base_{k}": v for k, v in vars(cfg).items() if k != 'guild_id'}
+        params = {f"base_{k}": v for k, v in vars(cfg).items() if k not in ['guild_id', 'guild']}
         inter: disnake.ModalInteraction | None = (
             await view.config_modals[cfg.short_name]
             (interaction, **params, page=view.current_cfg[1]))

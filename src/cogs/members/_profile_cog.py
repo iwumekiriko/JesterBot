@@ -4,13 +4,13 @@ from disnake.ext import commands
 from src.bot import JesterBot
 from src.utils._convertes import bot_excluding
 from ._api_interaction import get_member
-from src.utils._embeds import BaseEmbed
+from src.utils.ui import BaseEmbed
 from src.localization import get_localizator
 from src.utils._experience import get_level_from_exp
 from src.utils._time import seconds_to_hms
 
 
-_ = get_localizator("profile")
+_ = get_localizator("members-profile")
 
 
 class ProfileCog(commands.Cog):
@@ -29,13 +29,14 @@ class ProfileCog(commands.Cog):
         guild = interaction.guild
         if not member:
             member = interaction.author
+        await self.bot.sync_user_in_vc(member)
 
         member_data = await get_member(guild.id, member.id)
         await interaction.followup.send(
             embed = BaseEmbed(
-                title = _("profile_embed_title", username=member.display_name),
+                title = _("members_profile_embed_title", username=member.display_name),
                 description = _(
-                    "profile_embed_desc",
+                    "members_profile_embed_desc",
                     exp=member_data.experience,
                     coins=member_data.coins,
                     level=get_level_from_exp(member_data.experience), # type: ignore

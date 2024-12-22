@@ -2,7 +2,7 @@ from disnake import MessageCommandInteraction, TextInputStyle
 from typing import Any
 
 from src.localization import get_localizator
-from src.utils._modals import ModalTextInput, BaseModal
+from src.utils.ui import ModalTextInput, BaseModal
 from ._api_interaction import set_local_cfg
 from src.models.config import *
 

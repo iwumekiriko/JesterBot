@@ -27,18 +27,7 @@ class BaseEmbed(disnake.Embed):
         )
 
 
-class TicketEmbed(BaseEmbed):
-    def __init__(
-        self, **kwargs
-    ) -> None:
-        super().__init__(
-            title = kwargs.get('title'),
-            description = kwargs.get('description'),
-            color=0xe91e63
-        )
-
-
-class ExceptionEmbed(disnake.Embed):
+class ExceptionEmbed(BaseEmbed):
     def __init__(
         self, message: str
     ) -> None:
@@ -46,15 +35,4 @@ class ExceptionEmbed(disnake.Embed):
             title=_("exception_title"),
             description=message,
             color=0xe74c3c
-        )
-
-
-class EvalEmbed(disnake.Embed):
-    def __init__(
-        self, **kwargs
-    ) -> None:
-        super().__init__(
-            title = kwargs.get('title'),
-            description = kwargs.get('description'),
-            color=0xd8bfd8
         )

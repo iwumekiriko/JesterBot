@@ -2,11 +2,10 @@ import disnake
 from disnake.ext import commands
 
 from src.bot import JesterBot
-from .views._ticket_creation_view import TicketCreationView
+from .views import TicketCreationView
 from src.utils._convertes import user_avatar
 from src.logger import get_logger
 from ._api_interaction import set_ticket_message
-from src.models.config import TicketsConfig
 
 
 logger = get_logger()

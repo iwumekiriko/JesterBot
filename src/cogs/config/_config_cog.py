@@ -4,7 +4,7 @@ from disnake.ext import commands
 from src.bot import JesterBot
 from src.models.config import *
 from src.utils._permissions import for_admins
-from .views._config_view import ConfigView
+from .views import ConfigView
 from src.localization import get_localizator
 
 

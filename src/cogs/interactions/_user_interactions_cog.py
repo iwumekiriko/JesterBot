@@ -5,7 +5,7 @@ from src.bot import JesterBot
 from src.utils._convertes import inter_member
 from ._interactions_choice import InteractionChoices, InteractionType
 from src.localization import get_localizator
-from src.utils._embeds import BaseEmbed
+from src.utils.ui import BaseEmbed
 from ._api_interaction import get_gif
 
 

@@ -5,7 +5,6 @@ from .base_config import BaseConfig
 
 @dataclass
 class WebhooksConfig(BaseConfig):
-    guild_id: int
     command_interactions_webhook_url: str | None = None
     messages_webhook_url: str | None = None
     tickets_webhook_url: str | None = None

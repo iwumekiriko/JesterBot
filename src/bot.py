@@ -5,8 +5,8 @@ from datetime import datetime
 from src._cog_manager import CogManager
 from src.logger import get_logger
 from src.localization import get_localizator
-from src.utils._exceptions import BaseException
-from src.utils._embeds import ExceptionEmbed
+from src.utils._exceptions import CustomException
+from src.utils.ui import ExceptionEmbed
 from src import settings
 
 
@@ -46,12 +46,19 @@ class JesterBot(commands.Bot):
     async def _sync_voice_users(self) -> None:
         if not settings.API_REQUIRED:
             return
-        
+
         cog = self.get_cog("VoiceActivityListenerCog")
         for guild in self.guilds:
             for voice_channel in guild.voice_channels:
                 for member in voice_channel.members:
                     cog.count_user(member) # type: ignore
+
+    async def sync_user_in_vc(self, member: disnake.Member):
+        if not member.voice:
+            return
+        
+        cog = self.get_cog("VoiceActivityListenerCog")
+        await cog.sync_user_in_vc(member) # type: ignore
 
     def load_cogs(self) -> None:
         _cog_mngr = CogManager(settings.COGS_PATH)
@@ -66,7 +73,7 @@ class JesterBot(commands.Bot):
         await self._on_application_command_error_handler(
             interaction, exception
         )
-        
+ 
     async def on_user_command_error(
         self,
         interaction: disnake.ApplicationCommandInteraction,
@@ -75,7 +82,7 @@ class JesterBot(commands.Bot):
         await self._on_application_command_error_handler(
             interaction, exception
         )
-        
+
     async def on_message_command_error(
         self,
         interaction: disnake.ApplicationCommandInteraction,
@@ -84,7 +91,7 @@ class JesterBot(commands.Bot):
         await self._on_application_command_error_handler(
             interaction, exception
         )
-        
+
     async def _on_application_command_error_handler(
         self,
         interaction: disnake.ApplicationCommandInteraction,
@@ -92,7 +99,7 @@ class JesterBot(commands.Bot):
     ) -> None:
         if isinstance(exception, commands.CommandNotFound):
             return
-        if isinstance(exception, BaseException):
+        if isinstance(exception, CustomException):
             await interaction.response.send_message(
                 embed=ExceptionEmbed(str(exception)),
                 ephemeral=True

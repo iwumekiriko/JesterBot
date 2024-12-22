@@ -1,7 +1,7 @@
 from typing import Callable, Optional
 import disnake
 
-from src.utils._embeds import BaseEmbed
+from ..embeds import TicketEmbed
 from .._modal_forms import (
     bot_modal_form,
     moderator_modal_form,
@@ -30,7 +30,7 @@ class TicketCreationView(disnake.ui.View):
         self.add_item(OpenTicketSelect(self.ticket_options))
 
     def create_embed(self) -> disnake.Embed:
-        return BaseEmbed(
+        return TicketEmbed(
             title = _("ticket_embed_title"),
             description = _("ticket_embed_description")
         )

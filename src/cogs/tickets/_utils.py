@@ -1,10 +1,9 @@
 import disnake
 
-from .views._ticket_thread_view import TicketThreadView
-from .classes._thread_classification import ThreadClassification
+from .embeds import TicketEmbed
+from .classes import ThreadClassification
 from src.models import Ticket
 from ._api_interaction import ticket_create
-from src.utils._embeds import TicketEmbed
 from src.localization import get_localizator
 
 
@@ -51,6 +50,8 @@ async def _send_ticket(
     ticket: Ticket,
     user_avatar: str
 ) -> None:
+    from .views import TicketThreadView
+    
     message = await thread.send(
             content=f"<@{ticket.user_id}> <@&{type.get_role_id(thread.guild.id)}>",
             embed = TicketEmbed(

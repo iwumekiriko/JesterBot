@@ -5,7 +5,6 @@ from disnake.ext import commands
 from src.logger import get_logger
 from src.bot import JesterBot
 from src.utils._convertes import user_avatar
-from src.models.config import VoiceConfig
 
 
 logger = get_logger()
@@ -28,7 +27,7 @@ class CustomVoiceCog(commands.Cog):
     ) -> None:
         if member.bot:
             return
-        
+
         if isinstance(after.channel, disnake.VoiceChannel):
             await self._check_for_custom_voice(member, after.channel)
             await self._check_for_timer_stop(after.channel)
@@ -36,14 +35,13 @@ class CustomVoiceCog(commands.Cog):
         if isinstance(before.channel, disnake.VoiceChannel):
             await self._check_for_delete(before.channel)
 
-    
+
     async def _check_for_custom_voice(
         self,
         member: disnake.Member,
         channel: disnake.VoiceChannel
     ) -> None:
         from src.config import cfg
-        
 
         guild_id = channel.guild.id
         voice_cfg = cfg.voice_cfg(guild_id)
@@ -52,11 +50,11 @@ class CustomVoiceCog(commands.Cog):
 
         if channel.id != CUSTOM_VOICE_CREATION_CHANNEL_ID:
             return
-        
+
         voice_category = channel.category
         if not voice_category:
             return
-        
+
         custom_channel = await voice_category.create_voice_channel(
             name = f"Канал {member.name}")
         await custom_channel.set_permissions(
@@ -83,10 +81,10 @@ class CustomVoiceCog(commands.Cog):
 
         if before_channel.category and not before_channel.category.id == CUSTOM_VOICE_CATEGORY_ID:
             return
-        
+
         if before_channel.id == CUSTOM_VOICE_CREATION_CHANNEL_ID:
             return
-        
+
         if before_channel.members:
             return
 
@@ -95,16 +93,16 @@ class CustomVoiceCog(commands.Cog):
             try:
                 await channel.delete()
             except:
-                logger.warning("Попытка удалить кастомный войс [%s] (id: %d) канал прошла неудачно.",
-                               channel.jump_url, channel.id,
-                               extra={"user_avatar": user_avatar(jester=True), "type": "voice"})
+                logger.debug("Попытка удалить кастомный войс [%s | %s] канал прошла неудачно.",
+                               channel.jump_url, channel.name,
+                               extra={"user_avatar": user_avatar(jester=True), "type": "else"})
 
         task = asyncio.create_task(delete_channel(before_channel))
         logger.debug("Голосовой канал [%s | %s] удалится через %d секунд",
                      before_channel.jump_url, before_channel.name, CUSTOM_VOICE_DELETE_TIME,
                      extra={"user_avatar": user_avatar(jester=True)})
         self._delete_timers[before_channel.id] = task
-        
+
     async def _check_for_timer_stop(
         self,
         after_channel: disnake.VoiceChannel
@@ -116,4 +114,4 @@ class CustomVoiceCog(commands.Cog):
         del self._delete_timers[after_channel.id]
         logger.debug("Голосовой канал [%s | %s] больше не подлежит тотальному уничтожению!!!!",
                         after_channel.jump_url, after_channel.name,
-                        extra={"user_avatar": user_avatar(jester=True), "type": "voice"})
+                        extra={"user_avatar": user_avatar(jester=True), "type": "else"})

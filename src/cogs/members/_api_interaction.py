@@ -13,7 +13,7 @@ logger = get_logger()
 async def get_member(guild_id: int, user_id: int) -> Member:
     async with aiohttp.ClientSession() as session:
         async with session.get(
-            PATH_TO_API + f"Members/Get/{guild_id}/{user_id}", ssl=False
+            PATH_TO_API + f"Members/{guild_id}/{user_id}", ssl=False
         ) as response:
             if response.status == 200:
                 json_data = await response.json()
@@ -24,15 +24,10 @@ async def get_member(guild_id: int, user_id: int) -> Member:
                                     f"Status code: {response.status}. Error: {error_message}")
             
 
-async def member_joined(member: Member) -> None:
-    member.is_active = True
-    member_data = json.dumps(member.to_on_guild())
-    headers = {'Content-Type': 'application/json'}
-
+async def member_joined(guild_id: int, user_id: int) -> None:
     async with aiohttp.ClientSession() as session:
         async with session.put(
-            PATH_TO_API + "Members/OnGuild",
-            data=member_data, ssl=False, headers=headers
+            PATH_TO_API + f"Members/{guild_id}/{user_id}/join", ssl=False
         ) as response:
             if not response.status == 200:
                 error_message = await response.text()
@@ -40,15 +35,10 @@ async def member_joined(member: Member) -> None:
                                     f"Status code: {response.status}. Error: {error_message}")
             
 
-async def member_left(member: Member) -> None:
-    member.is_active = False
-    member_data = json.dumps(member.to_on_guild())
-    headers = {'Content-Type': 'application/json'}
-
+async def member_left(guild_id: int, user_id: int) -> None:
     async with aiohttp.ClientSession() as session:
         async with session.put(
-            PATH_TO_API + "Members/OnGuild",
-            data=member_data, ssl=False, headers=headers
+            PATH_TO_API + f"Members/{guild_id}/{user_id}/leave", ssl=False
         ) as response:
             if not response.status == 200:
                 error_message = await response.text()
@@ -57,12 +47,14 @@ async def member_left(member: Member) -> None:
             
 
 async def update_member(member: Member) -> None:
+    guild_id = member.guild_id
+    user_id = member.user_id
     member_data = json.dumps(member.to_update())
     headers = {'Content-Type': 'application/json'}
 
     async with aiohttp.ClientSession() as session:
         async with session.put(
-            PATH_TO_API + "Members/Update",
+            PATH_TO_API + f"Members/{guild_id}/{user_id}/update",
             data=member_data, ssl=False, headers=headers
         ) as response:
             if not response.status == 200:

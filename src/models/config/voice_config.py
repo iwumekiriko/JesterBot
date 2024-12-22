@@ -5,7 +5,6 @@ from .base_config import BaseConfig
 
 @dataclass
 class VoiceConfig(BaseConfig):
-    guild_id: int
     custom_voice_creation_channel_id: int | None = None
     custom_voice_category_id: int | None = None
     custom_voice_deletion_time: int | None = None

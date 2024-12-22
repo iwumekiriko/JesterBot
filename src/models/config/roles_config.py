@@ -5,7 +5,6 @@ from .base_config import BaseConfig
 
 @dataclass
 class RolesConfig(BaseConfig):
-    guild_id: int
     support_role_id: int | None = None
     moderator_role_id: int | None = None
     developer_role_id: int | None = None

@@ -1,7 +1,7 @@
 import disnake 
 from disnake.ext import commands
 
-from src.utils._embeds import EvalEmbed, ExceptionEmbed
+from .embeds import EvalEmbed, ExceptionEmbed
 
 
 class EvalCog(commands.Cog):

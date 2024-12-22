@@ -1,9 +1,12 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
+from ..guild import Guild
+
 @dataclass
 class BaseConfig(ABC):
     guild_id: int
+    guild: Guild | None = None
 
     @abstractmethod
     def to_dict(self) -> dict:

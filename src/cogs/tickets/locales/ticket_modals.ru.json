@@ -1,19 +1,13 @@
 {
     "ru": {
-        "problem_desc": "Описание проблемы",
-        "problem_placeholder": "Расскажи нам всё максимально подробно",
+        "tickets_problem_desc": "Описание проблемы",
+        "tickets_problem_placeholder": "Расскажи нам всё максимально подробно",
 
-        "offender_id": "Ник нарушителя",
-        "offender_placeholder": ".iwumekiriko",
+        "tickets_solution": "Закрыть тикет",
+        "tickets_solution_text": "Решение проблемы",
 
-        "command_name": "Название команды",
-        "command_placeholder": "/meow",
-
-        "solution": "Закрыть тикет",
-        "solution_text": "Решение проблемы",
-
-        "support_question": "Вопрос саппортам",
-        "moderation_offense": "Нарушение правил",
-        "bot_issue": "Проблемы с ботом"
+        "tickets_support_question": "Вопрос саппортам",
+        "tickets_moderation_offense": "Нарушение правил",
+        "tickets_bot_issue": "Проблемы с ботом"
     }
 }

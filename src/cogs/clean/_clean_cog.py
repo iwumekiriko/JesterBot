@@ -1,8 +1,6 @@
 import io
-import re
 import disnake
 from disnake.ext import commands
-from datetime import datetime
 
 from src.bot import JesterBot
 from src.utils._permissions import for_moders
@@ -33,7 +31,7 @@ class CleanCog(commands.Cog):
     ) -> None:
         channel = interaction.channel
         if not isinstance(channel, (disnake.abc.GuildChannel, disnake.Thread)):
-            raise commands.BadArgument(_("wrong_channel_type_error"))
+            raise commands.BadArgument(_("clean_wrong_channel_type_error"))
 
         try:
             await interaction.response.defer(ephemeral=True)

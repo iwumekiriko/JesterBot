@@ -3,14 +3,14 @@ from typing import Optional
 from src.localization import get_localizator
 
 
-_ = get_localizator()
+_ = get_localizator("exceptions")
 
 
-class BaseException(Exception):
-    """Base exception"""
+class CustomException(Exception):
+    """Base custom exception"""
 
 
-class ModalTimeoutException(BaseException):
+class ModalTimeoutException(CustomException):
     def __init__(self, message: Optional[str] = None) -> None:
         if message is None:
             message = _("modal_timeout_exception")
@@ -18,7 +18,7 @@ class ModalTimeoutException(BaseException):
         super().__init__(self.message)
 
 
-class LoggerException(BaseException):
+class LoggerException(CustomException):
     def __init__(self, message: str) -> None:
         self.message = message
         super().__init__(self.message)

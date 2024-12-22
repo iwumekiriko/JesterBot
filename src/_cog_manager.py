@@ -11,11 +11,14 @@ class CogManager:
         self._collect_cogs()
 
     def _collect_cogs(self) -> None:
-        for root, _, files in os.walk(self._root_dir):
-            if '__init__.py' in files:
-                relative_path = os.path.relpath(root, self._root_dir)
-                self._cogs.append(f"{self._cogs_dir}.{relative_path}.__init__")
-                load_locales(f"{self._root_dir}/{relative_path}/locales")
+        for entry in os.scandir(self._root_dir):
+            if entry.is_dir():
+                relative_path = os.path.relpath(entry.path, self._root_dir)
+                init_path = os.path.join(self._root_dir, relative_path, "__init__.py")
+                if os.path.exists(init_path):
+                    self._cogs.append(f"{self._cogs_dir}.{relative_path}.__init__")
+                    locales_path = os.path.join(self._root_dir, relative_path, "locales")
+                    load_locales(locales_path)
 
     @property
     def _cogs_dir(self) -> str:

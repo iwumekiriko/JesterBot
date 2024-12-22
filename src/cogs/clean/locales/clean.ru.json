@@ -2,7 +2,7 @@
     "ru": {
         "clean_desc": "Очистка сообщений в текущем канале",
 
-        "wrong_channel_type_error": "",
+        "clean_wrong_channel_type_error": "",
         "cleaned": "Успешно очищено %{count} %{p(сообщение|сообщения|сообщений)}",
         "cleaned_from": "Успешно очищено %{count} %{p(сообщение|сообщения|сообщений)} от пользователя <@%{member_id}>",
 

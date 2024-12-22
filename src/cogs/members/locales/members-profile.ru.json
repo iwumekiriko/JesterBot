@@ -1,0 +1,9 @@
+{
+    "ru": {
+        "profile_desc": "Проверить профиль пользователя",
+        "profile_member_param": "Пользователь, чей профиль вы хотите посмотреть",
+
+        "members_profile_embed_title": "Профиль пользователя | %{username}",
+        "members_profile_embed_desc": "Опыт: **%{exp}**\nУровень: **%{level}**\nКол-во сообщений: **%{messages}**\nМонетки: **%{coins}**\nВремя в войсе: **%{voice_time}**"
+    }
+}

@@ -1,9 +1,9 @@
 import disnake
 
 from src.localization import get_localizator
-from src.utils._views import BaseView
+from src.utils.ui import BaseView
 from .._api_interaction import ticket_start, ticket_close
-from src.utils._embeds import TicketEmbed
+from ..embeds import TicketEmbed
 from src.utils._convertes import user_avatar
 from src.utils._time import current_time
 

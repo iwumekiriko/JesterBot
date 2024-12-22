@@ -1,6 +1,8 @@
 from datetime import datetime
 from typing import Optional
 
+from .user import User
+
 
 class Ticket:
     def __init__(
@@ -14,6 +16,7 @@ class Ticket:
         type_problem: Optional[str] = None,
         moderator_id: Optional[int] = None,
         user_id: Optional[int] = None,
+        user: Optional[User] = None
     ) -> None:
         self._id = id
         self._date_close = date_close
@@ -24,6 +27,7 @@ class Ticket:
         self._type_problem = type_problem
         self._moderator_id = moderator_id
         self._user_id = user_id
+        self._user = user
     
     @property
     def id(self) -> Optional[int]:
@@ -72,6 +76,10 @@ class Ticket:
     @property
     def user_id(self) -> Optional[int]:
         return self._user_id
+    
+    @property
+    def user(self) -> Optional[User]:
+        return self._user
 
     def to_create(self) -> dict:
          return {

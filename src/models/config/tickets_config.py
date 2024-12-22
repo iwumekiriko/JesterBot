@@ -5,7 +5,6 @@ from .base_config import BaseConfig
 
 @dataclass
 class TicketsConfig(BaseConfig):
-    guild_id: int
     ticket_channel_id: int | None = None
     ticket_message_id: int | None = None
     ticket_report_channel_id: int | None = None

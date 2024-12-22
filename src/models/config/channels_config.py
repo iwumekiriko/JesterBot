@@ -5,7 +5,6 @@ from .base_config import BaseConfig
 
 @dataclass
 class ChannelsConfig(BaseConfig):
-    guild_id: int
     general_channel_id: int | None = None
     offtop_channel_id: int | None = None
 
