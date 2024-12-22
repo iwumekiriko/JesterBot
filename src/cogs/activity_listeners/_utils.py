@@ -2,11 +2,11 @@ import disnake
 
 from src.models import Member
 from src.utils._experience import get_level_from_exp
-from src.utils._embeds import BaseEmbed
+from src.utils.ui import BaseEmbed
 from src.localization import get_localizator
 
 
-_ = get_localizator("activity")
+_ = get_localizator("activity_listeners")
 
 
 REWARD_MESSAGE_DELETE_AFTER = 30
@@ -14,7 +14,8 @@ REWARD_MESSAGE_DELETE_AFTER = 30
 
 async def send_reward_message(
     member: Member,
-    channel: disnake.TextChannel | disnake.Thread | int
+    channel: disnake.TextChannel | disnake.Thread | int,
+    reward: int
 ) -> None:
     if not member.experience:
         return
@@ -33,11 +34,11 @@ async def send_reward_message(
 
     await guild_channel.send(content=f"<@{member.user_id}>",
         embed = BaseEmbed(
-            title=_("reward_embed_title"),
+            title=_("activity_listeners_reward_embed_title"),
             description=_(
-                "reward_embed_desc",
+                "activity_listeners_reward_embed_desc",
                 level_before=level_before,
                 level_after=level_after,
-                rewards=300
+                rewards=reward
             )
         ), delete_after=REWARD_MESSAGE_DELETE_AFTER )

@@ -45,6 +45,13 @@ class VoiceActivityListenerCog(commands.Cog):
     def count_user(self, member: disnake.Member):
         self._counter[member] = self._counter.get(member, time.time())
 
+    async def _sync_user(self, member: disnake.Member):
+        await self._add_time(member, int(time.time() - self._counter.pop(member)))
+
+    async def sync_user_in_vc(self, member: disnake.Member):
+        await self._sync_user(member)
+        self.count_user(member)
+
     @commands.Cog.listener()
     async def on_voice_state_update(
         self,
@@ -56,31 +63,30 @@ class VoiceActivityListenerCog(commands.Cog):
             return
         
         if before.channel is None and after.channel is not None:
-            logger.info("Пользователь <@%d> заходит в войс канал [%s | %s]",
-                        member.id, after.channel.jump_url, after.channel.name,
+            logger.info("Пользователь <@%d> заходит в войс канал [%s]",
+                        member.id, after.channel.jump_url,
                         extra={"user_avatar": member.display_avatar.url, "type": "voice"})
             self.count_user(member)
 
         elif before.channel is not None and after.channel is None:
-            logger.info("Пользователь <@%d> выходит из войс канала [%s | %s]",
-                        member.id, before.channel.jump_url, before.channel.name,
+            logger.info("Пользователь <@%d> выходит из войс канала [%s]",
+                        member.id, before.channel.jump_url,
                         extra={"user_avatar": member.display_avatar.url, "type": "voice"})
-            await self._add_time(member, int(time.time() - self._counter.pop(member)))
+            await self._sync_user(member)
 
         elif (before.channel is not None and after.channel is not None 
                 and before.channel != after.channel):
             logger.info("Пользователь <@%d> переходит в войс канал [%s] **->** [%s]",
                         member.id, before.channel.jump_url, after.channel.jump_url,
                         extra={"user_avatar": member.display_avatar.url, "type": "voice"})
-            await self._add_time(member, int(time.time() - self._counter.pop(member)))
-            self.count_user(member)
+            await self.sync_user_in_vc(member)
 
 
     async def _add_time(self, member: disnake.Member, seconds: int) -> None:
         member_data = await add_voice_time(member, seconds)
-        is_lvled = is_new_lvl(member_data, "voice")
+        is_lvled, coins = is_new_lvl(member_data, "voice")
         if is_lvled:
             from src.config import cfg
             offtop_id = cfg.channels_cfg(member.guild.id).offtop_channel_id or 0
-            await add_coins(member_data)
-            await send_reward_message(member_data, offtop_id)
+            await add_coins(member_data, coins)
+            await send_reward_message(member_data, offtop_id, coins)

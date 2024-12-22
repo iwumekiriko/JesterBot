@@ -5,12 +5,12 @@ from disnake.ext import commands
 from src.bot import JesterBot
 from src.localization import get_localizator
 from src.logger import get_logger
-from ._api_interaction import add_experience, add_coins
+from ._api_interaction import add_message_experience, add_coins
 from ._utils import send_reward_message
 from src.utils._experience import is_new_lvl
 from src.utils._text import prepare_block_text
 
-_ = get_localizator("activity")
+_ = get_localizator("activity_listeners")
 logger = get_logger()
 
 
@@ -25,14 +25,14 @@ class TextActivityListenerCog(commands.Cog):
 
         if not isinstance(author, disnake.Member):
             return
-        
+
         if (not isinstance(channel, disnake.TextChannel)
             and not isinstance(channel, disnake.Thread)):
             return
-        
+
         if author.bot:
             return
-        
+
         await _give_exp_for_message(author, channel)
         await self._check_for_reaction_messages(message)
 
@@ -63,7 +63,7 @@ class TextActivityListenerCog(commands.Cog):
     ) -> None:
         if before.author.bot:
             return
-        
+
         if before.content == after.content:
             return
 
@@ -72,12 +72,12 @@ class TextActivityListenerCog(commands.Cog):
             before.author.id, after.jump_url,
             prepare_block_text(before.content), prepare_block_text(after.content), after.id,
             extra={ "user_avatar": before.author.display_avatar.url, "type": "message" }) # type: ignore
-        
+
     @commands.Cog.listener()
     async def on_message_delete(self, message: disnake.Message) -> None:
         if message.author.bot:
             return
-        
+
         logger.warning(
             "Сообщение от <@%d> было удалено\n\n**Текст сообщения: \n**%s\n-# ID сообщения: %d",
             message.author.id, prepare_block_text(message.content), message.id,
@@ -88,7 +88,8 @@ async def _give_exp_for_message(
     author: disnake.Member,
     channel: disnake.TextChannel | disnake.Thread    
 ) -> None:
-    member = await add_experience(author)
-    if is_new_lvl(member, "message"):
-        await add_coins(member)
-        await send_reward_message(member, channel)
+    member = await add_message_experience(author)
+    is_lvled, coins =  is_new_lvl(member, "message")
+    if is_lvled:
+        await add_coins(member, coins)
+        await send_reward_message(member, channel, coins)

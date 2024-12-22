@@ -2,55 +2,55 @@ import aiohttp
 from disnake import Member as dsMember
 
 from src.settings import PATH_TO_API
-from src.utils._exceptions import BaseException
+from src.utils._exceptions import CustomException
 from src.utils._mapping import json_camel_to_snake
 from src.models import Member as mdlMember
 
 
-async def add_experience(member: dsMember) -> mdlMember:
-    user_id = member.id
+async def add_message_experience(member: dsMember) -> mdlMember:
     guild_id = member.guild.id
+    user_id = member.id
 
     async with aiohttp.ClientSession() as session:
         async with session.put(
-            PATH_TO_API + f"Members/Experience/{guild_id}/{user_id}/update/message", ssl=False
+            PATH_TO_API + f"Members/{guild_id}/{user_id}/message", ssl=False
         ) as response:
             if response.status == 200:
                 json_data = await response.json()
                 return mdlMember(**json_camel_to_snake(json_data))
             else:
                 error_message = await response.text()
-                raise BaseException("Members API [Experience] is not responding. "
+                raise CustomException("Members API [Experience] is not responding. "
                                     f"Status code: {response.status}. Error: {error_message}")
 
 
-async def add_coins(member: mdlMember) -> None:
-    user_id = member.user_id
+async def add_coins(member: mdlMember, coins: int) -> None:
     guild_id = member.guild_id
+    user_id = member.user_id
 
     async with aiohttp.ClientSession() as session:
         async with session.put(
-            PATH_TO_API + f"Members/Experience/{guild_id}/{user_id}/update/newLevel", ssl=False
+            PATH_TO_API + f"Members/{guild_id}/{user_id}/level?coins={coins}", ssl=False
         ) as response:
             if not response.status == 200:
                 error_message = await response.text()
-                raise BaseException("Members API [Experience] is not responding. "
+                raise CustomException("Members API [Experience] is not responding. "
                                     f"Status code: {response.status}. Error: {error_message}")
             
 
 async def add_voice_time(member: dsMember, seconds: int) -> mdlMember:
-    user_id = member.id
     guild_id = member.guild.id
+    user_id = member.id
 
     async with aiohttp.ClientSession() as session:
         async with session.put(
-            PATH_TO_API + f"Members/VoiceTime/{guild_id}/{user_id}/update?seconds={seconds}", ssl=False
+            PATH_TO_API + f"Members/{guild_id}/{user_id}/voice?seconds={seconds}", ssl=False
         ) as response:
             if response.status == 200:
                 json_data = await response.json()
                 return mdlMember(**json_camel_to_snake(json_data))
             else:
                 error_message = await response.text()
-                raise BaseException("Members API [VoiceTime] is not responding. "
+                raise CustomException("Members API [VoiceTime] is not responding. "
                                     f"Status code: {response.status}. Error: {error_message}")
                 
