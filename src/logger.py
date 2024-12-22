@@ -55,7 +55,7 @@ class DiscordHandler(logging.Handler):
         for l_file in params.get("files", []):
             if l_file: files[l_file.filename] = l_file.fp
 
-        try:        
+        try:
             webhook_url = getattr(cfg.webhooks_cfg(
                 params.get("guild_id", cfg.base_guild_id)),
                 log_webhooks[params.get("type", "else")])
@@ -63,9 +63,12 @@ class DiscordHandler(logging.Handler):
             if files:
                 post(webhook_url, files=files)
 
-        except exceptions.MissingSchema as e:
+        except exceptions.MissingSchema:
             print("Параметры вебхуков для логов не были правильно настроены.\n"
                 "Используйте /config или введите их вручную в 'src/manual_config.py'")
+            
+        except KeyError:
+            pass
 
         except Exception as e:
             raise LoggerException(str(e))
