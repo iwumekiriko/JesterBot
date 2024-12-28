@@ -44,7 +44,8 @@ class Config:
                                         ChannelsConfig,
                                         TicketsConfig,
                                         VoiceConfig,
-                                        WebhooksConfig]
+                                        WebhooksConfig,
+                                        ShopConfig]
         
         for guild in bot.guilds:
             _local_cfg = {}
@@ -88,6 +89,10 @@ class Config:
                 config.guild_webhook_url = GUILD_WEBHOOK_URL
                 config.members_webhook_url = MEMBERS_WEBHOOK_URL
                 config.else_webhook_url = ELSE_WEBHOOK_URL
+
+            case ShopConfig():
+                config.shop_channel_id = SHOP_CHANNEL_ID
+                config.shop_message_id = SHOP_MESSAGE_ID
             
         return config
 

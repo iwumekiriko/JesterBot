@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "jesterbot"
 version = "0.1.0"
-description = ""
+description = "cool description"
 authors = ["iwumekiriko <iwumekiriko@gmail.com>"]
 readme = "README.md"
 

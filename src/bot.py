@@ -36,6 +36,8 @@ class JesterBot(commands.Bot):
         if not self.persistent_views_added:
             from src.cogs.tickets.views._ticket_creation_view import TicketCreationView
             from src.cogs.tickets.views._ticket_thread_view import TicketThreadView
+            from src.cogs.shop.views._shop_creation_view import ShopCreationView
+            self.add_view(ShopCreationView())
             self.add_view(TicketCreationView())
             self.add_view(TicketThreadView())
             self.persistent_views_added = True
