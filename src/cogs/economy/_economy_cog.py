@@ -66,9 +66,8 @@ class EconomyCog(commands.Cog):
         self,
         interaction: disnake.GuildCommandInteraction,
     ) -> None:
-        member = interaction.member 
-        guild_id = member.guild.id 
-        user_id = member.id
+        guild_id = interaction.guild.id 
+        user_id = interaction.user.id
         await coins_(guild_id, user_id, 300)
         await interaction.response.send_message(_("economy-daily_response"))
         
