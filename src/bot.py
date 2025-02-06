@@ -25,20 +25,20 @@ class JesterBot(commands.Bot):
             command_sync_flags=command_sync_flags,
             command_prefix=["?", "::"]
         )
-        self.load_cogs()
-        self.persistent_views_added = False
+        self._load_cogs()
+        self.__persistent_views_added = False
 
     async def on_connect(self) -> None:
         from src.config import cfg
         await cfg.load()
 
     async def on_ready(self) -> None:
-        if not self.persistent_views_added:
+        if not self.__persistent_views_added:
             from src.cogs.tickets.views._ticket_creation_view import TicketCreationView
             from src.cogs.tickets.views._ticket_thread_view import TicketThreadView
             self.add_view(TicketCreationView())
             self.add_view(TicketThreadView())
-            self.persistent_views_added = True
+            self.__persistent_views_added = True
 
         await self._sync_voice_users()
         print(f"[{datetime.now().strftime('%c')}] {self.user}'s ready!")
@@ -99,9 +99,10 @@ class JesterBot(commands.Bot):
     ) -> None:
         if isinstance(exception, commands.CommandNotFound):
             return
-        if isinstance(exception, CustomException):
+        if (isinstance(exception, commands.CommandInvokeError)
+            and isinstance(exception.original, CustomException)):
             await interaction.response.send_message(
-                embed=ExceptionEmbed(str(exception)),
+                embed=ExceptionEmbed(str(exception.original)),
                 ephemeral=True
             )
         if isinstance(exception, commands.BadArgument):
@@ -127,7 +128,7 @@ class JesterBot(commands.Bot):
                 if option['name'] not in ["member", "участник"] else
                     f"-# {option['name'].upper()}: <@{option['value']}>"
                 for option in options
-            ])) if len(options) > 0 else ""
+            ])) if len(options) > 0 and options[0].value else ""
 
         logger.info(
             'Пользователь <@%d> использует команду </%s:%d> в канале <#%d>\n\n%s',
