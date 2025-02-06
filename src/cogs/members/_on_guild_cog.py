@@ -1,3 +1,4 @@
+from typing import Union
 import disnake
 from disnake.ext import commands
 
@@ -24,7 +25,9 @@ class OnGuildCog(commands.Cog):
         guild_id = member.guild.id
         user_id = member.id
         member_data = await get_member(guild_id, user_id)
-        logger.info("Новый участник [<@%d>] заходит на сервер!\n\n**Кол-во участников на сервере: **%d\n**Id пользователя:** %d",
+
+        logger.info("Новый участник [<@%d>] заходит на сервер!\n\n \
+                    **Кол-во участников на сервере: **%d\n**Id пользователя:** %d",
                      member.id, member.guild.member_count, user_id,
                      extra={ "user_avatar": member.display_avatar.url, "type": "guild" })
 
@@ -35,9 +38,10 @@ class OnGuildCog(commands.Cog):
     async def on_member_remove(self, member: disnake.Member) -> None:
         guild_id = member.guild.id
         user_id = member.id
-        member_data = await get_member(guild_id, user_id,)
+        member_data = await get_member(guild_id, user_id)
  
-        logger.info("Участник [<@%d>] покидает сервер.\n\n**Кол-во участников на сервере: **%d\n**Id пользователя:** %d\n**Присоединился: **<t:%d:F>",
+        logger.info("Участник [<@%d>] покидает сервер.\n\n\
+                    **Кол-во участников на сервере: **%d\n**Id пользователя:** %d\n**Присоединился: **<t:%d:F>",
                      member.id, member.guild.member_count, user_id, member.joined_at.timestamp(), # type: ignore
                      extra={ "user_avatar": member.display_avatar.url, "type": "guild" })
 
@@ -50,11 +54,33 @@ class OnGuildCog(commands.Cog):
         before: disnake.Member,
         after: disnake.Member
     ) -> None:
-        if before.display_avatar != after.display_avatar or before.display_avatar != after.avatar:
-            logger.warning("Пользователь <@%d> изменяет аватар!", after.id,
+        self._log(before, after)
+
+    @commands.Cog.listener()
+    async def on_user_update(
+        self,
+        before: disnake.User,
+        after: disnake.User
+    ) -> None:
+        self._log(before, after)
+
+    def _log(
+        self,
+        before: Union[disnake.Member, disnake.User],
+        after: Union[disnake.Member, disnake.User]
+    ) -> None:
+        match before:
+            case disnake.Member():
+                who = "участника"
+
+            case disnake.User():
+                who = "пользователя"
+
+        if (before.display_avatar != after.display_avatar):
+            logger.warning("Аватар %s <@%d> был изменён!", who, after.id,
                            extra={ "user_avatar": after.display_avatar.url, "type": "members" })
         
-        if before.display_name != after.display_name:
-            logger.warning("Пользователь <@%d> изменяет никнейм!\n `%s` **->** `%s`",
-                           after.id, before.display_name, after.display_name,
+        if (before.display_name != after.display_name):
+            logger.warning("Никнейм %s <@%d> был изменён!\n `%s` **->** `%s`",
+                           who, after.id, before.display_name, after.display_name,
                            extra={ "user_avatar": after.display_avatar.url, "type": "members" })
