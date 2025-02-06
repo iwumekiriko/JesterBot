@@ -1,6 +1,17 @@
+# .exe files
 *.exe
+
+# python cache
 __pycache__/
+
+# vs code properties
 .vscode/
+
+# secret keys
 .env
+
+# virtual enviroment
 venv/
+
+# logs folder
 logs/
