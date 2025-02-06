@@ -1,11 +1,11 @@
 import time
 import disnake
-from disnake.ext import commands
+from disnake.ext import commands, tasks
 
 from src.bot import JesterBot
-from ._api_interaction import add_voice_time, add_coins
+from ._api_interaction import add_voice_time
+from src.cogs.economy._api_interaction import coins_
 from src.logger import get_logger
-from src.utils._tasks import loop1
 from src.utils._experience import is_new_lvl
 from ._utils import send_reward_message
 
@@ -17,12 +17,12 @@ class VoiceActivityListenerCog(commands.Cog):
     def __init__(self, bot: JesterBot) -> None:
         self.bot = bot
         self._counter: dict[disnake.Member, float] = {}
+        self.sync.start()
 
-    @commands.Cog.listener()
-    async def on_ready(self) -> None:
-        self.sync.start(self) # type: ignore
+    def cog_unload(self) -> None:
+        self.sync.cancel()
 
-    @loop1(seconds=60)
+    @tasks.loop(minutes=1)
     async def sync(self) -> None:
         if not self._counter:
             return
@@ -42,13 +42,13 @@ class VoiceActivityListenerCog(commands.Cog):
         except RuntimeError:
             pass
 
-    def count_user(self, member: disnake.Member):
+    def count_user(self, member: disnake.Member) -> None:
         self._counter[member] = self._counter.get(member, time.time())
 
-    async def _sync_user(self, member: disnake.Member):
+    async def _sync_user(self, member: disnake.Member) -> None:
         await self._add_time(member, int(time.time() - self._counter.pop(member)))
 
-    async def sync_user_in_vc(self, member: disnake.Member):
+    async def sync_user_in_vc(self, member: disnake.Member) -> None:
         await self._sync_user(member)
         self.count_user(member)
 
@@ -61,7 +61,7 @@ class VoiceActivityListenerCog(commands.Cog):
     ) -> None:
         if member.bot:
             return
-        
+
         if before.channel is None and after.channel is not None:
             logger.info("Пользователь <@%d> заходит в войс канал [%s]",
                         member.id, after.channel.jump_url,
@@ -83,10 +83,13 @@ class VoiceActivityListenerCog(commands.Cog):
 
 
     async def _add_time(self, member: disnake.Member, seconds: int) -> None:
+        if member.bot:
+            return
+
         member_data = await add_voice_time(member, seconds)
         is_lvled, coins = is_new_lvl(member_data, "voice")
         if is_lvled:
             from src.config import cfg
             offtop_id = cfg.channels_cfg(member.guild.id).offtop_channel_id or 0
-            await add_coins(member_data, coins)
+            await coins_(member_data.guild_id, member_data.user_id, coins)
             await send_reward_message(member_data, offtop_id, coins)

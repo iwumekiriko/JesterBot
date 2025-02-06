@@ -1,10 +1,13 @@
 import aiohttp
 import json
 
+from disnake import Role
+
 from src.logger import get_logger
 from src.models import Member
 from src.settings import PATH_TO_API
 from src.utils._mapping import json_camel_to_snake
+from src.utils._exceptions import CustomException
 
 
 logger = get_logger()
@@ -20,7 +23,7 @@ async def get_member(guild_id: int, user_id: int) -> Member:
                 return Member(**json_camel_to_snake(json_data))
             else:
                 error_message = await response.text()
-                raise BaseException("Members API [Get] is not responding. "
+                raise CustomException("Members API [Get] is not responding. "
                                     f"Status code: {response.status}. Error: {error_message}")
             
 
@@ -31,7 +34,7 @@ async def member_joined(guild_id: int, user_id: int) -> None:
         ) as response:
             if not response.status == 200:
                 error_message = await response.text()
-                raise BaseException("Members API [OnGuild] is not responding. "
+                raise CustomException("Members API [OnGuild] is not responding. "
                                     f"Status code: {response.status}. Error: {error_message}")
             
 
@@ -42,7 +45,7 @@ async def member_left(guild_id: int, user_id: int) -> None:
         ) as response:
             if not response.status == 200:
                 error_message = await response.text()
-                raise BaseException("Members API [OnGuild] is not responding. "
+                raise CustomException("Members API [OnGuild] is not responding. "
                                     f"Status code: {response.status}. Error: {error_message}")
             
 
@@ -59,5 +62,5 @@ async def update_member(member: Member) -> None:
         ) as response:
             if not response.status == 200:
                 error_message = await response.text()
-                raise BaseException("Members API [Update] is not responding. "
+                raise CustomException("Members API [Update] is not responding. "
                                     f"Status code: {response.status}. Error: {error_message}")

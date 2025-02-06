@@ -1,8 +1,5 @@
 {
     "ru": {
-        "not_an_interaction_author_err": "Действие не для тебя",
-
-        "exception_title": "Ошибка!",
         "not_found_member_error": "Указанный пользователь не найден!",
         "not_for_bot_error": "Нельзя выбирать бота!",
         "not_for_self_error": "Нельзя выбирать себя!",

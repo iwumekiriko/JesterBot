@@ -135,7 +135,7 @@ class StartTicketButton(disnake.ui.Button):
         interaction: disnake.MessageInteraction
     ) -> None:
         ticket = await ticket_start(interaction.channel.id, interaction.user.id)
-        
+
         self.disabled = True
         await interaction.message.edit( # type: ignore
             embed=TicketEmbed(
@@ -146,7 +146,7 @@ class StartTicketButton(disnake.ui.Button):
                 .set_thumbnail(user_avatar(user_id=ticket.user_id)), # type: ignore
             view=self.view
         ) 
-        
+
         await interaction.channel.send(_("ticket_started",
                                         user_id=ticket.user_id,
                                         moderator_id=interaction.user.id))

@@ -8,13 +8,11 @@ class EvalCog(commands.Cog):
     async def cog_check(self, ctx: commands.Context) -> bool:
         return await ctx.bot.is_owner(ctx.author)
     
-
     def _prepare_response(self, variable) -> str:
         text = repr(variable)
         cutted_text = text[:1024]
         return f"```py\n{cutted_text}\n```"
     
-
     def _prepare_code(self, string: str) -> str:
         arr = string.strip("`").removeprefix('py\n').splitlines()
         return "".join(f"\n\t{i}" for i in arr)
@@ -34,7 +32,6 @@ class EvalCog(commands.Cog):
                 return
 
             embed = EvalEmbed(
-                title="Успешно выполнено!",
                 description=self._prepare_response(response),
             ).set_thumbnail(url=ctx.author.display_avatar.url)
             await ctx.send(embed=embed,
@@ -42,7 +39,7 @@ class EvalCog(commands.Cog):
 
         except Exception as error:
             embed = ExceptionEmbed(
-                message=f"```{type(error).__name__}: {str(error)}```",
+                error_msg=f"```{type(error).__name__}: {str(error)}```",
             ).set_thumbnail(url=ctx.author.display_avatar.url)
             await ctx.send(embed=embed, 
                            allowed_mentions=disnake.AllowedMentions(users=False))

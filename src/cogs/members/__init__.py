@@ -5,8 +5,8 @@ from src.settings import API_REQUIRED
 
 
 def setup(bot: JesterBot) -> None:
-    bot.add_cog(ProfileCog(bot))
     if not API_REQUIRED:
         return
 
+    bot.add_cog(ProfileCog(bot))
     bot.add_cog(OnGuildCog(bot))

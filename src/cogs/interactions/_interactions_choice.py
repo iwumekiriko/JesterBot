@@ -6,21 +6,21 @@ from src.localization import get_localizator
 _ = get_localizator("interactions")
 
 
-class InteractionChoices(str, Enum):
-    KISS = "kiss"
-    HUG = "hug"
-    PAT = "pat"
-    HIT = "hit"
+class InteractionActions(Enum):
+    KISS = 1
+    HUG = 2
+    PAT = 3
+    HIT = 4
 
     @property
     def translated_name(self) -> str:
-        return _(self.value + '_choice')
+        return _(self.name.lower() + '_choice')
 
 
-class InteractionType(str, Enum):
-    CAT = "cat"
-    ANIME = "anime"
+class InteractionTypes(Enum):
+    CAT = 1
+    ANIME = 2
 
     @property
     def translated_name(self) -> str:
-        return _(self.value + '_choice')
+        return _(self.name.lower() + '_choice')

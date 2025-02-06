@@ -1,6 +1,12 @@
 {
     "ru": {
         "paginator_page_modal": "Выбор страницы",
-        "paginator_page_modal_field": "Введите номер"
+        "paginator_page_modal_field": "Введите номер",
+
+        "not_an_interaction_author_err": "Действие не для тебя",
+
+        "exception_title": "Ошибка!",
+
+        "view_back_button": "Назад"
     }
 }

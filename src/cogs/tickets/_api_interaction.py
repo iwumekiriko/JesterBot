@@ -101,7 +101,7 @@ async def set_ticket_message(
     cfg = TicketsConfig(
             guild_id=guild_id,
             ticket_message_id=ticket_message_id)
-    config.set(cfg)
+    config.set_(cfg)
     await set_cfg(cfg)
             
 

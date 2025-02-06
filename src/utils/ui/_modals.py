@@ -57,7 +57,7 @@ class BaseModal(disnake.ui.Modal):
                 timeout=self.timeout
             )
         except:
-            await self.timeout_handler()
+            await self._timeout_handler()
 
         inter.response = modal_inter.response # type: ignore
         text_values = modal_inter.text_values
@@ -66,15 +66,13 @@ class BaseModal(disnake.ui.Modal):
              in self.components for child in component]
         data.insert(0, modal_inter)
         return data
-    
+
     async def on_error(
         self,
         error: Exception,
         interaction: disnake.ModalInteraction
     ) -> None:
         return await super().on_error(error, interaction)
-    
-    async def timeout_handler(self) -> None:
+
+    async def _timeout_handler(self) -> None:
         raise ModalTimeoutException()
-
-

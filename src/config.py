@@ -11,31 +11,30 @@ from src.manual_config import *
 
 class Config:
     def __init__(self) -> None:
-        self._cfg = {}
-
+        self.__cfg = {}
         self.base_guild_id = BASE_GUILD_ID
 
     @property
     def config(self) -> dict:
-        return self._cfg
+        return self.__cfg
     
     def exp_cfg(self, guild_id: int) -> ExperienceConfig:
-        return self._cfg[guild_id]["Experience"]
+        return self.__cfg[guild_id]["Experience"]
     
     def roles_cfg(self, guild_id: int) -> RolesConfig:
-        return self._cfg[guild_id]["Roles"]
+        return self.__cfg[guild_id]["Roles"]
     
     def channels_cfg(self, guild_id: int) -> ChannelsConfig:
-        return self._cfg[guild_id]["Channels"]
+        return self.__cfg[guild_id]["Channels"]
     
     def tickets_cfg(self, guild_id: int) -> TicketsConfig:
-        return self._cfg[guild_id]["Tickets"]
+        return self.__cfg[guild_id]["Tickets"]
     
     def voice_cfg(self, guild_id: int) -> VoiceConfig:
-        return self._cfg[guild_id]["Voice"]
+        return self.__cfg[guild_id]["Voice"]
     
     def webhooks_cfg(self, guild_id: int) -> WebhooksConfig:
-        return self._cfg[guild_id]["Webhooks"]
+        return self.__cfg[guild_id]["Webhooks"]
 
     async def _load_cfg(self) -> None:
         from src.bot import bot
@@ -101,7 +100,7 @@ class Config:
     async def load(self) -> None:
         await self._load_cfg()
 
-    def set(self, cfg: BaseConfig) -> None:
+    def set_(self, cfg: BaseConfig) -> None:
         self._set_cfg(cfg)
 
 

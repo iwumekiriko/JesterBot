@@ -3,7 +3,7 @@ from disnake.ext import commands
 
 from src.bot import JesterBot
 from src.utils._convertes import inter_member
-from ._interactions_choice import InteractionChoices, InteractionType
+from ._interactions_choice import InteractionActions, InteractionTypes
 from src.localization import get_localizator
 from src.utils.ui import BaseEmbed
 from ._api_interaction import get_gif
@@ -31,10 +31,10 @@ class UserInteractionsCog(commands.Cog):
         member: disnake.Member = commands.Param(
             converter=inter_member, description=_("user_interaction_member_param")),
         action = commands.Param(
-            choices={choice.translated_name: choice for choice in InteractionChoices},
+            choices={choice.translated_name: choice.name.lower() for choice in InteractionActions},
             description=_("user_interaction_action_param")),
         type = commands.Param(
-            choices={type.translated_name: type for type in InteractionType},
+            choices={type.translated_name: type.name.lower() for type in InteractionTypes},
             description=_("user_interaction_type_param"))
     ) -> None:
         await interaction.response.send_message(

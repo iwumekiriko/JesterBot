@@ -5,5 +5,5 @@ from src.config import cfg as config
 
 async def set_local_cfg(data: dict, type: type[BaseConfig]) -> None:
     cfg = type(**data)
-    config.set(cfg)
+    config.set_(cfg)
     await set_cfg(cfg)

@@ -92,8 +92,9 @@ class CustomVoiceCog(commands.Cog):
             await asyncio.sleep(CUSTOM_VOICE_DELETE_TIME)
             try:
                 await channel.delete()
+                del self._delete_timers[channel.id]
             except:
-                logger.debug("Попытка удалить кастомный войс [%s | %s] канал прошла неудачно.",
+                logger.debug("Попытка удалить кастомный войс канал [%s | %s] прошла неудачно.",
                                channel.jump_url, channel.name,
                                extra={"user_avatar": user_avatar(jester=True), "type": "else"})
 

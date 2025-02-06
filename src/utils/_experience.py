@@ -43,7 +43,7 @@ def is_new_lvl(member: Member, type: str) -> tuple[bool, int]:
 
     if not member.experience:
         return False, 0
-    
+
     received_exp = getattr(cfg.exp_cfg(member.guild_id), types[type])
     if not received_exp:
         return False, 0

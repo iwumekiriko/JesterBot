@@ -1,14 +1,14 @@
 import aiohttp
 import random
 
-from ._interactions_choice import InteractionChoices, InteractionType
+from ._interactions_choice import InteractionActions, InteractionTypes
 from src.settings import TENOR_API_KEY
 from src.utils._exceptions import CustomException
 
 
 async def get_gif(
-    query: InteractionChoices,
-    type: InteractionType,
+    query: InteractionActions,
+    type: InteractionTypes,
     limit: int = 30
 ) -> str:
     async with aiohttp.ClientSession() as session:

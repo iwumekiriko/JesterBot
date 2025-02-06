@@ -24,20 +24,6 @@ async def add_message_experience(member: dsMember) -> mdlMember:
                                     f"Status code: {response.status}. Error: {error_message}")
 
 
-async def add_coins(member: mdlMember, coins: int) -> None:
-    guild_id = member.guild_id
-    user_id = member.user_id
-
-    async with aiohttp.ClientSession() as session:
-        async with session.put(
-            PATH_TO_API + f"Members/{guild_id}/{user_id}/level?coins={coins}", ssl=False
-        ) as response:
-            if not response.status == 200:
-                error_message = await response.text()
-                raise CustomException("Members API [Experience] is not responding. "
-                                    f"Status code: {response.status}. Error: {error_message}")
-            
-
 async def add_voice_time(member: dsMember, seconds: int) -> mdlMember:
     guild_id = member.guild.id
     user_id = member.id

@@ -34,9 +34,9 @@ class ProfileCog(commands.Cog):
         member_data = await get_member(guild.id, member.id)
         await interaction.followup.send(
             embed = BaseEmbed(
-                title = _("members_profile_embed_title", username=member.display_name),
+                title = _("members-profile_embed_title", username=member.display_name),
                 description = _(
-                    "members_profile_embed_desc",
+                    "members-profile_embed_desc",
                     exp=member_data.experience,
                     coins=member_data.coins,
                     level=get_level_from_exp(member_data.experience), # type: ignore
