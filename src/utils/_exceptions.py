@@ -22,3 +22,11 @@ class LoggerException(CustomException):
     def __init__(self, message: str) -> None:
         self.message = message
         super().__init__(self.message)
+
+
+class NotEnoughMoneyException(CustomException):
+    def __init__(self, message: Optional[str] = None) -> None:
+        if message is None:
+            message = _("not_enough_money_exception")
+        self.message = message
+        super().__init__(self.message)
