@@ -5,14 +5,14 @@ from .user import User
 from .guild import Guild
 
 
-class Member():
+class Member:
     def __init__(
         self,
-        user_id: int,
-        user: User,
         guild_id: int,
         guild: Guild,
-        active: Optional[bool] = None,
+        user_id: int,
+        user: User,
+        active: bool = True,
         experience: Optional[int] = None,
         exp_multiplier: Optional[int] = None,
         coins: Optional[int] = None,
@@ -20,10 +20,10 @@ class Member():
         voice_time: Optional[int] = None,
         joined_at: Optional[datetime | str] = None
     ) -> None:
-        self._user_id = user_id
-        self._user = user
         self._guild_id = guild_id
         self._guild = guild
+        self._user_id = user_id
+        self._user = user
         self._active = active
         self._experience = experience
         self._exp_multiplier = exp_multiplier
@@ -51,7 +51,7 @@ class Member():
     @property
     def is_active(self) -> Optional[bool]:
         return self._active
-    
+
     @is_active.setter
     def is_active(self, active: bool) -> None:
         self._active = active
@@ -59,7 +59,7 @@ class Member():
     @property
     def experience(self) -> Optional[int]:
         return self._experience
-    
+
     @experience.setter
     def experience(self, exp: int) -> None:
         self._experience = exp 
@@ -67,7 +67,7 @@ class Member():
     @property
     def exp_multiplier(self) -> Optional[int]:
         return self._exp_multiplier
-    
+
     @exp_multiplier.setter
     def exp_multiplier(self, multiplier: int) -> None:
         self._exp_multiplier = multiplier
@@ -83,7 +83,7 @@ class Member():
     @property
     def message_count(self) -> Optional[int]:
         return self._message_count
-    
+
     @message_count.setter
     def message_count(self, mc: int) -> None:
         self._message_count = mc
@@ -91,22 +91,22 @@ class Member():
     @property
     def voice_time(self) -> Optional[int]:
         return self._voice_time
-    
+
     @voice_time.setter
     def voice_time(self, vt: int) -> None:
         self._voice_time = vt
-    
+
     @property
     def joined_at(self) -> Optional[datetime | str]:
         return self._joined_at
-    
+
     def to_on_guild(self) -> dict:
         return {
             "userId": self._user_id,
             "guildId": self._guild_id,
             "active": self._active
         }
-    
+
     def to_update(self) -> dict:
         return {
             "userId": self._user_id,
