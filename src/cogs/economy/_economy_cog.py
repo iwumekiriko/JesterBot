@@ -60,3 +60,15 @@ class EconomyCog(commands.Cog):
             .set_footer(text=(f"{_('economy-donate_PJSC_field')} «{BANK_NAME}»"
                         f" | {_('economy-donate_BIC_field')} {BANK_INDEF_CODE}")))
         await interaction.response.send_message(embed=embed)
+
+    @commands.slash_command(description=_("economy-daily_desc"))
+    async def daily(
+        self,
+        interaction: disnake.GuildCommandInteraction,
+    ) -> None:
+        member = interaction.member 
+        guild_id = member.guild.id 
+        user_id = member.id
+        await coins_(guild_id, user_id, 300)
+        await interaction.response.send_message(_("economy-daily_response"))
+        
