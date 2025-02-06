@@ -44,16 +44,24 @@ class Config:
                                         TicketsConfig,
                                         VoiceConfig,
                                         WebhooksConfig]
-        
-        for guild in bot.guilds:
-            _local_cfg = {}
-            for c in cfgs:
-                config = (await get_cfg(guild.id, c) if API_REQUIRED
-                    else self._load_manually(c))
-                _local_cfg[c(0).short_name] = config
-            self._cfg[guild.id] = _local_cfg
 
-    def _load_manually(self, c: type[BaseConfig]) -> BaseConfig:
+        local_cfg = {}
+        for c in cfgs:
+            if API_REQUIRED:
+                for guild in bot.guilds:
+                    config = await get_cfg(guild.id, c)
+                    if guild.id not in self.__cfg:
+                        self.__cfg[guild.id] = {}
+                    self.__cfg[guild.id][c(0).short_name] = config
+
+            else:
+                config = self._get_manually(c)
+                local_cfg[c(0).short_name] = config
+
+        if not API_REQUIRED:
+            self.__cfg[self.base_guild_id] = local_cfg
+
+    def _get_manually(self, c: type[BaseConfig]) -> BaseConfig:
         config = c(self.base_guild_id)
 
         match config:
@@ -91,7 +99,7 @@ class Config:
         return config
 
     def _set_cfg(self, cfg: BaseConfig) -> None:
-        local_cfg = self._cfg[cfg.guild_id][cfg.short_name]
+        local_cfg = self.__cfg[cfg.guild_id][cfg.short_name]
         for attr_name in vars(cfg):
             attr_value = getattr(cfg, attr_name)
             if attr_value is not None:
