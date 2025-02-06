@@ -1,29 +1,58 @@
 import os
-from typing import List
+from typing import List, Optional
 
 from src.localization import load_locales
 
 
 class CogManager:
-    def __init__(self, root_dir: str) -> None:
-        self._cogs: List[str] = []
-        self._root_dir = root_dir
+    """
+    Collects all cogs setups files in one list
+    Also adds localization dirs to i18n 
+    """
+    def __init__(
+        self,
+        root_dir: str,
+        test_dir: Optional[str] = None
+    ) -> None:
+        self.__cogs: List[str] = []
+        self.__root_dir = root_dir
+        self.__test_dir = test_dir
         self._collect_cogs()
+        self._collect_test_cogs()
 
     def _collect_cogs(self) -> None:
-        for entry in os.scandir(self._root_dir):
-            if entry.is_dir():
-                relative_path = os.path.relpath(entry.path, self._root_dir)
-                init_path = os.path.join(self._root_dir, relative_path, "__init__.py")
-                if os.path.exists(init_path):
-                    self._cogs.append(f"{self._cogs_dir}.{relative_path}.__init__")
-                    locales_path = os.path.join(self._root_dir, relative_path, "locales")
-                    load_locales(locales_path)
+        self._scan_dirs(self.__root_dir,
+                        with_locales=True)
 
-    @property
-    def _cogs_dir(self) -> str:
-        return self._root_dir.replace("/", ".")
+    def _collect_test_cogs(self) -> None:
+        if not (t_dir := self.__test_dir):
+            return
+
+        self._scan_dirs(t_dir)
+
+    def _scan_dirs(
+        self,
+        dir_path: str,
+        with_locales: bool = False
+    ) -> None:
+        for entry in os.scandir(dir_path):
+            if not entry.is_dir():
+                continue
+
+            relative_path = os.path.relpath(entry.path, dir_path)
+            init_path = os.path.join(dir_path, relative_path, "__init__.py")
+
+            if not os.path.exists(init_path):
+                continue
+
+            self.__cogs.append(f"{self._cogs_dir(dir_path)}.{relative_path}.__init__")
+            if with_locales:
+                locales_path = os.path.join(dir_path, relative_path, "locales")
+                load_locales(locales_path)
+
+    def _cogs_dir(self, dir_path: str) -> str:
+        return dir_path.replace("/", ".")
     
     @property
     def cogs(self) -> List[str]:
-        return self._cogs
+        return self.__cogs
