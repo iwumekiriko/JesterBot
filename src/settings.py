@@ -4,7 +4,7 @@ import os
 load_dotenv()
 
 APP_NAME = "JesterBot"
-DEVELOPMENT = True
+DEVELOPMENT = False
 DEBUG = True
 COGS_PATH = "src/cogs"
 TEST_COGS_PATH = "tests/cogs"
@@ -15,12 +15,12 @@ TEST_COGS_PATH = "tests/cogs"
 
 # In case there is no API -> set API_REQUIRED setting to False.
 # * Optionally [configuration params] can be filled in 'manual_config.py'.
-API_REQUIRED = False
+API_REQUIRED = True
 
 # If webhook configuration wasn't filled (doesn't matter manually or through API) \
 # Logger will send a warning after each action.
 # To disable this -> set SUPPRESS_WEBHOOK_CONFIGURATION to True.
-SUPPRESS_WEBHOOK_CONFIGURATION = True
+SUPPRESS_WEBHOOK_CONFIGURATION = False
 
 
 # --------------------------------------------------------------------------------
