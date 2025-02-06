@@ -60,8 +60,15 @@ class JesterBot(commands.Bot):
         cog = self.get_cog("VoiceActivityListenerCog")
         await cog.sync_user_in_vc(member) # type: ignore
 
-    def load_cogs(self) -> None:
-        _cog_mngr = CogManager(settings.COGS_PATH)
+    def _load_cogs(self) -> None:
+        cogs_path = settings.COGS_PATH
+        test_cogs_path = None
+        if settings.DEVELOPMENT:
+            test_cogs_path = settings.TEST_COGS_PATH
+
+        _cog_mngr = CogManager(
+            cogs_path, test_cogs_path
+        )
         for cog in _cog_mngr.cogs:
             self.load_extension(cog)
 
