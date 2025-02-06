@@ -16,6 +16,9 @@
         "economy-donate_payment_amount_field": "Сумма",
         "economy-donate_payment_date_field": "Дата",
         "economy-donate_PJSC_field": "ПАО",
-        "economy-donate_BIC_field": "БИК"
-    }
+        "economy-donate_BIC_field": "БИК",
+
+        "economy-daily_desc": "Ежедневная подачка",
+        "economy-daily_response": "Копи на круассан"
+    } 
 }
