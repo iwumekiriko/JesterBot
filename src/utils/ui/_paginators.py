@@ -55,7 +55,14 @@ class Paginator(Generic[T], BaseView):
         self.update()
 
     @property
-    def first_item(self) -> T:
+    def page_items(self) -> list[T]:
+        return self._page_items
+
+    @property
+    def first_item(self) -> Optional[T]:
+        if not self._page_items:
+            return None
+
         return self._page_items[0]
 
     def update(self) -> None:
@@ -63,10 +70,10 @@ class Paginator(Generic[T], BaseView):
         count = self._items_per_page
 
         self._page_items = self._all[(page-1)*count:page*count]
-        self._update_buttons()
+        self._update_page_buttons()
 
-    def _add_item(self, T) -> None:
-        self._all.append(T)
+    def add(self, items: list[T]) -> None:
+        self._all.extend(items)
         if self._max_page:
             self._max_page = self._count_max_page()
         self.update()
@@ -80,9 +87,9 @@ class Paginator(Generic[T], BaseView):
         page = max(1, page)
         return page
 
-    def _update_buttons(self) -> None:
-        for button in self._page_buttons:
-            button.update()
+    def _update_page_buttons(self) -> None:
+        for _button in self._page_buttons:
+            _button.update()
 
     def _add_page_button(self, button: disnake.ui.Button) -> None:
         self.add_item(button)
@@ -90,7 +97,8 @@ class Paginator(Generic[T], BaseView):
 
     async def page_button_callback(
         self,
-        interaction: disnake.MessageInteraction | disnake.ModalInteraction
+        interaction: disnake.MessageInteraction 
+                    | disnake.ModalInteraction
     ) -> None:
         await interaction.response.edit_message(view=self)
 
