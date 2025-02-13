@@ -4,7 +4,7 @@ from src.localization import get_localizator
 from src.utils.ui import BaseView
 from .._api_interaction import ticket_start, ticket_close
 from ..embeds import TicketEmbed
-from src.utils._convertes import user_avatar
+from src.utils._converters import user_avatar
 from src.utils._time import current_time
 
 

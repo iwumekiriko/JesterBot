@@ -4,7 +4,7 @@ from disnake.ext import commands
 
 from src.logger import get_logger
 from src.bot import JesterBot
-from src.utils._convertes import user_avatar
+from src.utils._converters import user_avatar
 
 
 logger = get_logger()

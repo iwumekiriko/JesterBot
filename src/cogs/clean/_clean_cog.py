@@ -4,11 +4,10 @@ from disnake.ext import commands
 
 from src.bot import JesterBot
 from src.utils._permissions import for_moders
-from src.utils._convertes import is_member
+from src.utils._converters import is_member, user_avatar
 from src.localization import get_localizator
 from ._time_choices import TimeChoices
 from src.logger import get_logger
-from src.utils._convertes import user_avatar
 from src.utils._time import current_time
 
 

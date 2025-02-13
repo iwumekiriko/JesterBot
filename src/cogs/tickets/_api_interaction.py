@@ -7,7 +7,7 @@ from src.models.config import TicketsConfig
 from src.logger import get_logger
 from src.utils._mapping import json_camel_to_snake
 from src.utils._exceptions import CustomException
-from src.utils._convertes import user_avatar
+from src.utils._converters import user_avatar
 from src._api_interaction import set_cfg
 from src.config import cfg as config
 

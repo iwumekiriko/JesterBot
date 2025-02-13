@@ -2,7 +2,7 @@ import disnake
 from disnake.ext import commands
 
 from src.bot import JesterBot
-from src.utils._convertes import inter_member
+from src.utils._converters import inter_member
 from ._interactions_choice import InteractionActions, InteractionTypes
 from src.localization import get_localizator
 from src.utils.ui import BaseEmbed
