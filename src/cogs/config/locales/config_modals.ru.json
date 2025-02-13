@@ -17,8 +17,8 @@
 
         "---------------------------------": "Модальное окно с настройками каналов",
 
-        "general_channel_id_input": "Id канала для тикетов",
-        "offtop_channel_id_input": "Id сообщения для тикетов",
+        "general_channel_id_input": "Id канала общего чата",
+        "offtop_channel_id_input": "Id канала оффтопа",
         "channels_cfg_modal": "Управление каналами",
 
 
