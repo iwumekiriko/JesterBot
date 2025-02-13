@@ -4,7 +4,7 @@ from .base_config import BaseConfig
 
 
 @dataclass
-class WebhooksConfig(BaseConfig):
+class LogsConfig(BaseConfig):
     command_interactions_webhook_url: str | None = None
     messages_webhook_url: str | None = None
     tickets_webhook_url: str | None = None

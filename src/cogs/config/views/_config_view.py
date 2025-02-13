@@ -29,8 +29,8 @@ class ConfigView(BaseView):
             (_("channels_cfg_0"), "🍵"): "channels_cfg",
             (_("tickets_cfg_0"), "🎟️"): "tickets_cfg",
             (_("voice_cfg_0"), "🔊"): "voice_cfg",
-            (_("webhooks_cfg_0"), "🕸️"): "webhooks_cfg",
-            (_("webhooks_cfg_1"), "🕸️"): "webhooks_cfg",
+            (_("logs_cfg_0"), "🕸️"): "logs_cfg",
+            (_("logs_cfg_1"), "🕸️"): "logs_cfg",
         }
 
         self.config_modals: dict[str, Callable] = {
@@ -39,7 +39,7 @@ class ConfigView(BaseView):
             "Channels": channels_cfg_modal_form,
             "Tickets": tickets_cfg_modal_form,
             "Voice": voice_cfg_modal_form,
-            "Webhooks": webhooks_cfg_modal_form
+            "Logs": logs_cfg_modal_form
         }
 
         self.add_item(ConfigSelect(self.config_map))

@@ -33,8 +33,8 @@ class Config:
     def voice_cfg(self, guild_id: int) -> VoiceConfig:
         return self.__cfg[guild_id]["Voice"]
     
-    def webhooks_cfg(self, guild_id: int) -> WebhooksConfig:
-        return self.__cfg[guild_id]["Webhooks"]
+    def logs_cfg(self, guild_id: int) -> LogsConfig:
+        return self.__cfg[guild_id]["Logs"]
 
     async def _load_cfg(self) -> None:
         from src.bot import bot
@@ -43,7 +43,7 @@ class Config:
                                         ChannelsConfig,
                                         TicketsConfig,
                                         VoiceConfig,
-                                        WebhooksConfig]
+                                        LogsConfig]
 
         local_cfg = {}
         for c in cfgs:
@@ -88,7 +88,7 @@ class Config:
                 config.custom_voice_category_id = CUSTOM_VOICE_CATEGORY_ID
                 config.custom_voice_deletion_time = CUSTOM_VOICE_DELETION_TIME
 
-            case WebhooksConfig():
+            case LogsConfig():
                 config.command_interactions_webhook_url = COMMAND_INTERACTIONS_WEBHOOK_URL
                 config.messages_webhook_url = MESSAGES_WEBHOOK_URL
                 config.tickets_webhook_url = TICKETS_WEBHOOK_URL

@@ -50,7 +50,7 @@ CUSTOM_VOICE_DELETION_TIME = 30
 
 # -------------------
 
-# Webhooks parameters
+# Logs parameters
 
 # Webhook with info about members using slash commands 
 COMMAND_INTERACTIONS_WEBHOOK_URL = ""

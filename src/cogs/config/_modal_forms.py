@@ -182,7 +182,7 @@ async def voice_cfg_modal_form(
     return data[0]
 
 
-async def webhooks_cfg_modal_form(
+async def logs_cfg_modal_form(
     interaction: MessageCommandInteraction,
     base_command_interactions_webhook_url: str | None = "",
     base_messages_webhook_url: str | None = "",
@@ -252,11 +252,11 @@ async def webhooks_cfg_modal_form(
             else_webhook_url]
     components = _page_components(components_data, page)
     data = await BaseModal(
-        _("webhooks_cfg_modal"),
+        _("logs_cfg_modal"),
         components=components,
         interaction=interaction
     ).receive_data()
-    await set_local_cfg(_make_data(components, data), WebhooksConfig)
+    await set_local_cfg(_make_data(components, data), LogsConfig)
     return data[0]
 
 

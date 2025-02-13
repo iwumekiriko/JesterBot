@@ -38,7 +38,7 @@
         "voice_cfg_modal": "Управление войсами",
 
 
-        "------------------------------": "Модальное окно с настройками вебхуков",
+        "------------------------------": "Модальное окно с настройками логов",
         
         "command_interactions_webhook_url_input": "Логи команд",
         "messages_webhook_url_input": "Логи сообщений",
@@ -47,6 +47,6 @@
         "members_webhook_url_input": "Логи пользователей",
         "voice_webhook_url_input": "Логи войс каналов",
         "else_webhook_url_input": "Логи остальное",
-        "webhooks_cfg_modal": "Управление вебхуками"
+        "logs_cfg_modal": "Управление логами"
     }
 }

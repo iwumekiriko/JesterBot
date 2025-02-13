@@ -56,7 +56,7 @@ class DiscordHandler(logging.Handler):
             if l_file: files[l_file.filename] = l_file.fp
 
         try:
-            webhook_url = getattr(cfg.webhooks_cfg(
+            webhook_url = getattr(cfg.logs_cfg(
                 params.get("guild_id", cfg.base_guild_id)),
                 log_webhooks[params.get("type", "else")])
             post(webhook_url, data={"payload_json": json.dumps(data)})
