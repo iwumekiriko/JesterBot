@@ -6,7 +6,7 @@ from src.bot import JesterBot
 from .._api_interaction import add_voice_time
 from src.cogs.economy._api_interaction import coins_
 from src.logger import get_logger
-from src.utils._experience import is_new_lvl
+from src.utils._experience import is_new_lvl, ExpTypes
 from .._utils import send_reward_message
 
 
@@ -15,7 +15,7 @@ logger = get_logger()
 
 class VoiceActivityListenerCog(commands.Cog):
     def __init__(self, bot: JesterBot) -> None:
-        self.bot = bot
+        self._bot = bot
         self._counter: dict[disnake.Member, float] = {}
         self.sync.start()
 
@@ -87,9 +87,7 @@ class VoiceActivityListenerCog(commands.Cog):
             return
 
         member_data = await add_voice_time(member, seconds)
-        is_lvled, coins = is_new_lvl(member_data, "voice")
+        is_lvled, coins = is_new_lvl(member_data, ExpTypes.VOICE)
         if is_lvled:
-            from src.config import cfg
-            offtop_id = cfg.channels_cfg(member.guild.id).offtop_channel_id or 0
             await coins_(member_data.guild_id, member_data.user_id, coins)
-            await send_reward_message(member_data, offtop_id, coins)
+            await send_reward_message(member_data, coins)

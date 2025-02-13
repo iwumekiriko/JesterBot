@@ -1,17 +1,28 @@
 from src.models import Member
+from enum import Enum
 import math
 
 
-x = 50
-y = 2
+BASE_COINS = 300
+COINS_GRADATION = 15
+EXP_COEFF = 50
+LEVEL_EXPONENT = 2
+
+
+class ExpTypes(str, Enum):
+    MESSAGE = "exp_for_message"
+    VOICE = "exp_for_voice_minute"
+
+    def __str__(self) -> str:
+        return self.value
 
 
 def get_exp_from_lvl(level: int) -> int:
-    return x * (level ** y) - (x * level)
+    return EXP_COEFF * (level ** LEVEL_EXPONENT) - (EXP_COEFF * level)
 
 
 def get_level_from_exp(exp: int) -> int:
-    return int((1 + math.sqrt(1 + (4 * exp) / x)) / y)
+    return int((1 + math.sqrt(1 + (4 * exp) / EXP_COEFF)) / LEVEL_EXPONENT)
 
 
 # def get_level_from_exp(exp: int, tolerance: float = 0.001) -> int:
@@ -33,18 +44,13 @@ def get_level_from_exp(exp: int) -> int:
 #         level = new_level
 
 
-def is_new_lvl(member: Member, type: str) -> tuple[bool, int]:
+def is_new_lvl(member: Member, type: ExpTypes) -> tuple[bool, int]:
     from src.config import cfg
-
-    types = {
-        "message": "exp_for_message",
-        "voice": "exp_for_voice_minute" 
-    }
 
     if not member.experience:
         return False, 0
 
-    received_exp = getattr(cfg.exp_cfg(member.guild_id), types[type])
+    received_exp = getattr(cfg.exp_cfg(member.guild_id), str(type))
     if not received_exp:
         return False, 0
 
@@ -60,4 +66,4 @@ def is_new_lvl(member: Member, type: str) -> tuple[bool, int]:
 
 
 def _coins(level: int) -> int:
-    return 300 + 15 * level
+    return BASE_COINS + COINS_GRADATION * level
