@@ -39,27 +39,14 @@ def self_excluding(
     return member
 
 
-def owner_excluding(
-    inter: disnake.ApplicationCommandInteraction,
-    arg: disnake.Member | disnake.User
-) -> disnake.Member:
-    """Chosen user can't be a bot owner."""
-    member = is_member(inter, arg)
-    if member.id == 567303956448018456:
-        raise commands.BadArgument(_("not_for_owner_error"))
-    return member
-
-
 def inter_member(
     inter: disnake.ApplicationCommandInteraction,
     arg: disnake.Member | disnake.User
 ) -> disnake.Member:
-    """Chosen user must be: a member + not a bot + not self + not a bot owner."""
+    """Chosen user must be: a member + not a bot + not self"""
     _not_bot = bot_excluding(inter, arg)
     _not_self_nor_bot = self_excluding(inter, _not_bot)
-    _not_self_nor_bot_nor_owner = owner_excluding(
-        inter, _not_self_nor_bot)
-    return _not_self_nor_bot_nor_owner
+    return _not_self_nor_bot
 
 
 def user_avatar(user_id: int = 0, jester: bool = False) -> str | None:
