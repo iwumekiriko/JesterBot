@@ -1,4 +1,6 @@
 from typing import Union
+from enum import Enum
+
 import disnake
 from disnake.ext import commands
 
@@ -16,9 +18,24 @@ from ._api_interaction import (
 logger = get_logger()
 
 
+class PersonType(str, Enum):
+    USER = "пользователь"
+    MEMBER = "участник"
+
+    def __str__(self) -> str:
+        return self.value
+
+    @property
+    def genitive_case(self) -> str:
+        return {
+            PersonType.USER: "пользователя",
+            PersonType.MEMBER: "участника"
+        }[self]
+
+
 class OnGuildCog(commands.Cog):
     def __init__(self, bot: JesterBot) -> None:
-        self.bot = bot
+        self._bot = bot
 
     @commands.Cog.listener()
     async def on_member_join(self, member: disnake.Member) -> None:
@@ -54,7 +71,8 @@ class OnGuildCog(commands.Cog):
         before: disnake.Member,
         after: disnake.Member
     ) -> None:
-        self._log(before, after)
+        self._log_common_updates(before, after, PersonType.MEMBER)
+        self._check_for_boosting(before, after)
 
     @commands.Cog.listener()
     async def on_user_update(
@@ -62,25 +80,34 @@ class OnGuildCog(commands.Cog):
         before: disnake.User,
         after: disnake.User
     ) -> None:
-        self._log(before, after)
+        self._log_common_updates(before, after, PersonType.USER)
 
-    def _log(
+    def _log_common_updates(
         self,
         before: Union[disnake.Member, disnake.User],
-        after: Union[disnake.Member, disnake.User]
+        after: Union[disnake.Member, disnake.User],
+        person_type: PersonType
     ) -> None:
-        match before:
-            case disnake.Member():
-                who = "участника"
+        self._check_for_log_avatar(before, after, person_type)
+        self._check_for_log_username(before, after, person_type)
 
-            case disnake.User():
-                who = "пользователя"
-
-        if (before.display_avatar != after.display_avatar):
-            logger.warning("Аватар %s <@%d> был изменён!", who, after.id,
+    def _check_for_log_avatar(
+        self,
+        before: Union[disnake.Member, disnake.User],
+        after: Union[disnake.Member, disnake.User],
+        person_type: PersonType
+    ) -> None:
+        if before.display_avatar != after.display_avatar:
+            logger.warning("Аватар %s <@%d> был изменён!", person_type.genitive_case, after.id,
                            extra={ "user_avatar": after.display_avatar.url, "type": "members" })
-        
-        if (before.display_name != after.display_name):
+
+    def _check_for_log_username(
+        self,
+        before: Union[disnake.Member, disnake.User],
+        after: Union[disnake.Member, disnake.User],
+        person_type: PersonType
+    ) -> None:
+        if before.display_name != after.display_name:
             logger.warning("Никнейм %s <@%d> был изменён!\n `%s` **->** `%s`",
-                           who, after.id, before.display_name, after.display_name,
+                           person_type.genitive_case, after.id, before.display_name, after.display_name,
                            extra={ "user_avatar": after.display_avatar.url, "type": "members" })
