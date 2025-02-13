@@ -2,7 +2,7 @@ import disnake
 from disnake.ext import commands
 
 from src.bot import JesterBot
-from src.utils._convertes import bot_excluding
+from src.utils._converters import bot_excluding
 from ._api_interaction import get_member
 from src.utils.ui import BaseEmbed
 from src.localization import get_localizator
