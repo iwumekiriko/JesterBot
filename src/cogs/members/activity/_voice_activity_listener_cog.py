@@ -3,11 +3,11 @@ import disnake
 from disnake.ext import commands, tasks
 
 from src.bot import JesterBot
-from ._api_interaction import add_voice_time
+from .._api_interaction import add_voice_time
 from src.cogs.economy._api_interaction import coins_
 from src.logger import get_logger
 from src.utils._experience import is_new_lvl
-from ._utils import send_reward_message
+from .._utils import send_reward_message
 
 
 logger = get_logger()

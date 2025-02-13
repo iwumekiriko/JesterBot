@@ -5,9 +5,9 @@ from disnake.ext import commands
 from src.bot import JesterBot
 from src.localization import get_localizator
 from src.logger import get_logger
-from ._api_interaction import add_message_experience
+from .._api_interaction import add_message_experience
 from src.cogs.economy._api_interaction import coins_
-from ._utils import send_reward_message
+from .._utils import send_reward_message
 from src.utils._experience import is_new_lvl
 from src.utils._text import prepare_block_text
 

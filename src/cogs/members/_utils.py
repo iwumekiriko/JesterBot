@@ -6,7 +6,7 @@ from src.utils.ui import BaseEmbed
 from src.localization import get_localizator
 
 
-_ = get_localizator("activity_listeners")
+_ = get_localizator("activity")
 
 
 REWARD_MESSAGE_DELETE_AFTER = 30
