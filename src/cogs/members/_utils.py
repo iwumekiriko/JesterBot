@@ -9,30 +9,31 @@ from src.localization import get_localizator
 _ = get_localizator("activity")
 
 
-REWARD_MESSAGE_DELETE_AFTER = 30
+# REWARD_MESSAGE_DELETE_AFTER = 30
 
 
 async def send_reward_message(
     member: Member,
-    channel: disnake.TextChannel | disnake.Thread | int,
     reward: int
 ) -> None:
-    if not member.experience:
+    if member.experience is None:
         return
     
-    guild_channel = channel
-    if isinstance(channel, int):
-        from src.bot import bot
-        guild_channel = bot.get_channel(channel)
+    from src.config import cfg
+    from src.bot import bot
+
+    offtop_channel_id = cfg.channels_cfg(member.guild_id).offtop_channel_id
+    if not offtop_channel_id:
+        return
+
+    offtop_channel = bot.get_channel(offtop_channel_id)
+    if not isinstance(offtop_channel, disnake.TextChannel):
+        return
 
     level_after = get_level_from_exp(member.experience)
     level_before = level_after - 1
 
-    if not isinstance(guild_channel, 
-        (disnake.TextChannel, disnake.Thread)):
-        return
-
-    await guild_channel.send(content=f"<@{member.user_id}>",
+    await offtop_channel.send(content=f"<@{member.user_id}>",
         embed = BaseEmbed(
             title=_("activity_listeners_reward_embed_title"),
             description=_(
@@ -41,4 +42,4 @@ async def send_reward_message(
                 level_after=level_after,
                 rewards=reward
             )
-        ), delete_after=REWARD_MESSAGE_DELETE_AFTER )
+        ))
