@@ -77,9 +77,6 @@ class BaseView(disnake.ui.View):
         self.message: disnake.Message
         self.states: ViewStates = ViewStates(self.to_state())
 
-    def create_embed(self) -> disnake.Embed:
-        raise NotImplementedError
-
     def to_state(self) -> State:
         return State(
             view = self
@@ -122,10 +119,7 @@ class BaseView(disnake.ui.View):
         self.add_item(BackButton(row))
 
     async def to_previous(self) -> None:
-        print(f"prev_bfr: {self.states}")
         previous = self.states.previous
-        print(previous)
-        print(f"prev_aft: {self.states}")
 
         await self.message.edit(
             embed = previous.embed,
