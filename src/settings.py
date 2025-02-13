@@ -36,6 +36,7 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 TENOR_API_KEY = os.getenv("TENOR_API_KEY")
 
 # The beginning of API url.
+# Not needed if API_REQUIRED = False.
 # [example] https://localhost:8080/api/
 PATH_TO_API: str = os.getenv("PATH_TO_API") # type: ignore
 
