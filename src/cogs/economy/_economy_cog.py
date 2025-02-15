@@ -31,6 +31,8 @@ class EconomyCog(commands.Cog):
             default=_("economy-donate_appointment_param_default"),
             max_length=55)
     ) -> None:
+        amount = abs(amount) # amount must be > 0
+
         guild_id = interaction.guild_id
         payer_id = interaction.author.id
         receiver_id = member.id
