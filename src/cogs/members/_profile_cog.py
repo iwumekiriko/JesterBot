@@ -8,6 +8,7 @@ from src.utils.ui import BaseEmbed
 from src.localization import get_localizator
 from src.utils._experience import get_level_from_exp
 from src.utils._time import seconds_to_hms
+from src.cogs.duets._api_interaction import get_duet
 
 
 _ = get_localizator("members-profile")
@@ -31,9 +32,10 @@ class ProfileCog(commands.Cog):
             member = interaction.author
         await self.bot.sync_user_in_vc(member)
 
+        duet = await get_duet(guild.id, member.id)
         member_data = await get_member(guild.id, member.id)
-        await interaction.followup.send(
-            embed = BaseEmbed(
+
+        embed = BaseEmbed(
                 title = _("members-profile_embed_title", username=member.display_name),
                 description = _(
                     "members-profile_embed_desc",
@@ -44,4 +46,14 @@ class ProfileCog(commands.Cog):
                     voice_time=seconds_to_hms(member_data.voice_time) # type: ignore
                 )
             ).set_thumbnail(member.display_avatar.url)
-        )
+
+        if duet is not None:
+            embed.add_field(
+                name=_("members-profile_extra_info"),
+                value=_("members-profile_duet_with", 
+                        proposer=duet.proposer_id, duo=duet.duo_id,
+                        together_from=disnake.utils.format_dt(duet.together_from)),
+                inline=False
+            )
+
+        await interaction.followup.send(embed=embed)

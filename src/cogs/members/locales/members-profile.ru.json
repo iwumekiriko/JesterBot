@@ -4,6 +4,8 @@
         "profile_member_param": "Пользователь, чей профиль вы хотите посмотреть",
 
         "members-profile_embed_title": "Профиль пользователя | %{username}",
-        "members-profile_embed_desc": "Опыт: **%{exp}**\nУровень: **%{level}**\nКол-во сообщений: **%{messages}**\nМонетки: **%{coins}**\nВремя в войсе: **%{voice_time}**"
+        "members-profile_embed_desc": "Опыт: **%{exp}**\nУровень: **%{level}**\nКол-во сообщений: **%{messages}**\nМонетки: **%{coins}**\nВремя в войсе: **%{voice_time}**",
+        "members-profile_extra_info": "Отличительные качества",
+        "members-profile_duet_with": "**Дуэт**: <@%{proposer}> & <@%{duo}> / **вместе с**: %{together_from}"
     }
 }
