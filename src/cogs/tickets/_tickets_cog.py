@@ -42,7 +42,7 @@ class TicketsCog(commands.Cog):
                     embed=view.create_embed(),
                     view=view
                 )
-                logger.info("Тикет сообщение не было найдено. Создано новое.",
+                logger.debug("Тикет сообщение не было найдено. Создано новое.",
                             extra={"user_avatar": user_avatar(jester=True), 
                                    "type": "else", "guild_id": ticket_channel.guild.id})
                 await set_ticket_message(guild.id, message.id)
