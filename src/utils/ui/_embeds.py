@@ -15,7 +15,7 @@ class BaseEmbed(disnake.Embed):
         Args:
             title (`str`): Embed's title.
             description (`str`): Embed's description.
-            color: (`int`): Embed's color. (base setted in src/customization.py)
+            color: (`int`): Embed's color. (base setted in src/customisation.py)
         """
         super().__init__(
             title = kwargs.get('title'),
