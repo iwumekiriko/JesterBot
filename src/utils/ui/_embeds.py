@@ -1,6 +1,7 @@
 import disnake
 
 from src.localization import get_localizator
+from src.customisation import BASE_EMBED_COLOR, BASE_EXCEPTION_COLOR
 
 
 _ = get_localizator("ui")
@@ -14,12 +15,12 @@ class BaseEmbed(disnake.Embed):
         Args:
             title (`str`): Embed's title.
             description (`str`): Embed's description.
-            color: (`int`): Embed's color. (base - 0xddbef8)
+            color: (`int`): Embed's color. (base setted in src/customization.py)
         """
         super().__init__(
             title = kwargs.get('title'),
             description = kwargs.get('description'),
-            color = 0xddbef8,
+            color = BASE_EMBED_COLOR,
         )
 
 
@@ -34,5 +35,5 @@ class ExceptionEmbed(BaseEmbed):
         super().__init__(
             title=_("exception_title"),
             description=error_msg,
-            color=0xe74c3c
+            color=BASE_EXCEPTION_COLOR
         )
