@@ -1,15 +1,15 @@
 from dataclasses import dataclass
-from enum import Enum
 
 from .item import Item
-
-
-class LootboxTypes(Enum):
-    ROLES_LOOTBOX = 1
-    BACKGROUNDS_LOOTBOX = 2
-
+from .items_config import ItemsConfig
+from ..lootboxes import LootboxTypes
 
 @dataclass
 class LootboxKey(Item):
     lootbox_key_id: int
     type: LootboxTypes
+
+    @property
+    def description(self) -> str:
+        return ItemsConfig.get_formatted_desc(
+            self.name, type=self.type.translated.lower())
