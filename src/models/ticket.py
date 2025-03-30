@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import Optional
 
 from .user import User
+from .guild import Guild
 
 
 class Ticket:
@@ -16,7 +17,9 @@ class Ticket:
         type_problem: Optional[str] = None,
         moderator_id: Optional[int] = None,
         user_id: Optional[int] = None,
-        user: Optional[User] = None
+        user: Optional[User] = None,
+        guild_id: Optional[int] = None,
+        guild: Optional[Guild] = None
     ) -> None:
         self._id = id
         self._date_close = date_close
@@ -28,6 +31,8 @@ class Ticket:
         self._moderator_id = moderator_id
         self._user_id = user_id
         self._user = user
+        self._guild_id = guild_id
+        self._guild = guild
     
     @property
     def id(self) -> Optional[int]:
@@ -80,6 +85,14 @@ class Ticket:
     @property
     def user(self) -> Optional[User]:
         return self._user
+    
+    @property
+    def guild_id(self) -> Optional[int]:
+        return self._guild_id
+    
+    @property
+    def guild(self) -> Optional[Guild]:
+        return self._guild
 
     def to_create(self) -> dict:
          return {
@@ -88,6 +101,7 @@ class Ticket:
             "additionalInfo": self._additional_info,
             "typeProblem": self._type_problem,
             "userId": self._user_id,
+            "guildId": self._guild_id
         }
     
     def to_start(self) -> dict:

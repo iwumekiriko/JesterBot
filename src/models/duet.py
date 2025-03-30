@@ -50,4 +50,3 @@ class Duet:
     @property
     def together_from(self) -> datetime | float:
         return self._together_from
-    
