@@ -11,9 +11,6 @@ from src.localization import get_localizator
 _ = get_localizator("activity")
 
 
-# REWARD_MESSAGE_DELETE_AFTER = 30
-
-
 async def send_reward_message(
     member: Member,
     reward: int
