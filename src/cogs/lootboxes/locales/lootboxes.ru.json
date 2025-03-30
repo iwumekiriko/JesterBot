@@ -1,0 +1,47 @@
+{
+    "ru": {
+        "lootboxes-roles_lootbox_name": "Лутбокс с ролями",
+        "lootboxes-backgrounds_lootbox_name": "Лутбокс с фонами",
+
+        "lootboxes_desc": "Испытай удачу и получи ценные предметы",
+        "lootboxes-type_param": "Тип лутбокса",
+
+        "lootboxes-open_one_button": "Открыть один",
+        "lootboxes-open_all_button": "Открыть всё",
+
+        "lootboxes-buy_embed_title": "У вас недостаточно билетов!",
+        "lootboxes-buy_embed_desc": "Не желаете ли приобрести несколько за скромную цену в %{count} %{p(монету|монеты|монет)}?",
+
+        "lootboxes-buy_one_button": "Приобрести один",
+        "lootboxes-buy_many_button": "Приобрести несколько",
+
+        "lootboxes-buy_modal_count_input": "Введите количество",
+        "lootboxes-buy_modal_label": "Покупка билетов",
+        "lootboxes-success": "Успешно!",
+
+
+        "lootboxes-showcase_option": "Лутбокс",
+        "lootboxes-prizes_option": "Полученное",
+
+
+        "expbooster": "Усилитель опыта",
+        "lootboxkey": "Билетик",
+        "coin": "Серверная валюта",
+        "role": "Роль",
+
+        "lootboxes-paginator_no_items_placeholder": "Предметов нет",
+        "lootboxes-paginator_items_placeholder": "Выберите предмет",
+
+        "lootboxes-paginator_embed_title": "Полученные предметы",
+        "lootboxes-paginator_embed_desc": "-# Здесь отображается история открытий лутбоксов",
+
+        "lootboxes-role_desc": "[Только для админов] - изменение пула ролей в лутбоксах",
+        "lootboxes-role-type_param": "Тип лутбокса",
+        "lootboxes-role-action_param": "Действие (Добавить/Убрать)",
+        "lootboxes-role-role_param": "Серверная роль",
+
+
+        "lootboxes-roles-add_action_name": "Добавить",
+        "lootboxes-roles-remove_action_name": "Убрать"
+    }
+}
