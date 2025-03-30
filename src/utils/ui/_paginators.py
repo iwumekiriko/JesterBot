@@ -1,7 +1,7 @@
 import disnake
 
 from math import ceil
-from typing import Optional, TypeVar, Generic
+from typing import Optional, TypeVar, Generic, List
 
 from src.utils.ui._views import BaseView
 from ._modals import BaseModal, ModalTextInput
@@ -23,7 +23,7 @@ class Paginator(Generic[T], BaseView):
         super().__init__(timeout=timeout)
 
         self._all = items
-        self._page_items: list[T] = []
+        self._page_items: List[T] = []
         self._items_per_page = items_per_page
         self._page = 1
         self._max_page = self._count_max_page()
@@ -176,7 +176,7 @@ class CurrentPageButton(disnake.ui.Button):
         await self.view.page_button_callback(inter)
 
     def update(self) -> None:
-        current = str(self.view.page)
+        current = f"{str(self.view.page)}"
         if m_page:=self.view.max_page:
             current += f"/{m_page}"
         self.label = current
