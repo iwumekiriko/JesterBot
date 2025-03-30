@@ -1,6 +1,16 @@
 {
     "ru": {
+        "ExpBooster": "Усилитель опыта",
+        "LootboxKey": "Билетик",
+        "Role": "Серверная роль",
+
         "modal_timeout_exception": "Завершился таймер модального окна. Ответ не был получен.",
-        "not_enough_money_exception": "Недостаточно средств на балансе."
+        "api_exception": "Произошла непредвиденная ошибка, во время отправки запрос на API. Пожалуйста, сообщите об этом администрации.\nСтатус код: **400**",
+        "not_enough_money_exception": "Недостаточно средств на балансе.\n\nТребуется: **%{needed}**\nНа балансе: **%{current}**",
+        "booster_already_active_exception": "У вас уже есть активный усилитель опыта.\n\nОставшееся время: **%{remaining}**",
+        "no_active_booster_exception": "У вас нет активного усилителя опыта.",
+        "not_enough_items_exception": "Недостаточно предметов в наличии.\nСудя по всему, вы пытались уменьшить кол-во предметов типа **«%{item_type}»**.\n\nТребуется: **%{needed}**\nВ наличии: **%{current}**",
+        "lootbox_role_already_exists_exception": "Роль <@&%{guild_role_id}> уже была добавлена в **«%{type}»**.",
+        "lootbox_role_does_not_exist_exception": "Роль <@&%{guild_role_id}> не была добавлена в **«%{type}»**."
     }
 }
