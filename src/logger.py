@@ -1,13 +1,25 @@
 import json
 import logging
+import sys
 from requests import post, exceptions
+from logging import Formatter, StreamHandler
 
 from src import settings
 from src.utils._time import current_time
 from src.utils._exceptions import LoggerException
 
 
-embed_colors = {
+CONSOLE_COLORS = {
+    'DEBUG': '\033[96m',
+    'INFO': '\033[92m',
+    'WARNING': '\033[93m',
+    'ERROR': '\033[91m',
+    'CRITICAL': '\033[41m'
+}
+RESET = '\033[0m'
+
+
+EMBED_COLORS = {
     "ERROR": 0x8b0000,
     "INFO": 0x90ee90,
     "WARNING": 0xffd700,
@@ -16,7 +28,7 @@ embed_colors = {
 }
 
 
-embed_titles = {
+EMBED_TITLES = {
     "ERROR": "ОШИБКА",
     "INFO": "ИНФОРМАЦИЯ",
     "WARNING": "ПРЕДУПРЕЖДЕНИЕ",
@@ -25,7 +37,7 @@ embed_titles = {
 }
 
 
-log_webhooks = {
+LOG_WEBHOOKS = {
     "message": "messages_webhook_url",
     "command_interaction": "command_interactions_webhook_url",
     "ticket": "tickets_webhook_url",
@@ -36,9 +48,31 @@ log_webhooks = {
 }
 
 
+class DiscordFilter(logging.Filter):
+    def filter(self, record):
+        return getattr(record, 'to_discord', False) or hasattr(record, 'type')
+
+
+class ConsoleFilter(logging.Filter):
+    def filter(self, record):
+        return not getattr(record, 'to_discord', False)
+
+
+class ColoredFormatter(Formatter):
+    def format(self, record):
+        levelname = record.levelname
+        color = CONSOLE_COLORS.get(levelname, '')
+        
+        time_str = current_time().strftime("[%a %b %d %H:%M:%S %Y]")
+        level_str = f"{color}{levelname}{RESET}"
+        message = super().format(record)
+        return f"{time_str}: {level_str} - {message}"
+
+
 class DiscordHandler(logging.Handler):
     def __init__(self) -> None:
         super().__init__()
+        self.addFilter(DiscordFilter())
 
     def emit(self, record: logging.LogRecord) -> None:
         from src.config import cfg
@@ -46,10 +80,10 @@ class DiscordHandler(logging.Handler):
 
         data = { "embeds": 
             [{
-                "description": f"## {embed_titles[record.levelname]}\n\n{self.format(record)}",
+                "description": f"## {EMBED_TITLES[record.levelname]}\n\n{self.format(record)}",
                 "thumbnail": { "url": params.get("user_avatar", None) },
                 "footer": { "text": current_time().strftime("%d %B %Y — %H:%M") },
-                "color": embed_colors[record.levelname],
+                "color": EMBED_COLORS[record.levelname],
             }] }
         files = {}
         for l_file in params.get("files", []):
@@ -58,7 +92,7 @@ class DiscordHandler(logging.Handler):
         try:
             webhook_url = getattr(cfg.logs_cfg(
                 params.get("guild_id", cfg.base_guild_id)),
-                log_webhooks[params.get("type", "else")])
+                LOG_WEBHOOKS[params.get("type", "else")])
             post(webhook_url, data={"payload_json": json.dumps(data)})
             if files:
                 post(webhook_url, files=files)
@@ -91,6 +125,13 @@ def _create_logger() -> None:
     
     discord_handler = DiscordHandler()
     discord_handler.setLevel(level)
+
+    console_handler = StreamHandler(sys.stdout)
+    console_handler.setLevel(level)
+    console_handler.addFilter(ConsoleFilter())
+    console_handler.setFormatter(ColoredFormatter('%(message)s'))
+
+    logger.addHandler(console_handler)
     logger.addHandler(discord_handler)
 
 
