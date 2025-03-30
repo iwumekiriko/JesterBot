@@ -13,7 +13,7 @@ from ._api_interaction import (
     member_joined,
     member_left
 )
-
+from src.settings import API_REQUIRED
 from ._utils import check_for_mod_actions
 
 
@@ -41,6 +41,9 @@ class OnGuildCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member: disnake.Member) -> None:
+        if not API_REQUIRED:
+            return
+
         guild_id = member.guild.id
         user_id = member.id
         member_data = await get_member(guild_id, user_id)
@@ -60,6 +63,9 @@ class OnGuildCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_remove(self, member: disnake.Member) -> None:
+        if not API_REQUIRED:
+            return
+
         guild_id = member.guild.id
         user_id = member.id
         member_data = await get_member(guild_id, user_id)

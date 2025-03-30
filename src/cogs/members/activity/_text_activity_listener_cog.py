@@ -11,6 +11,7 @@ from src.cogs.economy._api_interaction import coins_
 from .._utils import send_reward_message, check_for_mod_actions
 from src.utils._experience import is_new_lvl, ExpTypes
 from src.utils._text import prepare_block_text
+from src.settings import API_REQUIRED
 
 _ = get_localizator("activity")
 logger = get_logger()
@@ -43,21 +44,12 @@ class TextActivityListenerCog(commands.Cog):
     ) -> None:
         reactions = {
             r"\bмяу\b": "<a:zlozlozlozlozlozlozlozlozlozlo:1299735705148330097>",
-            # r"\bфыр\b": "<:kwolik:1302188971270344826>",
-            # r"\bхрю\b": "🐖",
-            # r"\bкря\b": "🦆",
-            # r"\bгав\b": "<:z_proebali:1313506419185549433>",
-            # r"\bгол\b": "<:k_GOAL:1313506931259871292>",
-            # "mention": "<:joe_artem:1314324435271946260>"
         }
 
         lower_content = message.content.lower()
         for keyword, reaction in reactions.items():
             if re.search(keyword, lower_content):
                 await message.add_reaction(reaction)
-
-        # if self.bot.user.mention in message.content:
-        #     await message.add_reaction(reactions["mention"])
 
     @commands.Cog.listener()
     async def on_message_edit(
@@ -109,6 +101,9 @@ class TextActivityListenerCog(commands.Cog):
 
 
 async def _give_exp_for_message(author: disnake.Member) -> None:
+    if not API_REQUIRED:
+        return
+
     member = await add_message_experience(author)
     is_lvled, coins = is_new_lvl(member, ExpTypes.MESSAGE)
     if is_lvled:
