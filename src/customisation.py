@@ -1,13 +1,12 @@
 # Settings for commands customisation
 # Do not affect bot's work
 
-# Economy Cog
+############################# Economy Cog
 
 BANK_NAME = "Кассандро"
 BANK_INDEF_CODE = 913245871
 
-
-# ui
+############################# UI
 
 BASE_EMBED_COLOR = 0xddbef8
 BASE_EXCEPTION_COLOR = 0xe74c3c
@@ -23,4 +22,9 @@ BACKGROUNDS_LOOTBOX_THUMBNAIL = "https://i.imgur.com/xKICzua.jpeg"
 PRIZES_PAGINATOR_THUMBNAIL = "https://i.imgur.com/xKICzua.jpeg"
 
 
+############################# Inventory Cog
 
+CATEGORIES_SELECT_THUMBNAIL = "https://i.imgur.com/xKICzua.jpeg"
+ROLES_SELECT_THUMBNAIL = "https://i.imgur.com/xKICzua.jpeg"
+EXP_BOOSTERS_SELECT_THUMBNAIL = "https://i.imgur.com/xKICzua.jpeg"
+LOOTBOX_KEYS_SELECT_THUMBNAIL = "https://i.imgur.com/xKICzua.jpeg"
