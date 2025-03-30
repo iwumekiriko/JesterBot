@@ -39,8 +39,8 @@ class Config:
     def lootboxes_cfg(self, guild_id: int) -> LootboxesConfig:
         return self.__cfg[guild_id]["Lootboxes"]
     
-    def economy_cfg(self, guildId: int) -> EconomyConfig:
-        return self.__cfg[guildId]["Economy"]
+    def economy_cfg(self, guild_id: int) -> EconomyConfig:
+        return self.__cfg[guild_id]["Economy"]
 
     async def _load_cfg(self) -> None:
         from src.bot import bot

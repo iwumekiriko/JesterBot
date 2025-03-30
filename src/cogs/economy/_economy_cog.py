@@ -68,8 +68,12 @@ class EconomyCog(commands.Cog):
         self,
         interaction: disnake.GuildCommandInteraction,
     ) -> None:
+        from src.config import cfg
         guild_id = interaction.guild.id 
         user_id = interaction.user.id
-        await coins_(guild_id, user_id, 300)
+
+        daily_bonus = cfg.economy_cfg(guild_id).daily_bonus
+        
+        await coins_(guild_id, user_id, daily_bonus)
         await interaction.response.send_message(_("economy-daily_response"))
         
