@@ -260,6 +260,78 @@ async def logs_cfg_modal_form(
     return data[0]
 
 
+async def lootboxes_cfg_modal_form(
+    interaction: MessageCommandInteraction,
+    base_roles_lootbox_key_price: int | None = 0,
+    base_backgrounds_lootbox_key_price: int | None = 0,
+    page: int = 0
+):
+    roles_lootbox_keys_price = ModalTextInput(
+         label=_("roles_lootbox_key_price_input"),
+         value=str(base_roles_lootbox_key_price),
+         placeholder="roles_lootbox_key_price",
+         required=False
+    )
+    backgrounds_lootbox_keys_price = ModalTextInput(
+        label=_("backgrounds_lootbox_key_price_input"),
+        value=str(base_backgrounds_lootbox_key_price),
+        placeholder="backgrounds_lootbox_key_price",
+        required=False
+    )
+    components_data = [
+        roles_lootbox_keys_price,
+        backgrounds_lootbox_keys_price
+    ]
+    components = _page_components(components_data, page)
+    data = await BaseModal(
+        _("lootboxes_cfg_modal"),
+        components=components,
+        interaction=interaction
+    ).receive_data()
+    await set_local_cfg(_make_data(components, data), LootboxesConfig)
+    return data[0]
+
+
+async def economy_cfg_modal_form(
+    interaction: MessageCommandInteraction,
+    base_default_currency_icon: str | None = "",
+    base_donate_currency_icon: str | None = "",
+    base_daily_bonus: int | None = 0,
+    page: int = 0
+):
+    default_currency_icon = ModalTextInput(
+        label=_("default_currency_icon_input"),
+        value=base_default_currency_icon,
+        placeholder="default_currency_icon",
+        required=False
+    )
+    donate_currency_icon = ModalTextInput(
+        label=_("donate_currency_icon_input"),
+        value=base_donate_currency_icon,
+        placeholder="donate_currency_icon",
+        required=False
+    )
+    daily_bonus = ModalTextInput(
+        label=_("daily_bonus_input"),
+        value=str(base_daily_bonus),
+        placeholder="daily_bonus",
+        required=False
+    )
+    components_data = [
+        default_currency_icon,
+        donate_currency_icon,
+        daily_bonus
+    ]
+    components = _page_components(components_data, page)
+    data = await BaseModal(
+        _("economy_cfg_modal"),
+        components=components,
+        interaction=interaction
+    ).receive_data()
+    await set_local_cfg(_make_data(components, data), EconomyConfig)
+    return data[0]
+
+
 def _make_data(components: list, data: Any) -> dict:
     modified_data = [value if value != '' else None for value in data[1:]]
 

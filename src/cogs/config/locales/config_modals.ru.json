@@ -47,6 +47,21 @@
         "members_webhook_url_input": "Логи пользователей",
         "voice_webhook_url_input": "Логи войс каналов",
         "else_webhook_url_input": "Логи остальное",
-        "logs_cfg_modal": "Управление логами"
+        "logs_cfg_modal": "Управление логами",
+
+
+        "----------------------------": "Модальное окно с настройками лутбоксов",
+
+        "roles_lootbox_key_price_input": "Цена за ключ от лутбокса с ролями",
+        "backgrounds_lootbox_key_price_input": "Цена за ключ от лутбокса с фонами",
+        "lootboxes_cfg_modal": "Управление лутбоксами",
+
+
+        "---------------------------": "Модальное окно с настройками экономики",
+
+        "default_currency_icon_input": "Иконка (эмодзи) стандартной валюты",
+        "donate_currency_icon_input": "Иконка (эмодзи) донатной валюты",
+        "daily_bonus_input": "Кол-во валюты за /daily",
+        "economy_cfg_modal": "Управление экономикой"
     }
 }

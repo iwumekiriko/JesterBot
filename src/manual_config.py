@@ -64,3 +64,23 @@ GUILD_WEBHOOK_URL = ""
 MEMBERS_WEBHOOK_URL = ""
 # Webhook with else info
 ELSE_WEBHOOK_URL = ""
+
+# -------------------
+
+# Lootboxes parameters
+
+# Amount of coins to buy Roles Lootbox Key [default: 3000]
+ROLES_LOOTBOX_KEYS_PRICE = 3000
+# Amount of coins to buy Roles Lootbox Key [default: 3000]
+BACKGROUNDS_LOOTBOX_KEYS_PRICE = 3000
+
+# -------------------
+
+# Economy parameters
+
+# Emoji to represent default currency [🪙]
+DEFAULT_CURRENCY_ICON = "🪙"
+# Emoji to represent donate currency [🥐]
+DONATE_CURRENCY_ICON = "🥐"
+# Amount of coins to get from /daily
+DAILY_BONUS = 300

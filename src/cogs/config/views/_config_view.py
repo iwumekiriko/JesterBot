@@ -31,6 +31,8 @@ class ConfigView(BaseView):
             (_("voice_cfg_0"), "🔊"): "voice_cfg",
             (_("logs_cfg_0"), "🕸️"): "logs_cfg",
             (_("logs_cfg_1"), "🕸️"): "logs_cfg",
+            (_("lootboxes_cfg_0"), "🎁"): "lootboxes_cfg",
+            (_("economy_cfg_0"), "🪙"): "economy_cfg"
         }
 
         self.config_modals: dict[str, Callable] = {
@@ -39,7 +41,9 @@ class ConfigView(BaseView):
             "Channels": channels_cfg_modal_form,
             "Tickets": tickets_cfg_modal_form,
             "Voice": voice_cfg_modal_form,
-            "Logs": logs_cfg_modal_form
+            "Logs": logs_cfg_modal_form,
+            "Lootboxes": lootboxes_cfg_modal_form,
+            "Economy": economy_cfg_modal_form
         }
 
         self.add_item(ConfigSelect(self.config_map))

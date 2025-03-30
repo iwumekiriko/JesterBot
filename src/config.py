@@ -17,24 +17,30 @@ class Config:
     @property
     def config(self) -> dict:
         return self.__cfg
-    
+
     def exp_cfg(self, guild_id: int) -> ExperienceConfig:
         return self.__cfg[guild_id]["Experience"]
-    
+
     def roles_cfg(self, guild_id: int) -> RolesConfig:
         return self.__cfg[guild_id]["Roles"]
-    
+
     def channels_cfg(self, guild_id: int) -> ChannelsConfig:
         return self.__cfg[guild_id]["Channels"]
     
     def tickets_cfg(self, guild_id: int) -> TicketsConfig:
         return self.__cfg[guild_id]["Tickets"]
-    
+
     def voice_cfg(self, guild_id: int) -> VoiceConfig:
         return self.__cfg[guild_id]["Voice"]
-    
+
     def logs_cfg(self, guild_id: int) -> LogsConfig:
         return self.__cfg[guild_id]["Logs"]
+    
+    def lootboxes_cfg(self, guild_id: int) -> LootboxesConfig:
+        return self.__cfg[guild_id]["Lootboxes"]
+    
+    def economy_cfg(self, guildId: int) -> EconomyConfig:
+        return self.__cfg[guildId]["Economy"]
 
     async def _load_cfg(self) -> None:
         from src.bot import bot
@@ -43,7 +49,9 @@ class Config:
                                         ChannelsConfig,
                                         TicketsConfig,
                                         VoiceConfig,
-                                        LogsConfig]
+                                        LogsConfig,
+                                        LootboxesConfig,
+                                        EconomyConfig]
 
         local_cfg = {}
         for c in cfgs:
@@ -95,7 +103,16 @@ class Config:
                 config.guild_webhook_url = GUILD_WEBHOOK_URL
                 config.members_webhook_url = MEMBERS_WEBHOOK_URL
                 config.else_webhook_url = ELSE_WEBHOOK_URL
-            
+
+            case LootboxesConfig():
+                config.roles_lootbox_key_price = ROLES_LOOTBOX_KEYS_PRICE
+                config.backgrounds_lootbox_key_price = BACKGROUNDS_LOOTBOX_KEYS_PRICE
+
+            case EconomyConfig():
+                config.daily_bonus = DAILY_BONUS
+                config.default_currency_icon = DEFAULT_CURRENCY_ICON
+                config.donate_currency_icon = DONATE_CURRENCY_ICON
+
         return config
 
     def _set_cfg(self, cfg: BaseConfig) -> None:
@@ -104,7 +121,7 @@ class Config:
             attr_value = getattr(cfg, attr_name)
             if attr_value is not None:
                 setattr(local_cfg, attr_name, attr_value)
-        
+
     async def load(self) -> None:
         await self._load_cfg()
 
