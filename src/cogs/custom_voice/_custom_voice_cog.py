@@ -62,8 +62,13 @@ class CustomVoiceCog(commands.Cog):
         try:
             await member.move_to(custom_channel)
         except:
-            logger.warning("Не удалось перенести пользователя <@%d> в кастомный войс канал.",
-                            member.id, extra={"user_avatar": user_avatar(jester=True), "type": "voice"})
+            logger.warning(
+                "Не удалось перенести пользователя <@%d> в кастомный войс канал.", member.id,
+                extra={
+                    "user_avatar": user_avatar(jester=True),
+                    "type": "voice",
+                    "guild_id": member.guild.id
+                })
 
     async def _check_for_delete(
         self,
@@ -94,9 +99,14 @@ class CustomVoiceCog(commands.Cog):
                 await channel.delete()
                 del self._delete_timers[channel.id]
             except:
-                logger.debug("Попытка удалить кастомный войс канал [%s | %s] прошла неудачно.",
-                               channel.jump_url, channel.name,
-                               extra={"user_avatar": user_avatar(jester=True), "type": "else"})
+                logger.debug(
+                    "Попытка удалить кастомный войс канал [%s | %s] прошла неудачно.",
+                    channel.jump_url, channel.name,
+                    extra={
+                        "user_avatar": user_avatar(jester=True),
+                        "type": "else",
+                        "guild_id": channel.guild.id
+                    })
 
         task = asyncio.create_task(delete_channel(before_channel))
         logger.debug("Голосовой канал [%s | %s] удалится через %d секунд",
@@ -113,6 +123,11 @@ class CustomVoiceCog(commands.Cog):
 
         self._delete_timers[after_channel.id].cancel()
         del self._delete_timers[after_channel.id]
-        logger.debug("Голосовой канал [%s | %s] больше не подлежит тотальному уничтожению!!!!",
-                        after_channel.jump_url, after_channel.name,
-                        extra={"user_avatar": user_avatar(jester=True), "type": "else"})
+        logger.debug(
+            "Голосовой канал [%s | %s] больше не подлежит тотальному уничтожению!!!!",
+            after_channel.jump_url, after_channel.name,
+            extra={
+                "user_avatar": user_avatar(jester=True),
+                "type": "else",
+                "guild_id": after_channel.guild.id
+            })

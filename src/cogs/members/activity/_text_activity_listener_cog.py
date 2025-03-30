@@ -8,7 +8,7 @@ from src.localization import get_localizator
 from src.logger import get_logger
 from .._api_interaction import add_message_experience
 from src.cogs.economy._api_interaction import coins_
-from .._utils import send_reward_message
+from .._utils import send_reward_message, check_for_mod_actions
 from src.utils._experience import is_new_lvl, ExpTypes
 from src.utils._text import prepare_block_text
 
@@ -75,17 +75,37 @@ class TextActivityListenerCog(commands.Cog):
             "Пользователь <@%d> изменяет сообщение [%s].\n\n**До: **\n%s\n**После: **\n%s\n-# ID сообщения: %d",
             before.author.id, after.jump_url,
             prepare_block_text(before.content), prepare_block_text(after.content), after.id,
-            extra={ "user_avatar": before.author.display_avatar.url, "type": "message" }) # type: ignore
+            extra={
+                "user_avatar": before.author.display_avatar.url,
+                "type": "message",
+                "guild_id": before.guild.id # type: ignore
+            })
 
     @commands.Cog.listener()
     async def on_message_delete(self, message: disnake.Message) -> None:
         if message.author.bot:
             return
 
+        deleted_by = await check_for_mod_actions(
+            guild=message.guild, # type: ignore
+            action=disnake.AuditLogAction.message_delete,
+            user_id=message.author.id
+        )
+
+        warning_message = (f"Сообщение от <@{message.author.id}> было удалено из канала [{message.channel.jump_url}]"
+                           f"\n\n**Текст сообщения: \n**{prepare_block_text(message.content)}")
+        if deleted_by:
+            warning_message += f"\n**Модератор:** {deleted_by.mention}"
+        warning_message += f"\n\n-# ID сообщения: {message.id}"
+
         logger.warning(
-            "Сообщение от <@%d> было удалено\n\n**Текст сообщения: \n**%s\n-# ID сообщения: %d",
-            message.author.id, prepare_block_text(message.content), message.id,
-            extra={ "user_avatar": message.author.display_avatar.url, "type": "message" }) # type: ignore
+            warning_message,
+            extra={
+                "user_avatar": message.author.display_avatar.url,
+                "type": "message",
+                "guild_id": message.guild.id # type: ignore
+            }
+        )
 
 
 async def _give_exp_for_message(author: disnake.Member) -> None:

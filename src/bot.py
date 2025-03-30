@@ -149,8 +149,11 @@ class JesterBot(commands.Bot):
             interaction.data.id,
             interaction.channel.id,
             command_options,
-            extra={"user_avatar": interaction.user.display_avatar.url, # type: ignore
-                    "type": "command_interaction"}
+            extra={
+                "user_avatar": interaction.user.display_avatar.url,
+                "type": "command_interaction",
+                "guild_id": interaction.guild.id # type: ignore
+            }
         )
         await super().on_application_command(interaction)
 

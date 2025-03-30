@@ -14,6 +14,8 @@ from ._api_interaction import (
     member_left
 )
 
+from ._utils import check_for_mod_actions
+
 
 logger = get_logger()
 
@@ -43,10 +45,15 @@ class OnGuildCog(commands.Cog):
         user_id = member.id
         member_data = await get_member(guild_id, user_id)
 
-        logger.info("Новый участник [<@%d>] заходит на сервер!\n\n \
-                    **Кол-во участников на сервере: **%d\n**Id пользователя:** %d",
-                     member.id, member.guild.member_count, user_id,
-                     extra={ "user_avatar": member.display_avatar.url, "type": "guild" })
+        logger.info(
+            "Новый участник [<@%d>] заходит на сервер!\n\n \
+            **Кол-во участников на сервере: **%d\n**Id пользователя:** %d",
+            member.id, member.guild.member_count, user_id,
+            extra={
+                "user_avatar": member.display_avatar.url,
+                "type": "guild",
+                "guild_id": member.guild.id
+            })
 
         if member_data and not member_data.is_active:
             await member_joined(guild_id, user_id)
@@ -57,10 +64,15 @@ class OnGuildCog(commands.Cog):
         user_id = member.id
         member_data = await get_member(guild_id, user_id)
  
-        logger.info("Участник [<@%d>] покидает сервер.\n\n\
-                    **Кол-во участников на сервере: **%d\n**Id пользователя:** %d\n**Присоединился: **<t:%d:F>",
-                     member.id, member.guild.member_count, user_id, member.joined_at.timestamp(), # type: ignore
-                     extra={ "user_avatar": member.display_avatar.url, "type": "guild" })
+        logger.info(
+            "Участник [<@%d>] покидает сервер.\n\n\
+            **Кол-во участников на сервере: **%d\n**Id пользователя:** %d\n**Присоединился: **<t:%d:F>",
+            member.id, member.guild.member_count, user_id, member.joined_at.timestamp(), # type: ignore
+            extra={
+                "user_avatar": member.display_avatar.url,
+                "type": "guild",
+                "guild_id": member.guild.id
+            })
 
         if member_data and member_data.is_active:
             await member_left(guild_id, user_id)
@@ -71,7 +83,7 @@ class OnGuildCog(commands.Cog):
         before: disnake.Member,
         after: disnake.Member
     ) -> None:
-        self._log_common_updates(before, after, PersonType.MEMBER)
+        await self._log_common_updates(before, after, PersonType.MEMBER)
         self._check_for_boosting(before, after)
 
     @commands.Cog.listener()
@@ -80,16 +92,16 @@ class OnGuildCog(commands.Cog):
         before: disnake.User,
         after: disnake.User
     ) -> None:
-        self._log_common_updates(before, after, PersonType.USER)
+        await self._log_common_updates(before, after, PersonType.USER)
 
-    def _log_common_updates(
+    async def _log_common_updates(
         self,
         before: Union[disnake.Member, disnake.User],
         after: Union[disnake.Member, disnake.User],
         person_type: PersonType
     ) -> None:
         self._check_for_log_avatar(before, after, person_type)
-        self._check_for_log_username(before, after, person_type)
+        await self._check_for_log_username(before, after, person_type)
 
     def _check_for_log_avatar(
         self,
@@ -98,16 +110,35 @@ class OnGuildCog(commands.Cog):
         person_type: PersonType
     ) -> None:
         if before.display_avatar != after.display_avatar:
-            logger.warning("Аватар %s <@%d> был изменён!", person_type.genitive_case, after.id,
-                           extra={ "user_avatar": after.display_avatar.url, "type": "members" })
+            logger.warning(
+                "Аватар %s <@%d> был изменён!", person_type.genitive_case, after.id,
+                extra={
+                    "user_avatar": after.display_avatar.url,
+                    "type": "members",
+                    "guild_id": before.guild.id if isinstance(before, disnake.Member) else None
+                })
 
-    def _check_for_log_username(
+    async def _check_for_log_username(
         self,
         before: Union[disnake.Member, disnake.User],
         after: Union[disnake.Member, disnake.User],
         person_type: PersonType
     ) -> None:
         if before.display_name != after.display_name:
-            logger.warning("Никнейм %s <@%d> был изменён!\n `%s` **->** `%s`",
-                           person_type.genitive_case, after.id, before.display_name, after.display_name,
-                           extra={ "user_avatar": after.display_avatar.url, "type": "members" })
+            changed_by = await check_for_mod_actions(
+                guild=before.guild, # type: ignore
+                action=disnake.AuditLogAction.member_update,
+                user_id=before.id
+            )
+            warning_message = (f"Никнейм {person_type.genitive_case} <@{after.id}> был изменён!\n"
+                               f"`{before.display_name}` **->** `{after.display_name}`")
+            if changed_by:
+                warning_message += f"\n\n**Модератор:** {changed_by.mention}"
+
+            logger.warning(
+                warning_message,
+                extra={
+                    "user_avatar": after.display_avatar.url,
+                    "type": "members",
+                    "guild_id": before.guild.id if isinstance(before, disnake.Member) else None
+                })

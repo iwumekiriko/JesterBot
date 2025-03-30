@@ -7,7 +7,7 @@ from .._api_interaction import add_voice_time
 from src.cogs.economy._api_interaction import coins_
 from src.logger import get_logger
 from src.utils._experience import is_new_lvl, ExpTypes
-from .._utils import send_reward_message
+from .._utils import send_reward_message, check_for_mod_actions
 
 
 logger = get_logger()
@@ -63,22 +63,57 @@ class VoiceActivityListenerCog(commands.Cog):
             return
 
         if before.channel is None and after.channel is not None:
-            logger.info("Пользователь <@%d> заходит в войс канал [%s]",
+            logger.info("Пользователь <@%d> присоединяется к войс каналу [%s]",
                         member.id, after.channel.jump_url,
-                        extra={"user_avatar": member.display_avatar.url, "type": "voice"})
+                        extra={
+                            "user_avatar": member.display_avatar.url,
+                            "type": "voice",
+                            "guild_id": member.guild.id
+                        })
             self.count_user(member)
 
         elif before.channel is not None and after.channel is None:
-            logger.info("Пользователь <@%d> выходит из войс канала [%s]",
-                        member.id, before.channel.jump_url,
-                        extra={"user_avatar": member.display_avatar.url, "type": "voice"})
+            disconnected_by = await check_for_mod_actions(
+                guild=member.guild,
+                action=disnake.AuditLogAction.member_disconnect,
+                user_id=member.id
+            )
+
+            info_message = f"Пользователь <@{member.id}> покидает войс канал [{before.channel.jump_url}]"
+            if disconnected_by:
+                info_message += f"\n\n**Модератор**: {disconnected_by.mention}"
+
+            logger.info(
+                info_message,
+                extra={
+                    "user_avatar": member.display_avatar.url,
+                    "type": "voice",
+                    "guild_id": member.guild.id
+                })
+
             await self._sync_user(member)
 
         elif (before.channel is not None and after.channel is not None 
                 and before.channel != after.channel):
-            logger.info("Пользователь <@%d> переходит в войс канал [%s] **->** [%s]",
-                        member.id, before.channel.jump_url, after.channel.jump_url,
-                        extra={"user_avatar": member.display_avatar.url, "type": "voice"})
+            moved_by = await check_for_mod_actions(
+                guild=member.guild,
+                action=disnake.AuditLogAction.member_move,
+                user_id=member.id
+            )
+
+            info_message = (f"Пользователь <@{member.id}> переходит в войс канал"
+                            f"[{before.channel.jump_url}] **->** [{after.channel.jump_url}]")
+            if moved_by:
+                info_message += f"\n\n**Модератор**: {moved_by.mention}"
+
+            logger.info(
+                info_message,
+                extra={
+                    "user_avatar": member.display_avatar.url,
+                    "type": "voice",
+                    "guild_id": before.channel.guild
+                })
+
             await self.sync_user_in_vc(member)
 
 

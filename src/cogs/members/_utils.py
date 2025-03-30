@@ -1,3 +1,5 @@
+from typing import Optional
+
 import disnake
 
 from src.models import Member
@@ -43,3 +45,24 @@ async def send_reward_message(
                 rewards=reward
             )
         ))
+
+
+async def check_for_mod_actions(
+    guild: disnake.Guild,
+    action: disnake.AuditLogAction,
+    user_id: int
+) -> Optional[disnake.Member]:
+    try:
+        async for entry in guild.audit_logs(
+            limit=1,
+            action=action
+        ):
+            if (
+                isinstance(entry.target, disnake.Member) and
+                isinstance(entry.user, disnake.Member) and
+                entry.user.id != user_id
+            ): 
+                return entry.user
+    except disnake.Forbidden:
+        return None
+
