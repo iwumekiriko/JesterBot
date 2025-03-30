@@ -108,10 +108,15 @@ class JesterBot(commands.Bot):
             return
         if (isinstance(exception, commands.CommandInvokeError)
             and isinstance(exception.original, CustomException)):
-            await interaction.response.send_message(
-                embed=ExceptionEmbed(str(exception.original)),
-                ephemeral=True
-            )
+            if interaction.response.is_done():
+                await interaction.followup.send(
+                    embed=ExceptionEmbed(str(exception.original)),
+                    ephemeral=True)
+            else:
+                await interaction.response.send_message(
+                    embed=ExceptionEmbed(str(exception.original)),
+                    ephemeral=True
+                )
         if isinstance(exception, commands.BadArgument):
             embed = ExceptionEmbed(str(exception))
             if interaction.response.is_done():
