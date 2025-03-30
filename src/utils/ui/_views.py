@@ -18,6 +18,7 @@ class State:
     content: Optional[str] = None
     embed: Optional[disnake.Embed] = None
     files: Optional[List[disnake.File]] = None
+    kwargs: Optional[dict] = None
 
 
 class ViewStates:
@@ -75,20 +76,28 @@ class BaseView(disnake.ui.View):
         super().__init__(timeout=timeout)
         self.author: disnake.Member | disnake.User
         self.message: disnake.Message
-        self.states: ViewStates = ViewStates(self.to_state())
+        self.states: ViewStates
 
-    def to_state(self) -> State:
+    def to_state(
+        self, kwargs: Optional[dict] = None
+    ) -> State:
         return State(
-            view = self
+            view = self,
+            kwargs = kwargs
         )
+    
+    async def __ainit__(self) -> None:
+        pass
 
     async def start(
         self,
-        interaction: disnake.ApplicationCommandInteraction
+        interaction: disnake.ApplicationCommandInteraction,
+        kwargs: Optional[dict] = None
     ) -> None:
         await self._response(interaction)
         self.message = await interaction.original_message()
         self.author = interaction.author
+        self.states = ViewStates(self.to_state(kwargs))
 
     async def _response(
         self,
@@ -101,19 +110,23 @@ class BaseView(disnake.ui.View):
     async def start_next(
         self,
         view: 'BaseView',
+        kwargs: Optional[dict] = None
     ) -> None:
         next_ = view
         next_.message = self.message
         next_.author = self.author
-        next_state = next_.to_state()
+        next_state = next_.to_state(kwargs)
 
         self.states.add_next(next_state)
         next_.states = self.states
 
         await self.message.edit(
+            view=next_state.view,
+            content=next_state.content,
             embed=next_state.embed,
-            view=next_state.view
+            files=next_state.files or []
         )
+        self.stop()
 
     def add_back_button(self, row: int = 0) -> None:
         self.add_item(BackButton(row))
@@ -121,10 +134,22 @@ class BaseView(disnake.ui.View):
     async def to_previous(self) -> None:
         previous = self.states.previous
 
+        v_type = type(previous.view)
+        view = v_type(**(previous.kwargs) or {})
+        await view.__ainit__()
+
+        view.message = self.message
+        view.author = self.author
+        view.states = self.states
+
         await self.message.edit(
-            embed = previous.embed,
-            view = previous.view
+            view = view,
+            embed = (view.create_embed() if hasattr(view, "create_embed") # type: ignore
+                                         else previous.embed), 
+            content = previous.content,
+            files = previous.files or []
         )
+        self.stop()
 
     async def interaction_check(
         self,
