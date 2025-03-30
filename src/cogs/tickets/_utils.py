@@ -35,6 +35,7 @@ async def ticket(data: list, type: ThreadClassification) -> None:
         description_problem=data[1],
         additional_info=data[2] if len(data) > 2 else None,
         user_id=inter.user.id,
+        guild_id=inter.guild_id,
         type_problem=type.name.lower()
     )
     await ticket_create(ticket)
