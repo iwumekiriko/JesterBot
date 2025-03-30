@@ -66,3 +66,25 @@ def user_avatar(user_id: int = 0, jester: bool = False) -> str | None:
     return (bot.get_user(user_id).display_avatar.url # type: ignore
             or bot.get_user(user_id).default_avatar.url # type: ignore
             if not jester else bot.user.avatar.url) # type: ignore
+
+
+def dangerous_role_excluding(
+    inter: disnake.ApplicationCommandInteraction,
+    arg: disnake.Role
+) -> disnake.Role:
+    dangerous_permissions = {
+        "administrator",
+        "manage_guild",
+        "manage_roles",
+        "manage_channels",
+        "kick_members",
+        "ban_members",
+        "manage_emojis_and_stickers",
+        "manage_webhooks",
+        "manage_messages",
+        "moderate_members",
+    }
+    if any(getattr(arg.permissions, perm, False) for perm in dangerous_permissions):
+        raise commands.BadArgument(_("dangerous_role_error"))
+
+    return arg
