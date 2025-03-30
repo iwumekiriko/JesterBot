@@ -2,9 +2,9 @@
 
 # Experience parameters
 
-# Amount of experience a member gets after sending a message. 
+# Amount of experience a member gets after sending a message. [default: 3]
 EXP_FOR_MESSAGE = 3
-# Amount of experience a member gets after spendning a minute in a voice channel. 
+# Amount of experience a member gets after spendning a minute in a voice channel. [default: 1]
 EXP_FOR_VOICE_MINUTE = 1
 
 # -------------------
@@ -45,7 +45,7 @@ TICKET_REPORT_CHANNEL_ID = 0
 CUSTOM_VOICE_CREATION_CHANNEL_ID = 0
 # Category which contains transition channel 
 CUSTOM_VOICE_CATEGORY_ID = 0
-# Amount of seconds after which the custom channel will be deleted
+# Amount of seconds after which the custom channel will be deleted [default: 30]
 CUSTOM_VOICE_DELETION_TIME = 30
 
 # -------------------
