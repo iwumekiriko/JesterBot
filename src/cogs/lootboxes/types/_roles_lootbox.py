@@ -227,13 +227,13 @@ class RolesLootbox(BaseLootbox):
             received.append(item)
 
         return received
-    
+
     def _get_coins_params(self, count) -> Dict[int, int]:
-        amount_choices = { 45: 300, 35: 200, 12: 500, 5: 100, 2: 2000, 1: 1 }
+        amount_choices = { 45: 1000, 35: 2000, 12: 4000, 5: 8000, 2: 1, 1: 20000 }
         return dict(Counter(random.choices(
             population=list(amount_choices.values()),
             weights=list(amount_choices.keys()), k=count)))
-    
+
     async def _handle_exp_booster_reward(self, count: int) -> list[Item]:
         from src.models.inventory_items import ExpBooster
 
