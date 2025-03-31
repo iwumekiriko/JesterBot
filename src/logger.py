@@ -55,7 +55,7 @@ class DiscordFilter(logging.Filter):
 
 class ConsoleFilter(logging.Filter):
     def filter(self, record):
-        return not getattr(record, 'to_discord', False)
+        return not getattr(record, 'to_discord', False) or not hasattr(record, 'type')
 
 
 class ColoredFormatter(Formatter):

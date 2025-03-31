@@ -5,6 +5,7 @@ from datetime import datetime
 from src._cog_manager import CogManager
 from src.logger import get_logger
 from src.localization import get_localizator
+from src.utils._time import seconds_to_hms
 from src.utils._exceptions import CustomException
 from src.utils.ui import ExceptionEmbed
 from src import settings
@@ -106,6 +107,13 @@ class JesterBot(commands.Bot):
     ) -> None:
         if isinstance(exception, commands.CommandNotFound):
             return
+        if isinstance(exception, commands.CommandOnCooldown):
+            await interaction.response.send_message(
+                embed=ExceptionEmbed(_("command_on_cooldown_error",
+                                        left=seconds_to_hms(
+                                            int(exception.retry_after)))),
+                ephemeral=True,
+            )
         if (isinstance(exception, commands.CommandInvokeError)
             and isinstance(exception.original, CustomException)):
             if interaction.response.is_done():

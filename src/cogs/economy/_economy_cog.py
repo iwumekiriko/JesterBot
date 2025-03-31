@@ -63,6 +63,7 @@ class EconomyCog(commands.Cog):
                         f" | {_('economy-donate_BIC_field')} {BANK_INDEF_CODE}")))
         await interaction.response.send_message(embed=embed)
 
+    @commands.cooldown(1, 24*60*60, commands.BucketType.user)
     @commands.slash_command(description=_("economy-daily_desc"))
     async def daily(
         self,
