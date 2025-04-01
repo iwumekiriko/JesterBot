@@ -35,13 +35,15 @@ class TicketsCog(commands.Cog):
             ticket_channel = self._bot.get_channel(ticket_channel_id)
             if not isinstance(ticket_channel, disnake.TextChannel):
                 logger.debug("Канал для тикетов недоступен!",
-                            extra={"user_avatar": user_avatar(jester=True),
-                                    "type": "else"})
+                            extra={
+                                "user_avatar": user_avatar(jester=True),
+                                "type": "else",
+                                "guild_id": guild.id
+                            })
                 return
 
             try:
                 await ticket_channel.fetch_message(ticket_message_id) # type: ignore
-                logger.info("Ticket channel is ready.")
             except:
                 view = TicketCreationView()
                 message = await ticket_channel.send(
@@ -49,6 +51,11 @@ class TicketsCog(commands.Cog):
                     view=view
                 )
                 logger.debug("Тикет сообщение не было найдено. Создано новое.",
-                            extra={"user_avatar": user_avatar(jester=True), 
-                                   "type": "else", "guild_id": ticket_channel.guild.id})
+                            extra={
+                                "user_avatar": user_avatar(jester=True),
+                                "type": "else",
+                                "guild_id": guild.id
+                            })
                 await set_ticket_message(guild.id, message.id)
+        logger.info("Ticket channels for guilds %s are ready.",
+                    [guild.id for guild in self._bot.guilds])
