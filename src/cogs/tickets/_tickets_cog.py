@@ -1,3 +1,5 @@
+import asyncio
+
 import disnake
 from disnake.ext import commands
 
@@ -9,6 +11,7 @@ from ._api_interaction import set_ticket_message
 
 
 logger = get_logger()
+CONFIG_LOAD_TIME = 3
 
 
 class TicketsCog(commands.Cog):
@@ -17,6 +20,8 @@ class TicketsCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self) -> None:
+        await asyncio.sleep(CONFIG_LOAD_TIME)
+
         from src.config import cfg
 
         for guild in self._bot.guilds:
@@ -33,9 +38,10 @@ class TicketsCog(commands.Cog):
                             extra={"user_avatar": user_avatar(jester=True),
                                     "type": "else"})
                 return
-            
+
             try:
                 await ticket_channel.fetch_message(ticket_message_id) # type: ignore
+                logger.info("Ticket channel is ready.")
             except:
                 view = TicketCreationView()
                 message = await ticket_channel.send(
@@ -46,6 +52,3 @@ class TicketsCog(commands.Cog):
                             extra={"user_avatar": user_avatar(jester=True), 
                                    "type": "else", "guild_id": ticket_channel.guild.id})
                 await set_ticket_message(guild.id, message.id)
-
-        
-
