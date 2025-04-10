@@ -41,7 +41,7 @@ class RolesPaginator(ShopPaginator[ShopRole]):
 
     def create_embed(self) -> disnake.Embed:
         if not self.page_items:
-            return ShopEmbed(title=_("shop-paginators-roles_embed_empty"))
+            return ShopEmbed(title=_("shop-paginators-embed_empty"))
 
         from src.config import cfg
         ec = cfg.economy_cfg(self._guild.id)

@@ -2,6 +2,7 @@
     "ru": {
         "shop-paginators-roles_embed_title": "Магазиник ролей",
         "shop-paginators-keys_embed_title": "Магазиник билетиков",
+        "shop-paginators-embed_empty": "Тут пока пусто...",
 
         "shop-paginators-roles-got_by_user": "*выкуплено*"
     }
