@@ -50,12 +50,12 @@ LOG_WEBHOOKS = {
 
 class DiscordFilter(logging.Filter):
     def filter(self, record):
-        return getattr(record, 'to_discord', False) or hasattr(record, 'type')
+        return hasattr(record, 'type')
 
 
 class ConsoleFilter(logging.Filter):
     def filter(self, record):
-        return not getattr(record, 'to_discord', False) or not hasattr(record, 'type')
+        return not hasattr(record, 'type')
 
 
 class ColoredFormatter(Formatter):
