@@ -1,5 +1,5 @@
 from disnake import MessageCommandInteraction, TextInputStyle
-from typing import Any
+from typing import Any, Dict, List
 
 from src.localization import get_localizator
 from src.utils.ui import ModalTextInput, BaseModal
@@ -11,6 +11,7 @@ _ = get_localizator("config_modals")
 
 
 FIELDS_PER_PAGE = 5
+EXCLUDING = "excluding"
 
 
 async def experience_cfg_modal_form(
@@ -104,6 +105,35 @@ async def channels_cfg_modal_form(
         interaction=interaction
     ).receive_data()
     await set_local_cfg(_make_data(components, data), ChannelsConfig)
+    return data[0]
+
+
+async def shop_cfg_modal_form(
+    interaction: MessageCommandInteraction,
+    base_shop_channel_id: int | None = 0,
+    base_shop_message_id: int | None = 0,
+    page: int = 0
+):
+    shop_channel_id = ModalTextInput(
+         label=_("shop_channel_id_input"),
+         value=str(base_shop_channel_id),
+         placeholder="shop_channel_id",
+         required=False
+    )
+    shop_message_id = ModalTextInput(
+        label=_("shop_message_id_input"),
+        value=str(base_shop_message_id),
+        placeholder="shop_message_id",
+        required=False
+    )
+    components_data = [shop_channel_id, shop_message_id]
+    components = _page_components(components_data, page)
+    data = await BaseModal(
+        _("shop_cfg_modal"),
+        components=components,
+        interaction=interaction
+    ).receive_data()
+    await set_local_cfg(_make_data(components, data), ShopConfig)
     return data[0]
 
 
@@ -264,6 +294,7 @@ async def lootboxes_cfg_modal_form(
     interaction: MessageCommandInteraction,
     base_roles_lootbox_key_price: int | None = 0,
     base_backgrounds_lootbox_key_price: int | None = 0,
+    base_active_lootboxes: list[str] | None = None,
     page: int = 0
 ):
     roles_lootbox_keys_price = ModalTextInput(
@@ -278,9 +309,26 @@ async def lootboxes_cfg_modal_form(
         placeholder="backgrounds_lootbox_key_price",
         required=False
     )
+    active_lootboxes = ModalTextInput(
+        label=_("active_lootboxes_input"),
+        value=str(base_active_lootboxes),
+        placeholder="active_lootboxes",
+        style=TextInputStyle.long,
+        required=False
+    )
+    from src.cogs.lootboxes._lootbox_map import LootboxMap
+    active_lootboxes_tip = ModalTextInput(
+        label=_("active_lootboxes_tip"),
+        value=_("active_lootboxes_tip_value", available=LootboxMap.values()),
+        placeholder=EXCLUDING,
+        style=TextInputStyle.long,
+        required=False
+    )
     components_data = [
         roles_lootbox_keys_price,
-        backgrounds_lootbox_keys_price
+        backgrounds_lootbox_keys_price,
+        active_lootboxes,
+        active_lootboxes_tip
     ]
     components = _page_components(components_data, page)
     data = await BaseModal(
@@ -332,15 +380,16 @@ async def economy_cfg_modal_form(
     return data[0]
 
 
-def _make_data(components: list, data: Any) -> dict:
+def _make_data(components: List[ModalTextInput], data: Any) -> Dict:
     modified_data = [value if value != '' else None for value in data[1:]]
+    components = [component for component in components if component.placeholder != EXCLUDING]
 
     cfg_data = dict(zip([param.placeholder for param in components], modified_data))
     cfg_data["guild_id"] = data[0].guild.id
     return cfg_data
-    
 
-def _page_components(components: list, page: int) -> list:
+
+def _page_components(components: List[ModalTextInput], page: int) -> List[ModalTextInput]:
     start_index = page * FIELDS_PER_PAGE
     end_index = min(start_index + FIELDS_PER_PAGE, len(components))
     return components[start_index:end_index]

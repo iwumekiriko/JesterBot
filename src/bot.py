@@ -35,10 +35,11 @@ class JesterBot(commands.Bot):
 
     async def on_ready(self) -> None:
         if not self.__persistent_views_added:
-            from src.cogs.tickets.views._ticket_creation_view import TicketCreationView
-            from src.cogs.tickets.views._ticket_thread_view import TicketThreadView
+            from src.cogs.tickets.views import TicketCreationView, TicketThreadView
+            from src.cogs.shop.views import ShopCreationView
             self.add_view(TicketCreationView())
             self.add_view(TicketThreadView())
+            self.add_view(ShopCreationView())
             self.__persistent_views_added = True
 
         await self._sync_voice_users()
