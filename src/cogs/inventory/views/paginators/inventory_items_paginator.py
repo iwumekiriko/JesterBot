@@ -1,4 +1,4 @@
-from typing import Callable, Dict, Generic, List, Optional, Tuple, TypeVar
+from typing import Generic, List, Optional, TypeVar
 from abc import abstractmethod
 
 import disnake
@@ -9,7 +9,6 @@ from src.localization import get_localizator
 from src.utils.ui import Paginator, State
 from src.models.inventory_items import Item
 from ..cards import BaseCard
-from src.utils._time import hms_time_string
 
 
 logger = get_logger()
