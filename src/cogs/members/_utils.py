@@ -57,7 +57,8 @@ async def check_for_mod_actions(
             if (
                 isinstance(entry.target, disnake.Member) and
                 isinstance(entry.user, disnake.Member) and
-                entry.user.id != user_id
+                entry.user.id != user_id and
+                entry.target.id == user_id
             ): 
                 return entry.user
     except disnake.Forbidden:

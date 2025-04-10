@@ -109,9 +109,14 @@ class CustomVoiceCog(commands.Cog):
                     })
 
         task = asyncio.create_task(delete_channel(before_channel))
-        logger.debug("Голосовой канал [%s | %s] удалится через %d секунд",
-                     before_channel.jump_url, before_channel.name, CUSTOM_VOICE_DELETE_TIME,
-                     extra={"user_avatar": user_avatar(jester=True)})
+        logger.debug(
+            "Голосовой канал [%s | %s] удалится через %d секунд",
+            before_channel.jump_url, before_channel.name, CUSTOM_VOICE_DELETE_TIME,
+            extra={
+                "user_avatar": user_avatar(jester=True),
+                "type": "else",
+                "guild_id": before_channel.guild.id
+            })
         self._delete_timers[before_channel.id] = task
 
     async def _check_for_timer_stop(

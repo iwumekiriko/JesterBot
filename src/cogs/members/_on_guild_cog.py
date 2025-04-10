@@ -121,7 +121,7 @@ class OnGuildCog(commands.Cog):
                 extra={
                     "user_avatar": after.display_avatar.url,
                     "type": "members",
-                    "guild_id": before.guild.id if isinstance(before, disnake.Member) else None
+                    "guild_id": before.guild.id if isinstance(before, disnake.Member) else BASE_GUILD_ID
                 })
 
     async def _check_for_log_username(
