@@ -90,7 +90,7 @@ class OnGuildCog(commands.Cog):
         after: disnake.Member
     ) -> None:
         await self._log_common_updates(before, after, PersonType.MEMBER)
-        self._check_for_boosting(before, after)
+        # self._check_for_boosting(before, after)
 
     @commands.Cog.listener()
     async def on_user_update(
