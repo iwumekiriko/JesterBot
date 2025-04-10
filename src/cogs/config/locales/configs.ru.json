@@ -9,6 +9,7 @@
         "experience_cfg_0": "Управление опытом 1",
         "roles_cfg_0": "Управление ролями 1",
         "channels_cfg_0": "Управление каналами 1",
+        "shop_cfg_0": "Управление магазиником 1",
         "tickets_cfg_0": "Управление тикетами 1",
         "voice_cfg_0": "Управление войсами 1",
         "logs_cfg_0": "Управление логами 1",
@@ -21,6 +22,7 @@
         "experience_config_embed_title": "Настройки опыта",
         "roles_config_embed_title": "Настройки ролей",
         "channels_config_embed_title": "Настройки каналов",
+        "shop_config_embed_title": "Настройка магазиника",
         "tickets_config_embed_title": "Настройки тикетов",
         "voice_config_embed_title": "Настройки войса",
         "logs_config_embed_title": "Настройки вебхуков",
@@ -42,6 +44,9 @@
         "general_channel_id_field": "Id канала общего чата",
         "offtop_channel_id_field": "Id канала оффтопа",
 
+        "shop_channel_id_field": "Id канала для магазиника",
+        "shop_message_id_field": "Id сообщения для магазиника",
+
         "ticket_channel_id_field": "Id канала для тикетов",
         "ticket_message_id_field": "Id сообщения для тикетов",
         "ticket_report_channel_id_field": "Id канала для отчетов о тикетах",
@@ -60,6 +65,7 @@
 
         "roles_lootbox_key_price_field": "Цена за ключ от лутбокса с ролями",
         "backgrounds_lootbox_key_price_field": "Цена за ключ от лутбокса с фонами",
+        "active_lootboxes_field": "Список активных лутбоксов",
 
         "default_currency_icon_field": "Иконка (эмодзи) стандартной валюты",
         "donate_currency_icon_field": "Иконка (эмодзи) донатной валюты",

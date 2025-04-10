@@ -26,7 +26,10 @@ class Config:
 
     def channels_cfg(self, guild_id: int) -> ChannelsConfig:
         return self.__cfg[guild_id]["Channels"]
-    
+
+    def shop_cfg(self, guild_id: int) -> ShopConfig:
+        return self.__cfg[guild_id]["Shop"]
+
     def tickets_cfg(self, guild_id: int) -> TicketsConfig:
         return self.__cfg[guild_id]["Tickets"]
 
@@ -47,6 +50,7 @@ class Config:
         cfgs: list[type[BaseConfig]] = [ExperienceConfig,
                                         RolesConfig,
                                         ChannelsConfig,
+                                        ShopConfig,
                                         TicketsConfig,
                                         VoiceConfig,
                                         LogsConfig,
@@ -85,7 +89,11 @@ class Config:
             case ChannelsConfig():
                 config.general_channel_id = GENERAL_CHANNEL_ID
                 config.offtop_channel_id = OFFTOP_CHANNEL_ID
-            
+
+            case ShopConfig():
+                config.shop_channel_id = SHOP_CHANNEL_ID
+                config.shop_message_id = SHOP_MESSAGE_ID
+
             case TicketsConfig():
                 config.ticket_channel_id = TICKET_CHANNEL_ID
                 config.ticket_message_id = TICKET_MESSAGE_ID

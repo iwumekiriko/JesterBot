@@ -27,6 +27,16 @@ OFFTOP_CHANNEL_ID = 0
 
 # -------------------
 
+# Shop parameters
+
+# Channel containing persistent shop view
+SHOP_CHANNEL_ID = 0
+# Message with persistent shop view
+# Wrong id or None leads to new message creation in the channel
+SHOP_MESSAGE_ID = 0
+
+# -------------------
+
 # Tickets parameters
 
 # Channel containing persistent tickets view

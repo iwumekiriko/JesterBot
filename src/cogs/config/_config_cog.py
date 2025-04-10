@@ -16,7 +16,7 @@ class ConfigCog(commands.Cog):
         self.bot = bot
 
     @commands.slash_command(**for_admins, description=_("config_desc"))
-    async def config(
+    async def _config(
         self,
         interaction: disnake.GuildCommandInteraction
     ) -> None:

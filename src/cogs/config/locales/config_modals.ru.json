@@ -21,6 +21,12 @@
         "offtop_channel_id_input": "Id канала оффтопа",
         "channels_cfg_modal": "Управление каналами",
 
+        "-----------------------------": "Модальное окно с настройками магазиника",
+        
+        "shop_channel_id_input": "Id канала для магазиника",
+        "shop_message_id_input": "Id сообщения для магазиника",
+        "shop_cfg_modal": "Управление магазиником",
+
 
         "--------------------------------": "Модальное окно с настройками тикетов",
 
@@ -54,6 +60,9 @@
 
         "roles_lootbox_key_price_input": "Цена за ключ от лутбокса с ролями",
         "backgrounds_lootbox_key_price_input": "Цена за ключ от лутбокса с фонами",
+        "active_lootboxes_input": "Список активных лутбоксов",
+        "active_lootboxes_tip": "Подсказка к полю выше",
+        "active_lootboxes_tip_value": "ДАННОЕ ПОЛЕ НЕ ПРЕДНАЗНАЧЕНО ДЛЯ ВВОДА ДАННЫХ И СЛУЖИТ ПОДСКАЗКОЙ К ПОЛЮ «%{.active_lootboxes_input}»\nДАННЫЕ ВВОДЯТСЯ В ФОРМАТЕ: «lootbox_type | lootbox_type | ...»\nВОЗМОЖНЫЕ ВАРИАНТЫ ВВОДА: %{available}",
         "lootboxes_cfg_modal": "Управление лутбоксами",
 
 
