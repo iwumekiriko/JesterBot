@@ -11,6 +11,7 @@ class LootboxRole:
     guild: Optional[Guild]
     lootbox_type: LootboxTypes
     guild_role_id: int
+    exclusive: bool
     got_by_user: Optional[bool]
 
     def to_dict(self) -> Dict:
@@ -18,5 +19,6 @@ class LootboxRole:
             "guildId": self.guild_id,
             "guild": self.guild,
             "lootboxType": self.lootbox_type,
+            "exclusive": self.exclusive,
             "guildRoleId": self.guild_role_id
         }
