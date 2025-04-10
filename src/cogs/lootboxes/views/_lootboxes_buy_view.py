@@ -1,9 +1,9 @@
 import disnake
 
-from src.utils.ui import BaseView, ModalTextInput, BaseModal
+from src.utils.ui import BaseView, ModalTextInput, BaseModal, SuccessEmbed
 from src.localization import get_localizator
-from .._api_interaction import keys
-from src.cogs.economy._api_interaction import coins_
+from .._api_interaction import manage_keys
+from src.cogs.economy._api_interaction import update_member_coins
 from src.models.lootboxes import LootboxTypes
 
 
@@ -28,12 +28,15 @@ class LootboxBuyView(BaseView):
     ) -> None:
         from src.config import cfg
         lc = cfg.lootboxes_cfg(interaction.guild.id) # type: ignore
+        ec = cfg.economy_cfg(interaction.guild.id) # type: ignore
         price = lc.get_price(self._key_type)
+        currency = ec.default_currency_icon
 
         await interaction.followup.send(
             embed=disnake.Embed(
                 title=_("lootboxes-buy_embed_title"),
-                description=_("lootboxes-buy_embed_desc", count=price)
+                description=_("lootboxes-buy_embed_desc",
+                               price=price, currency=currency)
             ),
             view=self,
             ephemeral=True)
@@ -42,12 +45,14 @@ class LootboxBuyView(BaseView):
         self,
         guild_id: int, user_id: int,
         price: int, count: int
-    ) -> None:
+    ) -> int:
         if count > 1:
             price *= count
 
-        await coins_(guild_id, user_id, -price)
-        await keys(guild_id, user_id, self._key_type, count)
+        member = await update_member_coins(guild_id, user_id, -price)
+        await manage_keys(guild_id, user_id, self._key_type, count)
+
+        return member.coins
 
     async def _handle_button(
         self,
@@ -59,11 +64,22 @@ class LootboxBuyView(BaseView):
         user_id = interaction.user.id
 
         from src.config import cfg
-        lc = cfg.lootboxes_cfg(guild_id) 
-        price = lc.get_price(self._key_type)
+        lc = cfg.lootboxes_cfg(guild_id)
+        ec = cfg.economy_cfg(guild_id)
+        price = int(lc.get_price(self._key_type))
+        currency_icon = ec.default_currency_icon
 
-        await self.buy_(guild_id, user_id, price, count)
-        await interaction.followup.send(_("lootboxes-success"), ephemeral=True)
+        left_coins = await self.buy_(guild_id, user_id, price, count)
+        await interaction.followup.send(
+            embed=SuccessEmbed(
+                success_msg=_("lootboxes-buy_success", 
+                    start_coins=left_coins+price*count,
+                    left_coins=left_coins,
+                    currency_icon=currency_icon
+                )
+            ),
+            ephemeral=True
+        )
 
     async def on_timeout(self) -> None:
         self.stop()

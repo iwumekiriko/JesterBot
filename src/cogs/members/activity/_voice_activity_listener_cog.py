@@ -4,7 +4,7 @@ from disnake.ext import commands, tasks
 
 from src.bot import JesterBot
 from .._api_interaction import add_voice_time
-from src.cogs.economy._api_interaction import coins_
+from src.cogs.economy._api_interaction import update_member_coins
 from src.logger import get_logger
 from src.utils._experience import is_new_lvl, ExpTypes
 from .._utils import send_reward_message, check_for_mod_actions
@@ -124,5 +124,5 @@ class VoiceActivityListenerCog(commands.Cog):
         member_data = await add_voice_time(member, seconds)
         is_lvled, coins = is_new_lvl(member_data, ExpTypes.VOICE)
         if is_lvled:
-            await coins_(member_data.guild_id, member_data.user_id, coins)
+            await update_member_coins(member_data.guild_id, member_data.user_id, coins)
             await send_reward_message(member_data, coins)

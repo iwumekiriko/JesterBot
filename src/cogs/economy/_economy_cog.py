@@ -3,7 +3,7 @@ from disnake.ext import commands
 
 from src.bot import JesterBot
 from src.utils._converters import inter_member
-from ._api_interaction import coins_
+from ._api_interaction import update_member_coins
 from src.utils.ui import BaseEmbed
 from src.localization import get_localizator
 from src.utils._time import current_time
@@ -37,8 +37,8 @@ class EconomyCog(commands.Cog):
         payer_id = interaction.author.id
         receiver_id = member.id
 
-        await coins_(guild_id, payer_id, -amount)
-        await coins_(guild_id, receiver_id, amount)
+        await update_member_coins(guild_id, payer_id, -amount)
+        await update_member_coins(guild_id, receiver_id, amount)
         embed = (BaseEmbed(title = _("economy-donate_embed_title"))
             .add_field(name=_("economy-donate_receiver_field"),
                         value=f"<@{receiver_id}>", inline=True)
@@ -75,6 +75,6 @@ class EconomyCog(commands.Cog):
 
         daily_bonus = cfg.economy_cfg(guild_id).daily_bonus
         
-        await coins_(guild_id, user_id, daily_bonus)
+        await update_member_coins(guild_id, user_id, daily_bonus)
         await interaction.response.send_message(_("economy-daily_response"))
         

@@ -19,6 +19,9 @@ def seconds_to_hms(seconds: int) -> str:
         str: A formatted string representing the time in hours, minutes, and seconds.\
         `[Example: 23h 59m 59s]`
     """
+    if seconds == 0:
+        return f"{seconds}{_('_seconds')}"
+
     hours = seconds // 3600
     minutes = (seconds % 3600) // 60
     seconds = seconds % 60

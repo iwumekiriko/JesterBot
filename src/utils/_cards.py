@@ -11,7 +11,7 @@ from src.localization import get_localizator
 _ = get_localizator("items-config")
 
 
-def item_card(item: Item) -> Embed:
+def item_card(item: Item, with_count: bool = True) -> Embed:
     embed = BaseEmbed(
         title = _(f"items-config-{item.name_lower}_name"),
         description = item.description,
@@ -20,7 +20,7 @@ def item_card(item: Item) -> Embed:
     )
     if item.thumbnail:
         embed.set_thumbnail(item.thumbnail)
-    if not isinstance(item, Role):
+    if not isinstance(item, Role) and with_count:
         embed.add_field(
             name="",
             value=_('items-config-card_count', count=item.quantity),

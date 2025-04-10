@@ -9,7 +9,7 @@ from src.models.lootboxes import (
     LootboxUserData, BaseData, LootboxRole,
     RolesData, BackgroundsData, LootboxTypes
 )
-from ._lootbox_roles_actions import LootboxRolesActions
+from src.utils.enums import RolesActions
 
 
 item_endpoints: Dict[type[Item], str] = {
@@ -20,7 +20,7 @@ item_endpoints: Dict[type[Item], str] = {
 }
 
 
-async def handle_lootbox_prize(
+async def add_item_to_inventory(
     guild_id: int, user_id: int,
     item_type: Type[Item], *,
     body: Optional[Dict] = None
@@ -52,7 +52,7 @@ async def keys_count(guild_id: int, user_id: int, type: LootboxTypes) -> int:
         return await client.get(endpoint)
 
 
-async def keys(guild_id: int, user_id: int, type: LootboxTypes, count: int) -> None:
+async def manage_keys(guild_id: int, user_id: int, type: LootboxTypes, count: int) -> None:
     endpoint = f"Inventory/{guild_id}/{user_id}/lootbox-keys/{type.value}?count={count}"
     async with APIClient() as client:
         await client.put(endpoint)
@@ -100,16 +100,18 @@ async def handle_lootbox_role(
     guild_id: int,
     lootbox_type: LootboxTypes,
     guild_role_id: int,
-    action: LootboxRolesActions
+    action: RolesActions,
+    exclusive: bool
 ) -> None:
     endpoint = f"Lootboxes/{guild_id}/roles/{lootbox_type.value}/{guild_role_id}"
+    query_params = { "exclusive": str(exclusive) }
     async with APIClient() as client:
         match action:
 
-            case LootboxRolesActions.ADD:
-                 await client.post(endpoint)
+            case RolesActions.ADD:
+                 await client.post(endpoint, query_params=query_params)
 
-            case LootboxRolesActions.REMOVE:
+            case RolesActions.REMOVE:
                 await client.delete(endpoint)
 
 

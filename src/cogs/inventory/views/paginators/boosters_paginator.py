@@ -1,4 +1,4 @@
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import List, Optional
 
 import disnake
 
@@ -6,7 +6,7 @@ from src.logger import get_logger
 from src.localization import get_localizator
 
 from src.utils._time import make_discord_timestamp
-from src.utils.ui import BaseEmbed
+from src.utils.ui import BaseEmbed, SuccessEmbed
 from src.models.inventory_items import ExpBooster
 from ..cards import BoosterCard
 from .inventory_items_paginator import InventoryItemsPaginator
@@ -87,7 +87,10 @@ class CancelBoosterButton(disnake.ui.Button):
             interaction.user.id
         )
         self.view.active_booster = None
-        message = _("inventory-boosters_paginator_cancel_button_response")
-
-        await interaction.followup.send(message, ephemeral=True)
+        await interaction.followup.send(
+            embed=SuccessEmbed(
+                success_msg=_("inventory-boosters_paginator_cancel_button_response")
+            ),
+            ephemeral=True
+        )
         await self.view.update_view()

@@ -12,12 +12,12 @@ from src.localization import get_localizator
 from ._api_interaction import handle_lootbox_role
 from src.utils._permissions import for_admins
 from ._lootbox_map import LootboxMap
-from ._lootbox_roles_actions import LootboxRolesActions
 from src.utils._events import CustomEvents
 from src.models.inventory_items.item import Item
-from src.utils.ui import ViewSwitcher
+from src.utils.ui import ViewSwitcher, SuccessEmbed
 from .views import LootboxesShowcaseView, LootboxesPrizesPaginator
 from src.utils._converters import dangerous_role_excluding
+from src.utils.enums import RolesActions
 
 
 logger = get_logger()
@@ -26,6 +26,20 @@ _ = get_localizator("lootboxes")
 
 LOOTBOXES_TIMEOUT = 600
 REMOVE_TIMER = 1000
+
+
+def _active_lootboxes_autocomplete(
+    inter: disnake.ApplicationCommandInteraction, arg
+) -> Dict[str, str]:
+    actives = LootboxMap.actives(inter.guild.id) # type: ignore
+    return {lb.translated(): lb.value for lb in actives}
+
+
+def _active_lootboxes_with_roles_autocomplete(
+    inter: disnake.ApplicationCommandInteraction, arg
+) -> Dict[str, str]:
+    w_roles = LootboxMap.w_roles(inter.guild.id) # type: ignore
+    return {lb.translated(): lb.value for lb in w_roles}
 
 
 class LootboxesCog(commands.Cog):
@@ -42,10 +56,10 @@ class LootboxesCog(commands.Cog):
         self,
         interaction: disnake.GuildCommandInteraction,
         type = commands.Param(
-            choices = {type.get_translated_name(): type for type in LootboxMap},
+            autocomplete=_active_lootboxes_autocomplete,
             description=_("lootboxes-type_param"))
     ) -> None:
-        l_type = LootboxMap.get_type(type)
+        l_type = LootboxMap.to_class(type)
         guild = interaction.guild
         user = interaction.user
 
@@ -73,23 +87,33 @@ class LootboxesCog(commands.Cog):
         if _p := self.__active.get(uuid): _p.add(items)
 
     @commands.slash_command(**for_admins, description=_("lootboxes-role_desc"))
-    async def lootboxes_role(
+    async def _lr(
         self,
         interaction: disnake.GuildCommandInteraction,
         lootbox_type = commands.Param(
-            choices = { type.get_translated_name(): type for type in LootboxMap.lootboxes_with_roles() },
+            autocomplete=_active_lootboxes_with_roles_autocomplete,
             description=_("lootboxes-role-type_param")),
         action = commands.Param(
-            choices = { action.get_translated_name(): action for action in LootboxRolesActions },
+            choices = { action.get_translated_name(): action for action in RolesActions },
             description=_("lootboxes-role-action_param")),
         guild_role: disnake.Role = commands.Param(
-            converter=dangerous_role_excluding, description=_("lootboxes-role-role_param"))
+            converter=dangerous_role_excluding, description=_("lootboxes-role-role_param")),
+        exclusive: bool = commands.Param(description=_("lootboxes-role-exclusive_param"), default=False)
     ) -> None:
-        l_type = LootboxMap.get_lootbox_type(lootbox_type)
-        guild = interaction.guild
+        await interaction.response.defer(ephemeral=True)
 
-        await handle_lootbox_role(guild.id, l_type, guild_role.id, action)
-        await interaction.response.send_message(_("lootboxes-success"), ephemeral=True)
+        l_type = LootboxMap.to_type(lootbox_type)
+        guild = interaction.guild
+        response = {
+            RolesActions.ADD: _("lootboxes-role-add_success",
+                                        role_id=guild_role.id, lootbox=l_type.translated),
+            RolesActions.REMOVE: _("lootboxes-role-remove_success",
+                                        role_id=guild_role.id, lootbox=l_type.translated)
+        }
+        await handle_lootbox_role(guild.id, l_type, guild_role.id, action, exclusive)
+        await interaction.followup.send(
+            embed=SuccessEmbed(success_msg=response[action])
+        )
 
 
 class LootboxesViewSwitcher(ViewSwitcher):

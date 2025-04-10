@@ -15,7 +15,7 @@ from src.logger import get_logger
 from ._base_lootbox import BaseLootbox
 from src.utils.ui import BaseEmbed
 from .._api_interaction import (
-    handle_lootbox_prize,
+    add_item_to_inventory,
     get_user_lootbox_roles
 )
 from src.models.inventory_items import Item
@@ -105,7 +105,7 @@ class RolesLootbox(BaseLootbox):
 
         roles_list = (' **/** '.join(f'~~<@&{r.guild_role_id}>~~'
                       if r.got_by_user else f'<@&{r.guild_role_id}>'
-                      for r in lootbox_roles))
+                      for r in lootbox_roles) or "empty")
         lines.append(_("lootboxes-roles_roles_listing", listing=roles_list)) 
         return "\n".join(lines)
 
@@ -215,7 +215,7 @@ class RolesLootbox(BaseLootbox):
 
         amounts = self._get_coins_params(count)
         for amount, count in amounts.items():
-            item = await handle_lootbox_prize(
+            item = await add_item_to_inventory(
                 self._guild.id,
                 self._user.id,
                 Coin,
@@ -241,7 +241,7 @@ class RolesLootbox(BaseLootbox):
 
         boosters_data = self._get_exp_booster_params(count)
         for (value, duration), quantity in boosters_data.items():
-            item = await handle_lootbox_prize(
+            item = await add_item_to_inventory(
                 self._guild.id,
                 self._user.id,
                 ExpBooster,
@@ -278,7 +278,7 @@ class RolesLootbox(BaseLootbox):
 
         received = []
 
-        received.append(await handle_lootbox_prize(
+        received.append(await add_item_to_inventory(
             self._guild.id,
             self._user.id,
             LootboxKey,
@@ -305,7 +305,7 @@ class RolesLootbox(BaseLootbox):
         random.shuffle(available_roles)
 
         for role in available_roles[:reward_count]:
-            reward = await handle_lootbox_prize(
+            reward = await add_item_to_inventory(
                 self._guild.id, self._user.id, Role,
                 body={"GuildRoleId": role.guild_role_id}
             )

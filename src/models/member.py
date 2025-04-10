@@ -13,11 +13,11 @@ class Member:
         user_id: int,
         user: User,
         active: bool = True,
-        experience: Optional[int] = None,
-        exp_multiplier: Optional[int] = None,
-        coins: Optional[int] = None,
-        message_count: Optional[int] = None,
-        voice_time: Optional[int] = None,
+        experience: int = 0,
+        exp_multiplier: int = 1,
+        coins: int = 0,
+        message_count: int = 0,
+        voice_time: int = 0,
         joined_at: Optional[datetime | str] = None
     ) -> None:
         self._guild_id = guild_id
@@ -49,7 +49,7 @@ class Member:
         return self._user
 
     @property
-    def is_active(self) -> Optional[bool]:
+    def is_active(self) -> bool:
         return self._active
 
     @is_active.setter
@@ -57,7 +57,7 @@ class Member:
         self._active = active
 
     @property
-    def experience(self) -> Optional[int]:
+    def experience(self) -> int:
         return self._experience
 
     @experience.setter
@@ -65,7 +65,7 @@ class Member:
         self._experience = exp 
 
     @property
-    def exp_multiplier(self) -> Optional[int]:
+    def exp_multiplier(self) -> int:
         return self._exp_multiplier
 
     @exp_multiplier.setter
@@ -73,7 +73,7 @@ class Member:
         self._exp_multiplier = multiplier
 
     @property
-    def coins(self) -> Optional[int]:
+    def coins(self) -> int:
         return self._coins
 
     @coins.setter
@@ -81,7 +81,7 @@ class Member:
         self._coins = coins
 
     @property
-    def message_count(self) -> Optional[int]:
+    def message_count(self) -> int:
         return self._message_count
 
     @message_count.setter
@@ -89,7 +89,7 @@ class Member:
         self._message_count = mc
 
     @property
-    def voice_time(self) -> Optional[int]:
+    def voice_time(self) -> int:
         return self._voice_time
 
     @voice_time.setter

@@ -4,11 +4,13 @@ from typing import Dict, Optional, Union
 
 import disnake
 
+import disnake.ext
+import disnake.ext.commands
 from src.localization import get_localizator
 
 from src.utils.ui._views import BaseView
-from .._api_interaction import keys_count, keys
-from ..types import *
+from .._api_interaction import keys_count, manage_keys
+from ..types import BaseLootbox, RolesLootbox, BackgroundsLootbox
 from src.models.lootboxes import LootboxTypes
 from ..types import BaseLootbox, RolesLootbox, BackgroundsLootbox
 
@@ -69,7 +71,7 @@ class LootboxesShowcaseView(BaseView):
         lootbox: type[BaseLootbox],
         count: int
     ) -> None:
-        await keys(self._guild.id, self._user.id,
+        await manage_keys(self._guild.id, self._user.id,
                 l_types[lootbox], -count)
         await lootbox(interaction, self.uuid).get_prize(count)
 
@@ -106,7 +108,14 @@ class LootboxesShowcaseView(BaseView):
         interaction: disnake.MessageCommandInteraction,
         lootbox: type[BaseLootbox]
     ) -> None:
-        from . import LootboxBuyView
+        from ._lootboxes_buy_view import LootboxBuyView
+        from .._lootbox_map import LootboxMap
+
+        active = LootboxMap.is_active(
+            lootbox, interaction.guild.id) # type: ignore
+        
+        if not active:
+            raise disnake.ext.commands.BadArgument("no keys - not active")
 
         buy_view = LootboxBuyView(l_types[lootbox])
         await buy_view.start(interaction)
@@ -127,6 +136,11 @@ class LootboxesShowcaseView(BaseView):
         
         _c = _k if is_all else 1
         await self._start_opening_task(interaction, _c)
+
+    async def on_timeout(self):
+        if self.__task:
+            self.__task.cancel()
+        await super().on_timeout()
 
 
 class LootboxesOpenOneButton(disnake.ui.Button):

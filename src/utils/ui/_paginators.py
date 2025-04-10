@@ -15,9 +15,9 @@ T = TypeVar('T')
 class Paginator(Generic[T], BaseView):
     def __init__(
         self,
-        items: list[T],
-        items_per_page: int = 1,
+        items: List[T],
         *,
+        items_per_page: int = 1,
         timeout: Optional[float] = 180,
     ) -> None:
         super().__init__(timeout=timeout)

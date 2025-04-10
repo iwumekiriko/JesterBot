@@ -10,14 +10,14 @@
         "lootboxes-open_all_button": "Открыть всё",
 
         "lootboxes-buy_embed_title": "У вас недостаточно билетов!",
-        "lootboxes-buy_embed_desc": "Не желаете ли приобрести несколько за скромную цену в %{count} %{p(монету|монеты|монет)}?",
+        "lootboxes-buy_embed_desc": "Не желаете ли приобрести несколько за скромную цену в %{price} %{currency}?",
 
         "lootboxes-buy_one_button": "Приобрести один",
         "lootboxes-buy_many_button": "Приобрести несколько",
 
         "lootboxes-buy_modal_count_input": "Введите количество",
         "lootboxes-buy_modal_label": "Покупка билетов",
-        "lootboxes-success": "Успешно!",
+        "lootboxes-buy_success": "**Баланс:** ~~%{start_coins}~~%{currency_icon} **->** %{left_coins}%{currency_icon}",
 
 
         "lootboxes-showcase_option": "Лутбокс",
@@ -39,9 +39,9 @@
         "lootboxes-role-type_param": "Тип лутбокса",
         "lootboxes-role-action_param": "Действие (Добавить/Убрать)",
         "lootboxes-role-role_param": "Серверная роль",
+        "lootboxes-role-exclusive_param": "Роль добавляется на время?",
 
-
-        "lootboxes-roles-add_action_name": "Добавить",
-        "lootboxes-roles-remove_action_name": "Убрать"
+        "lootboxes-role-add_success": "Роль <@&%{role_id}> успешно добавлена в «%{lootbox}».",
+        "lootboxes-role-remove_success": "Роль <@&%{role_id}> успешно убрана из «%{lootbox}»."
     }
 }

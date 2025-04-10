@@ -50,6 +50,7 @@ class OpenTicketSelect(disnake.ui.Select):
         interaction: disnake.MessageCommandInteraction
     ) -> None:
         name = self.values[0]
+        await interaction.message.edit(view=self.view) # type: ignore
         await next((value for key, value in self.view.ticket_options.items()
               if key[0] == name), support_modal_form)(interaction)
         

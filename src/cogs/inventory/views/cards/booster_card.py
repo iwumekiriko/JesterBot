@@ -5,6 +5,7 @@ import disnake
 from src.localization import get_localizator
 
 from src.models.inventory_items import ExpBooster
+from src.utils.ui import SuccessEmbed
 from .base_card import BaseCard
 from ..._api_interaction import use_booster
 
@@ -57,7 +58,11 @@ class UseButton(disnake.ui.Button):
             booster.duration # type: ignore
         )
         booster.quantity -= 1
-        message = _("inventory-card_boosters_use_button_response")
 
         await self.view.update_view(interaction)
-        await interaction.followup.send(message, ephemeral=True)
+        await interaction.followup.send(
+            embed=SuccessEmbed(
+                success_msg=_("inventory-card_boosters_use_button_response")
+            ),
+            ephemeral=True
+        )

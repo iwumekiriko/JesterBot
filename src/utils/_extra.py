@@ -87,8 +87,11 @@ def make_formatted_slash_command(
         command_name (str): Slash command's name.
     
     Returns:
-        str: Formatted slash command.\
-        `Example: </lootboxes:123213123>`
+        str: Formatted slash command.
+
+    Examples:
+        >>> make_formatted_slash_command("lootboxes")
+        </lootboxes:1234567890>
     """
     from src.bot import bot
     command = next(command for command in bot.global_slash_commands

@@ -6,9 +6,9 @@
         "inventory-card_roles_remove_button_label": "Снять",
 
         "inventory-card_keys_use_button_label": "Использовать",
-        "inventory-card_keys_use_button_response": "Потратить билетики можно, используя команду %{command}",
+        "inventory-card_keys_use_button_response": "Потратить билетики можно, используя команду %{command}.",
 
         "inventory-card_boosters_use_button_label": "Использовать",
-        "inventory-card_boosters_use_button_response": "Успешно!"
+        "inventory-card_boosters_use_button_response": "Усилитель успешно использован!"
     }
 }
