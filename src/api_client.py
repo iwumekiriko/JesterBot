@@ -10,9 +10,16 @@ from src.utils._exceptions import (
     NotEnoughMoneyException,
     NoActiveBoosterException,
     BoosterAlreadyActiveException,
+    AlreadyOwnsRoleException,
     NotEnoughItemsException,
     LootboxRoleAlreadyExistsException,
     LootboxRoleDoesNotExistException,
+    ShopRoleAlreadyExistsException,
+    ShopRoleDoesNotExistException,
+    ShopKeyAlreadyExistsException,
+    ShopKeyDoesNotExistException,
+    AllShopTriesAreUsedException,
+    LastTryDidntEndException,
     APIException
 )
 
@@ -25,9 +32,16 @@ api_exceptions: Dict[str, type[APIException]] = {
     "00317": NotEnoughMoneyException,
     "00059": BoosterAlreadyActiveException,
     "00058": NoActiveBoosterException,
+    "01403": AlreadyOwnsRoleException,
     "00242": NotEnoughItemsException,
     "00767": LootboxRoleAlreadyExistsException,
-    "00769": LootboxRoleDoesNotExistException
+    "00769": LootboxRoleDoesNotExistException,
+    "00589": ShopRoleAlreadyExistsException,
+    "00590": ShopRoleDoesNotExistException,
+    "00377": ShopKeyAlreadyExistsException,
+    "00378": ShopKeyDoesNotExistException,
+    "09921": AllShopTriesAreUsedException,
+    "09922": LastTryDidntEndException
 }
 
 
@@ -38,8 +52,8 @@ class APIClient:
     This class provides methods to perform HTTP requests (GET, POST, PUT, DELETE)
     to interact with the API. The base URL for the API is configured in `src/settings.API_PATH`.
 
-    Usage:
-        async with APIClient() as client:
+    Examples:
+        >>> async with APIClient() as client:
             response = await client.get/post/put/delete("endpoint")
     """
     _instance = None
@@ -114,20 +128,21 @@ class APIClient:
                 headers=self.__headers,
                 ssl=ssl
             ) as response:
-                logger.info("Received a response from API [CODE: %s]: %s", response.status, await response.text() or "null")
+                logger.info("Received a response from API [CODE: %s] | %s |: %s",
+                             response.status, endpoint, await response.text() or "null")
 
                 if response.status == 400:
                     error_data = await response.json()
                     code = error_data.get("code", "00000")
                     raise api_exceptions[code](**error_data)
-                
+
                 if response.status == 204:
                     return None
 
                 if response.status != 200:
                     raise CustomException(
                         f"{endpoint} is not responding. Status code: **{response.status}**.")
-                
+
                 return await response.json()
         except aiohttp.ClientError as e:
             raise CustomException(f"Network error: {str(e)}")
