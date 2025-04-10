@@ -29,7 +29,7 @@ class KeysCard(BaseCard):
         interaction: disnake.MessageInteraction,
         count: int = 1
     ) -> None:
-        await interaction.response.defer(ephemeral=True)
+        await interaction.response.defer(with_message=False, ephemeral=True)
 
         from src.cogs.lootboxes._api_interaction import manage_keys
 
