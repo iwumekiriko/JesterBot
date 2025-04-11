@@ -111,7 +111,7 @@ class VoiceActivityListenerCog(commands.Cog):
                 extra={
                     "user_avatar": member.display_avatar.url,
                     "type": "voice",
-                    "guild_id": before.channel.guild
+                    "guild_id": before.channel.guild.id
                 })
 
             await self.sync_user_in_vc(member)
