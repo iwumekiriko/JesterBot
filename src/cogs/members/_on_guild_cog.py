@@ -13,7 +13,8 @@ from ._api_interaction import (
     member_joined,
     member_left
 )
-from src.settings import API_REQUIRED
+from src.utils._events import CustomEvents
+from src.settings import API_REQUIRED, BASE_GUILD_ID
 from ._utils import check_for_mod_actions
 
 
@@ -130,12 +131,14 @@ class OnGuildCog(commands.Cog):
         after: Union[disnake.Member, disnake.User],
         person_type: PersonType
     ) -> None:
+        changed_by = None
         if before.display_name != after.display_name:
-            changed_by = await check_for_mod_actions(
-                guild=before.guild, # type: ignore
-                action=disnake.AuditLogAction.member_update,
-                user_id=before.id
-            )
+            if isinstance(before, disnake.Member):
+                changed_by = await check_for_mod_actions(
+                    guild=before.guild,
+                    action=disnake.AuditLogAction.member_update,
+                    user_id=before.id
+                )
             warning_message = (f"Никнейм {person_type.genitive_case} <@{after.id}> был изменён!\n"
                                f"`{before.display_name}` **->** `{after.display_name}`")
             if changed_by:
@@ -146,5 +149,5 @@ class OnGuildCog(commands.Cog):
                 extra={
                     "user_avatar": after.display_avatar.url,
                     "type": "members",
-                    "guild_id": before.guild.id if isinstance(before, disnake.Member) else None
+                    "guild_id": before.guild.id if isinstance(before, disnake.Member) else BASE_GUILD_ID
                 })
