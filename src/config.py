@@ -6,7 +6,7 @@ from src.models.config import *
 from src.models.config.base_config import BaseConfig
 from ._api_interaction import get_cfg
 from src.settings import BASE_GUILD_ID, API_REQUIRED
-from src.manual_config import *
+from _manual_config import *
 
 
 class Config:
