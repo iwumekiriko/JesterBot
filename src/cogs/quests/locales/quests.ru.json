@@ -1,6 +1,16 @@
 {
     "ru": {
         "quests-desc": "Просмотр ежедневных/еженедельных заданий",
+        "quest_template_desc": "[Только для админов] изменение пула квестов",
+        "quest_template-action_param": "Действие",
+        "quest_template-time_type_param": "Тип квеста",
+        "quest_template-task_type_param": "Задача квеста",
+        "quest_template-required_param": "Необходимо для выполнения",
+        "quest_template-reward_type_param": "Тип награды",
+        "quest_template-reward_amount_param": "Кол-во награды",
+        "quest_template-weight_param": "Шанс выбора этого квеста из пула [float: 1.0]",
+        "quest_template-channel_param": "Канал в котором надо выполнять задания",
+
         "quests-required_or_reward_equals_zero_error": "Значение required или reward_amount не может быть равным 0",
 
         "quests-template-add_success": "Квест был успешно добавлен.\n\n**Тип:** %{type}\n**Задача:** %{task_type}\n**Нужно для выполнения:** %{required}",

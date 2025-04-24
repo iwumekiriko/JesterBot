@@ -156,7 +156,7 @@ class QuestsCog(commands.Cog):
         view = QuestsPaginator(items=user_quests, on_board=False)
         await view.start(interaction, kwargs={"quests": user_quests})
 
-    @commands.slash_command(description=_("quests-quests_templates_desc"))
+    @commands.slash_command(description=_("quest_template_desc"))
     async def _qt(
         self,
         interaction: disnake.GuildCommandInteraction,
