@@ -35,8 +35,7 @@ class ShopCreationView(BaseView):
         return (ShopEmbed(description = _('shop-embed_desc',
                         shop_keeper_name=SHOP_KEEPER_NAME,
                         guild_currency_short_name=GUILD_CURRENCY_SHORT_NAME,
-                        guild_currency_name=GUILD_CURRENCY_NAME))
-                .set_thumbnail(SHOP_EMBED_THUMBNAIL))
+                        guild_currency_name=GUILD_CURRENCY_NAME)))
 
 
 class CategoriesSelect(disnake.ui.Select):

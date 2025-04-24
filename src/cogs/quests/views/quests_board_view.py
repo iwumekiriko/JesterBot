@@ -32,7 +32,7 @@ class QuestsBoardView(BaseView):
         return (QuestsEmbed(
             description = _('quest-views-board-embed-description',
                              board_keeper_name=QUESTS_KEEPER_NAME)
-        ).set_image(self._board_img_url)).set_thumbnail(QUESTS_KEEPER_AVATAR)
+        ).set_image(self._board_img_url))
 
     async def set_board_img(self, guild_id: int) -> None:
         self._board_img_url = await get_quest_board_img(guild_id)
