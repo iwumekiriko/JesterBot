@@ -1,5 +1,5 @@
 import time
-from typing import Dict, Tuple
+from typing import Dict, Optional, Tuple
 import disnake
 from disnake.ext import commands, tasks
 
@@ -50,7 +50,13 @@ class VoiceActivityListenerCog(commands.Cog):
         join_time, channel_id = self._counter.pop(member)
         await self._add_time(member, int(time.time() - join_time), channel_id)
 
-    async def sync_user_in_vc(self, member: disnake.Member, channel_id: int) -> None:
+    async def sync_user_in_vc(
+        self,
+        member: disnake.Member,
+        channel_id: Optional[int] = None
+    ) -> None:
+        if not channel_id: channel_id = (self._counter[member])[1]
+
         await self._sync_user(member)
         self.count_user(member, channel_id)
 
