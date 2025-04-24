@@ -12,23 +12,14 @@ class CogManager:
     def __init__(
         self,
         root_dir: str,
-        test_dir: Optional[str] = None
     ) -> None:
         self.__cogs: List[str] = []
         self.__root_dir = root_dir
-        self.__test_dir = test_dir
         self._collect_cogs()
-        self._collect_test_cogs()
 
     def _collect_cogs(self) -> None:
         self._scan_dirs(self.__root_dir,
                         with_locales=True)
-
-    def _collect_test_cogs(self) -> None:
-        if not (t_dir := self.__test_dir):
-            return
-
-        self._scan_dirs(t_dir)
 
     def _scan_dirs(
         self,
