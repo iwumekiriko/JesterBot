@@ -63,18 +63,18 @@ class EconomyCog(commands.Cog):
                         f" | {_('economy-donate_BIC_field')} {BANK_INDEF_CODE}")))
         await interaction.response.send_message(embed=embed)
 
-    @commands.cooldown(1, 24*60*60, commands.BucketType.user)
-    @commands.slash_command(description=_("economy-daily_desc"))
-    async def daily(
-        self,
-        interaction: disnake.GuildCommandInteraction,
-    ) -> None:
-        from src.config import cfg
-        guild_id = interaction.guild.id 
-        user_id = interaction.user.id
+    # @commands.cooldown(1, 24*60*60, commands.BucketType.user)
+    # @commands.slash_command(description=_("economy-daily_desc"))
+    # async def daily(
+    #     self,
+    #     interaction: disnake.GuildCommandInteraction,
+    # ) -> None:
+    #     from src.config import cfg
+    #     guild_id = interaction.guild.id 
+    #     user_id = interaction.user.id
 
-        daily_bonus = cfg.economy_cfg(guild_id).daily_bonus
+    #     daily_bonus = cfg.economy_cfg(guild_id).daily_bonus
         
-        await update_member_coins(guild_id, user_id, daily_bonus)
-        await interaction.response.send_message(_("economy-daily_response"))
+    #     await update_member_coins(guild_id, user_id, daily_bonus)
+    #     await interaction.response.send_message(_("economy-daily_response"))
         
