@@ -16,6 +16,7 @@
         "logs_cfg_1": "Управление логами 2",
         "lootboxes_cfg_0": "Управление лутбоксами 1",
         "economy_cfg_0": "Управление экономикой 1",
+        "quests_cfg_0": "Управление квестами 1",
 
 
         "----------------------------------": "Название эмбеда для команды /config",
@@ -28,6 +29,7 @@
         "logs_config_embed_title": "Настройки вебхуков",
         "lootboxes_config_embed_title": "Настройки лутбоксов",
         "economy_config_embed_title": "Настройки экономики",
+        "quests_config_embed_title": "Настройки квестов",
 
         "---------------------------------": "Кнопка для изменения конфига",
         "change_cfg_button": "Изменить настройки",
@@ -69,6 +71,9 @@
 
         "default_currency_icon_field": "Иконка (эмодзи) стандартной валюты",
         "donate_currency_icon_field": "Иконка (эмодзи) донатной валюты",
-        "daily_bonus_field": "Кол-во валюты за /daily"
+        "daily_bonus_field": "Кол-во валюты за /daily",
+
+        "quests_channel_id_field": "Кол-во ежедневных заданий",
+        "quests_message_id_field": "Кол-во еженедельных заданий"
     }
 }

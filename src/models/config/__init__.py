@@ -7,6 +7,7 @@ from .logs_config import LogsConfig
 from .channels_config import ChannelsConfig
 from .lootboxes_config import LootboxesConfig
 from .economy_config import EconomyConfig
+from .quests_config import QuestsConfig
 
 
 __all__ = (
@@ -19,4 +20,5 @@ __all__ = (
     'LogsConfig',
     'LootboxesConfig',
     'EconomyConfig',
+    'QuestsConfig',
 )   

@@ -380,6 +380,35 @@ async def economy_cfg_modal_form(
     return data[0]
 
 
+async def quests_cfg_modal_form(
+    interaction: MessageCommandInteraction,
+    base_quests_channel_id: int | None = 0,
+    base_quests_message_id: int | None = 0,
+    page: int = 0
+):
+    quests_channel_id = ModalTextInput(
+        label=_("quests_channel_id_input"),
+        value=str(base_quests_channel_id),
+        placeholder="quests_channel_id",
+        required=False
+    )
+    quests_message_id = ModalTextInput(
+        label=_("quests_message_id_input"),
+        value=str(base_quests_message_id),
+        placeholder="quests_message_id",
+        required=False
+    )
+    component_data = [quests_channel_id, quests_message_id]
+    components = _page_components(component_data, page)
+    data = await BaseModal(
+        _("quests_cfg_modal"),
+        components=components,
+        interaction=interaction
+    ).receive_data()
+    await set_local_cfg(_make_data(components, data), QuestsConfig)
+    return data[0]
+
+
 def _make_data(components: List[ModalTextInput], data: Any) -> Dict:
     modified_data = [value if value != '' else None for value in data[1:]]
     components = [component for component in components if component.placeholder != EXCLUDING]

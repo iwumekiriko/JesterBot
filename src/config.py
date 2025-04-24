@@ -44,6 +44,9 @@ class Config:
     
     def economy_cfg(self, guild_id: int) -> EconomyConfig:
         return self.__cfg[guild_id]["Economy"]
+    
+    def quests_cfg(self, guild_id: int) -> QuestsConfig:
+        return self.__cfg[guild_id]["Quests"]
 
     async def _load_cfg(self) -> None:
         from src.bot import bot
@@ -55,7 +58,8 @@ class Config:
                                         VoiceConfig,
                                         LogsConfig,
                                         LootboxesConfig,
-                                        EconomyConfig]
+                                        EconomyConfig,
+                                        QuestsConfig]
 
         local_cfg = {}
         for c in cfgs:

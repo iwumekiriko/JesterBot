@@ -71,6 +71,14 @@
         "default_currency_icon_input": "Иконка (эмодзи) стандартной валюты",
         "donate_currency_icon_input": "Иконка (эмодзи) донатной валюты",
         "daily_bonus_input": "Кол-во валюты за /daily",
-        "economy_cfg_modal": "Управление экономикой"
+        "economy_cfg_modal": "Управление экономикой",
+
+
+        "--------------------------": "Модальное окно с настройками квестов",
+
+        "quests_channel_id_input": "Кол-во ежедневных заданий",
+        "quests_message_id_input": "Кол-во еженедельных заданий",
+        "quests_cfg_modal": "Управление квестами"
+
     }
 }
