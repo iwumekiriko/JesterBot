@@ -73,7 +73,7 @@
         "donate_currency_icon_field": "Иконка (эмодзи) донатной валюты",
         "daily_bonus_field": "Кол-во валюты за /daily",
 
-        "quests_channel_id_field": "Кол-во ежедневных заданий",
-        "quests_message_id_field": "Кол-во еженедельных заданий"
+        "quests_channel_id_field": "Id канала для квестов",
+        "quests_message_id_field": "Id сообщения для квестов"
     }
 }

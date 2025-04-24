@@ -76,8 +76,8 @@
 
         "--------------------------": "Модальное окно с настройками квестов",
 
-        "quests_channel_id_input": "Кол-во ежедневных заданий",
-        "quests_message_id_input": "Кол-во еженедельных заданий",
+        "quests_channel_id_input": "Id канала для квестов",
+        "quests_message_id_input": "Id сообщения для квестов",
         "quests_cfg_modal": "Управление квестами"
 
     }
