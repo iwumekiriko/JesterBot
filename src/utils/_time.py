@@ -44,7 +44,19 @@ def current_time() -> datetime:
     return datetime.now(tz)
 
 
-def string_to_datetime(date_string: str) -> datetime:
+def seconds_until_next_day() -> float:
+    """
+    Returns:
+        float: seconds until 00:00 of the next day
+    """
+    tz = pytz.timezone('Europe/Moscow')
+    next_day = current_time() + timedelta(days=1)
+    target_time = tz.localize(
+        datetime.combine(next_day, time(0, 0)))
+    return (target_time - current_time()).total_seconds()
+
+
+def string_to_datetime(date_string: str) -> Optional[datetime]:
     """
     Args:
         time_string (str): A formatted string in 1999-01-01T23:59:59.99999 format.
@@ -52,7 +64,10 @@ def string_to_datetime(date_string: str) -> datetime:
     Returns:
         datetime: Date in datetime format.
     """
-    return datetime.fromisoformat(date_string.replace('Z', '+00:00'))
+    try:
+        return datetime.fromisoformat(date_string.replace('Z', '+00:00'))
+    except:
+        return None
 
 
 def string_to_timedelta(time_string: str) -> timedelta:
