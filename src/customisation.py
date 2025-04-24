@@ -46,7 +46,6 @@ SHOP_KEEPER_AVATAR = "https://i.imgur.com/xKICzua.jpeg"
 SHOP_EMBED_THUMBNAIL = "https://i.imgur.com/xKICzua.jpeg"
 
 
-
 ############################# Quests Cog
 
 BASE_QUESTS_COLOR = 0x57248a
