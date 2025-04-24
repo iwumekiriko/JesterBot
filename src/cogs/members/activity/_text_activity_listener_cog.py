@@ -13,6 +13,7 @@ from src.utils._experience import is_new_lvl, ExpTypes
 from src.utils._text import prepare_block_text
 from src.settings import API_REQUIRED
 
+
 _ = get_localizator("activity")
 logger = get_logger()
 
@@ -36,7 +37,7 @@ class TextActivityListenerCog(commands.Cog):
         if author.bot:
             return
 
-        await _give_exp_for_message(author)
+        await _give_exp_for_message(author, channel.id)
         await self._check_for_reaction_messages(message)
 
     async def _check_for_reaction_messages(
@@ -100,11 +101,11 @@ class TextActivityListenerCog(commands.Cog):
         )
 
 
-async def _give_exp_for_message(author: disnake.Member) -> None:
+async def _give_exp_for_message(author: disnake.Member, channel_id: int) -> None:
     if not API_REQUIRED:
         return
 
-    member = await add_message_experience(author)
+    member = await add_message_experience(author, channel_id)
     is_lvled, coins = is_new_lvl(member, ExpTypes.MESSAGE)
     if is_lvled:
         await update_member_coins(member.guild_id, member.user_id, coins)

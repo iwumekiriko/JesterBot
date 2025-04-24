@@ -1,4 +1,5 @@
 import time
+from typing import Dict, Tuple
 import disnake
 from disnake.ext import commands, tasks
 
@@ -16,7 +17,7 @@ logger = get_logger()
 class VoiceActivityListenerCog(commands.Cog):
     def __init__(self, bot: JesterBot) -> None:
         self._bot = bot
-        self._counter: dict[disnake.Member, float] = {}
+        self._counter: Dict[disnake.Member, Tuple[float, int]] = {}
         self.sync.start()
 
     def cog_unload(self) -> None:
@@ -31,26 +32,27 @@ class VoiceActivityListenerCog(commands.Cog):
 
     async def _sync(self) -> None:
         try:
-            for member, join_time in self._counter.items():
+            for member, (join_time, channel_id) in self._counter.items():
                 current_time = time.time()
                 voice_seconds = int(current_time - join_time)
                 try:
-                    await self._add_time(member, voice_seconds)
-                    self._counter[member] = current_time
+                    await self._add_time(member, voice_seconds, channel_id)
+                    self._counter[member] = (current_time, channel_id)
                 except:
-                    self.count_user(member)
+                    self.count_user(member, channel_id)
         except RuntimeError:
             pass
 
-    def count_user(self, member: disnake.Member) -> None:
-        self._counter[member] = self._counter.get(member, time.time())
+    def count_user(self, member: disnake.Member, channel_id: int) -> None:
+        self._counter[member] = self._counter.get(member, (time.time(), channel_id))
 
     async def _sync_user(self, member: disnake.Member) -> None:
-        await self._add_time(member, int(time.time() - self._counter.pop(member)))
+        join_time, channel_id = self._counter.pop(member)
+        await self._add_time(member, int(time.time() - join_time), channel_id)
 
-    async def sync_user_in_vc(self, member: disnake.Member) -> None:
+    async def sync_user_in_vc(self, member: disnake.Member, channel_id: int) -> None:
         await self._sync_user(member)
-        self.count_user(member)
+        self.count_user(member, channel_id)
 
     @commands.Cog.listener()
     async def on_voice_state_update(
@@ -70,7 +72,7 @@ class VoiceActivityListenerCog(commands.Cog):
                             "type": "voice",
                             "guild_id": member.guild.id
                         })
-            self.count_user(member)
+            self.count_user(member, after.channel.id)
 
         elif before.channel is not None and after.channel is None:
             disconnected_by = await check_for_mod_actions(
@@ -114,14 +116,14 @@ class VoiceActivityListenerCog(commands.Cog):
                     "guild_id": before.channel.guild.id
                 })
 
-            await self.sync_user_in_vc(member)
+            await self.sync_user_in_vc(member, after.channel.id)
 
 
-    async def _add_time(self, member: disnake.Member, seconds: int) -> None:
+    async def _add_time(self, member: disnake.Member, seconds: int, channel_id: int) -> None:
         if member.bot:
             return
 
-        member_data = await add_voice_time(member, seconds)
+        member_data = await add_voice_time(member, seconds, channel_id)
         is_lvled, coins = is_new_lvl(member_data, ExpTypes.VOICE)
         if is_lvled:
             await update_member_coins(member_data.guild_id, member_data.user_id, coins)
