@@ -110,7 +110,7 @@ class LootboxesPrizesSelect(disnake.ui.Select):
         self.placeholder = _("lootboxes-paginator_items_placeholder")
         self.options = [
             disnake.SelectOption(
-                label=f"{index}. {_(item.name_lower)}",
+                label=f"{index}. {item.translated_name}",
                 value=str(index - 1)
             ) for index, item 
             in enumerate(self.view.page_items, 1)]

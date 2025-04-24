@@ -4,11 +4,6 @@
         "items-config-expbooster_name": "Усилитель опыта",
         "items-config-lootboxkey_name": "Билетик",
         "items-config-role_name": "Серверная роль",
-        "items-config-card_count": "Количество: **%{count}**",
-        "items-config-summary": "Сводка предметов",
-
-        "items-config-table-type": "Предмет",
-        "items-config-table-count": "Количество",
 
         "items-config-roles_lootbox_type_name": "Лутбоксы ролей",
         "items-config-backgrounds_lootbox_type_name": "Лутбоксы фонов",

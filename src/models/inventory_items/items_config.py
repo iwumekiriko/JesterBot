@@ -35,5 +35,9 @@ class ItemsConfig:
     }
 
     @staticmethod
+    def get_translated_name(name: str) -> str:
+        return _(f"items-config-{name}_name")
+
+    @staticmethod
     def get_formatted_desc(item_type: str, **kwargs):
         return _(ItemsConfig.descriptions[item_type], **kwargs)

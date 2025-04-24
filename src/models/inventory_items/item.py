@@ -23,6 +23,10 @@ class Item(ABC):
     @property
     def description(self) -> str:
         raise NotImplementedError
+    
+    @property
+    def translated_name(self) -> str:
+        return ItemsConfig.get_translated_name(self.name_lower)
 
     @property
     def lootbox_gif(self) -> Optional[str]:

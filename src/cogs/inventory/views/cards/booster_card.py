@@ -28,10 +28,8 @@ class BoosterCard(BaseCard):
     def create_embed(self) -> disnake.Embed:
         return super().create_embed()
 
-    async def update_view(
-        self, interaction: disnake.MessageInteraction
-    ) -> None:
-        await interaction.message.edit(
+    async def update_view(self) -> None:
+        await self.message.edit(
             embed=self.create_embed(),
             view=self
         )
@@ -59,7 +57,7 @@ class UseButton(disnake.ui.Button):
         )
         booster.quantity -= 1
 
-        await self.view.update_view(interaction)
+        await self.view.update_view()
         await interaction.followup.send(
             embed=SuccessEmbed(
                 success_msg=_("inventory-card_boosters_use_button_response")

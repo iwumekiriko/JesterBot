@@ -9,8 +9,8 @@ T = TypeVar('T', bound=BaseView)
 
 
 class ViewSwitcher(disnake.ui.Select, Generic[T]):
-    def __init__(self) -> None:
-        super().__init__(row = 4)
+    def __init__(self, placeholder: Optional[str] = None) -> None:
+        super().__init__(placeholder=placeholder, row = 4)
         self._views: dict[str, T] = {}
         self._previous: Optional[T] = None
 
@@ -27,10 +27,11 @@ class ViewSwitcher(disnake.ui.Select, Generic[T]):
     async def start(
         self,
         interaction: disnake.ApplicationCommandInteraction,
-        start_index: int = 0
+        start_index: int = 0,
+        **kwargs
     ) -> None:
         view = list(self._views.values())[start_index]
-        await view.start(interaction)
+        await view.start(interaction, **kwargs)
 
         message = view.message
         author = view.author

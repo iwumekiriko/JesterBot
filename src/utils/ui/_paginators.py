@@ -72,6 +72,13 @@ class Paginator(Generic[T], BaseView):
         self._page_items = self._all[(page-1)*count:page*count]
         self._update_page_buttons()
 
+    def change_all(self, items: List[T]) -> None:
+        self._all = items
+        if self._max_page:
+            self._max_page = self._count_max_page()
+        self.page = 1
+        self.update()
+
     def add(self, items: list[T]) -> None:
         self._all.extend(items)
         if self._max_page:

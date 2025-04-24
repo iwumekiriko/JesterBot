@@ -4,8 +4,6 @@ from enum import Enum
 import disnake
 from disnake.ext import commands
 
-import disnake.member
-
 from src.bot import JesterBot
 from src.logger import get_logger
 from ._api_interaction import (

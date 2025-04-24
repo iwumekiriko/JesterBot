@@ -12,5 +12,5 @@ __all__ = (
     'Inventory',
     'Guild',
     'User',
-    'Duet'
+    'Duet',
 )

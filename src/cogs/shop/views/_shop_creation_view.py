@@ -7,7 +7,12 @@ from src.utils.ui import BaseView
 from ..embeds import ShopEmbed
 from .paginators import ShopPaginator, RolesPaginator, KeysPaginator
 from .._api_interaction import get_shop_keys, get_user_shop_roles
-from src.customisation import SHOP_EMBED_THUMBNAIL
+from src.customisation import (
+    SHOP_EMBED_THUMBNAIL,
+    SHOP_KEEPER_NAME,
+    GUILD_CURRENCY_NAME,
+    GUILD_CURRENCY_SHORT_NAME
+)
 
 
 _ = get_localizator("shop")
@@ -27,7 +32,10 @@ class ShopCreationView(BaseView):
         self.add_item(CategoriesSelect(self.shop_categories))
 
     def create_embed(self) -> disnake.Embed:
-        return (ShopEmbed(description = _('shop-embed_desc'))
+        return (ShopEmbed(description = _('shop-embed_desc',
+                        shop_keeper_name=SHOP_KEEPER_NAME,
+                        guild_currency_short_name=GUILD_CURRENCY_SHORT_NAME,
+                        guild_currency_name=GUILD_CURRENCY_NAME))
                 .set_thumbnail(SHOP_EMBED_THUMBNAIL))
 
 

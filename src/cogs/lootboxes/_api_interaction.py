@@ -9,7 +9,7 @@ from src.models.lootboxes import (
     LootboxUserData, BaseData, LootboxRole,
     RolesData, BackgroundsData, LootboxTypes
 )
-from src.utils.enums import RolesActions
+from src.utils.enums import Actions
 
 
 item_endpoints: Dict[type[Item], str] = {
@@ -100,7 +100,7 @@ async def handle_lootbox_role(
     guild_id: int,
     lootbox_type: LootboxTypes,
     guild_role_id: int,
-    action: RolesActions,
+    action: Actions,
     exclusive: bool
 ) -> None:
     endpoint = f"Lootboxes/{guild_id}/roles/{lootbox_type.value}/{guild_role_id}"
@@ -108,10 +108,10 @@ async def handle_lootbox_role(
     async with APIClient() as client:
         match action:
 
-            case RolesActions.ADD:
+            case Actions.ADD:
                  await client.post(endpoint, query_params=query_params)
 
-            case RolesActions.REMOVE:
+            case Actions.REMOVE:
                 await client.delete(endpoint)
 
 

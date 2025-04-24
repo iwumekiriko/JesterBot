@@ -53,7 +53,8 @@ class InventoryCategoriesView(BaseView):
     ) -> None:
         await interaction.response.send_message(
             embed=self.create_embed(),
-            view=self
+            view=self,
+            ephemeral=True
         )
 
 
