@@ -32,10 +32,10 @@ class ShopCreationView(BaseView):
         self.add_item(CategoriesSelect(self.shop_categories))
 
     def create_embed(self) -> disnake.Embed:
-        return (ShopEmbed(description = _('shop-embed_desc',
+        return ShopEmbed(description = _('shop-embed_desc',
                         shop_keeper_name=SHOP_KEEPER_NAME,
                         guild_currency_short_name=GUILD_CURRENCY_SHORT_NAME,
-                        guild_currency_name=GUILD_CURRENCY_NAME)))
+                        guild_currency_name=GUILD_CURRENCY_NAME))
 
 
 class CategoriesSelect(disnake.ui.Select):

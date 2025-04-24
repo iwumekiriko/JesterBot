@@ -30,7 +30,7 @@ class TicketsCog(commands.Cog):
             ticket_message_id = ticket_cfg.ticket_message_id
 
             if not ticket_channel_id:
-                return
+                continue
 
             ticket_channel = self._bot.get_channel(ticket_channel_id)
             if not isinstance(ticket_channel, disnake.TextChannel):
@@ -40,7 +40,7 @@ class TicketsCog(commands.Cog):
                                 "type": "else",
                                 "guild_id": guild.id
                             })
-                return
+                continue
 
             try:
                 await ticket_channel.fetch_message(ticket_message_id) # type: ignore

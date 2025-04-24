@@ -57,7 +57,7 @@ class ShopCog(commands.Cog):
             shop_message_id = shop_cfg.shop_message_id
 
             if not shop_channel_id:
-                return
+                continue
 
             shop_channel = self._bot.get_channel(shop_channel_id)
             if not isinstance(shop_channel, disnake.TextChannel):
@@ -67,7 +67,7 @@ class ShopCog(commands.Cog):
                                 "type": "else",
                                 "guild_id": guild.id
                             })
-                return
+                continue
 
             try:
                 await shop_channel.fetch_message(shop_message_id) # type: ignore
@@ -80,8 +80,7 @@ class ShopCog(commands.Cog):
                     avatar_url=SHOP_KEEPER_AVATAR,
                     username=SHOP_KEEPER_NAME,
                     embed=view.create_embed(),
-                    view=view,
-                    wait=True
+                    view=view, wait=True
                 )
                 logger.debug("Сообщение магазиника не было найдено. Создано новое.",
                             extra={
