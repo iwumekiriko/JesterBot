@@ -130,10 +130,10 @@ class AcceptQuestButton(disnake.ui.Button):
         await accept_quest(quest.guild_id, interaction.user.id, quest.id)
         quest.accepted_by_user = True
         await self.view.update_view()
-        await interaction.followup.send(
-            embed=SuccessEmbed(success_msg=_("quests-views-accept_button_success")),
-            ephemeral=True
-        )
+        # await interaction.followup.send(
+        #     embed=SuccessEmbed(success_msg=_("quests-views-accept_button_success")),
+        #     ephemeral=True
+        # )
 
 
 class QuestsSelect(disnake.ui.Select):
