@@ -37,9 +37,11 @@ class JesterBot(commands.Bot):
         if not self.__persistent_views_added:
             from src.cogs.tickets.views import TicketCreationView, TicketThreadView
             from src.cogs.shop.views import ShopCreationView
+            from src.cogs.quests.views import QuestsBoardView
             self.add_view(TicketCreationView())
             self.add_view(TicketThreadView())
             self.add_view(ShopCreationView())
+            self.add_view(QuestsBoardView())
             self.__persistent_views_added = True
 
         await self._sync_voice_users()
@@ -58,19 +60,13 @@ class JesterBot(commands.Bot):
     async def sync_user_in_vc(self, member: disnake.Member):
         if not member.voice:
             return
-        
+
         cog = self.get_cog("VoiceActivityListenerCog")
         await cog.sync_user_in_vc(member) # type: ignore
 
     def _load_cogs(self) -> None:
         cogs_path = settings.COGS_PATH
-        test_cogs_path = None
-        if settings.DEVELOPMENT:
-            test_cogs_path = settings.TEST_COGS_PATH
-
-        _cog_mngr = CogManager(
-            cogs_path, test_cogs_path
-        )
+        _cog_mngr = CogManager(cogs_path)
         for cog in _cog_mngr.cogs:
             self.load_extension(cog)
 

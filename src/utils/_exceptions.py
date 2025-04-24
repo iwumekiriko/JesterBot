@@ -3,6 +3,7 @@ from typing import Optional
 from src.localization import get_localizator
 from ._time import seconds_to_hms, make_discord_timestamp
 from src.models.lootboxes import LootboxTypes
+from src.models.quests import QuestRewardTypes, QuestTaskTypes, QuestTypes
 
 
 _ = get_localizator("exceptions")
@@ -226,5 +227,41 @@ class LastTryDidntEndException(APIException):
         if message is None:
             message = _("last_try_didnt_end_exception",
                         will_end_at=make_discord_timestamp(will_end_at, 'R'))
+        self.message = message
+        super().__init__(self.message)
+
+
+class QuestTemplateAlreadyExistsException(APIException):
+    def __init__(
+        self,
+        message: Optional[str] = None,
+        **kwargs
+    ) -> None:
+        type = QuestTypes(str(kwargs.get("type", 1)))
+        task = QuestTaskTypes(str(kwargs.get("task", 1)))
+        required = kwargs.get("required", 1)
+
+        if message is None:
+            message = _("quest_template_already_exists_exception",
+                        type=type.get_translated_name(), task=task.get_translated_name(), required=required)
+            
+        self.message = message
+        super().__init__(self.message)
+
+
+class QuestTemplateDoesNotExistException(APIException):
+    def __init__(
+        self,
+        message: Optional[str] = None,
+        **kwargs
+    ) -> None:
+        type = QuestTypes(str(kwargs.get("type", 1)))
+        task = QuestTaskTypes(str(kwargs.get("task", 1)))
+        required = kwargs.get("required", 1)
+
+        if message is None:
+            message = _("quest_template_does_not_exist_exception",
+                        type=type.get_translated_name(), task=task.get_translated_name(), required=required)
+            
         self.message = message
         super().__init__(self.message)

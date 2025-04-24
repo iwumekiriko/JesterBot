@@ -20,6 +20,8 @@ from src.utils._exceptions import (
     ShopKeyDoesNotExistException,
     AllShopTriesAreUsedException,
     LastTryDidntEndException,
+    QuestTemplateAlreadyExistsException,
+    QuestTemplateDoesNotExistException,
     APIException
 )
 
@@ -41,7 +43,9 @@ api_exceptions: Dict[str, type[APIException]] = {
     "00377": ShopKeyAlreadyExistsException,
     "00378": ShopKeyDoesNotExistException,
     "09921": AllShopTriesAreUsedException,
-    "09922": LastTryDidntEndException
+    "09922": LastTryDidntEndException,
+    "01717": QuestTemplateAlreadyExistsException,
+    "01718": QuestTemplateDoesNotExistException,
 }
 
 
@@ -231,6 +235,7 @@ class APIClient:
     async def delete(
         self,
         endpoint: str,
+        body: Optional[Dict[str, Any]] = None,
         query_params: Optional[Dict[str, Any]] = None
     ) -> Any:
         """
@@ -238,6 +243,7 @@ class APIClient:
 
         Args:
             endpoint (str): API endpoint path.
+            body (Optional[Dict[str, Any]]): Request body to send (for updating resources).
             query_params (Optional[Dict[str, Any]]): Query parameters to include in the request.
 
         Returns:
@@ -250,5 +256,6 @@ class APIClient:
         return await self.resolve_request(
             endpoint,
             method="DELETE",
+            body=body,
             query_params=query_params
         )

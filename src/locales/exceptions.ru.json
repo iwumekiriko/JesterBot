@@ -18,6 +18,8 @@
         "shop_key_already_exists_exception": "Билетики от «%{type}» уже были добавлены в **«Магазиник»**",
         "shop_key_does_not_exist_exception": "Билетики от «%{type}» не были добавлены в **«Магазиник»**",
         "all_shop_tries_are_used_exception": "Вы уже использовали все ваши примерки на роль <@&%{guild_role_id}>.",
-        "last_try_didnt_end_exception": "До окончания действия предыдущей примерки осталось %{will_end_at}"
+        "last_try_didnt_end_exception": "До окончания действия предыдущей примерки осталось %{will_end_at}",
+        "quest_template_already_exists_exception": "Квест с такими параметрами уже существует.\n\n**Тип:** %{type}\n**Задача:** %{task}\n**Нужно для выполнения:** %{required}",
+        "quest_template_does_not_exist_exception": "Квеста с такими параметрами не существует.\n\n**Тип:** %{type}\n**Задача:** %{task}\n**Нужно для выполнения:** %{required}"
     }
 }
