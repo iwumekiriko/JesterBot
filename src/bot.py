@@ -55,7 +55,7 @@ class JesterBot(commands.Bot):
         for guild in self.guilds:
             for voice_channel in guild.voice_channels:
                 for member in voice_channel.members:
-                    cog.count_user(member) # type: ignore
+                    cog.count_user(member, voice_channel.id) # type: ignore
 
     async def sync_user_in_vc(self, member: disnake.Member):
         if not member.voice:
