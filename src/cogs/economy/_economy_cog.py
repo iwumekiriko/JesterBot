@@ -77,4 +77,3 @@ class EconomyCog(commands.Cog):
         
     #     await update_member_coins(guild_id, user_id, daily_bonus)
     #     await interaction.response.send_message(_("economy-daily_response"))
-        
