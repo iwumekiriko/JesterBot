@@ -1,4 +1,4 @@
-from ._roles_actions import RolesActions
+from ._roles_actions_enum import Actions
 
 
-__all__ = ('RolesActions', )
+__all__ = ('Actions', )

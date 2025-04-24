@@ -17,7 +17,7 @@ from src.models.inventory_items.item import Item
 from src.utils.ui import ViewSwitcher, SuccessEmbed
 from .views import LootboxesShowcaseView, LootboxesPrizesPaginator
 from src.utils._converters import dangerous_role_excluding
-from src.utils.enums import RolesActions
+from src.utils.enums import Actions
 
 
 logger = get_logger()
@@ -94,7 +94,7 @@ class LootboxesCog(commands.Cog):
             autocomplete=_active_lootboxes_with_roles_autocomplete,
             description=_("lootboxes-role-type_param")),
         action = commands.Param(
-            choices = { action.get_translated_name(): action for action in RolesActions },
+            choices = { action.get_translated_name(): action for action in Actions },
             description=_("lootboxes-role-action_param")),
         guild_role: disnake.Role = commands.Param(
             converter=dangerous_role_excluding, description=_("lootboxes-role-role_param")),
@@ -105,9 +105,9 @@ class LootboxesCog(commands.Cog):
         l_type = LootboxMap.to_type(lootbox_type)
         guild = interaction.guild
         response = {
-            RolesActions.ADD: _("lootboxes-role-add_success",
+            Actions.ADD: _("lootboxes-role-add_success",
                                         role_id=guild_role.id, lootbox=l_type.translated),
-            RolesActions.REMOVE: _("lootboxes-role-remove_success",
+            Actions.REMOVE: _("lootboxes-role-remove_success",
                                         role_id=guild_role.id, lootbox=l_type.translated)
         }
         await handle_lootbox_role(guild.id, l_type, guild_role.id, action, exclusive)

@@ -7,7 +7,7 @@ from src.models.shop import ShopRole, ShopKey, ShopRoleTries
 from src.api_client import APIClient
 from src.utils._mapping import json_camel_to_snake
 from src.models.lootboxes import LootboxTypes
-from src.utils.enums import RolesActions
+from src.utils.enums import Actions
 
 
 async def set_shop_message(
@@ -38,7 +38,7 @@ async def get_shop_keys(guild_id: int, user_id: int) -> List[ShopKey]:
 
 async def handle_shop_role(
     guild_id: int,
-    action: RolesActions,
+    action: Actions,
     guild_role_id: int,
     price: int,
     exclusive: bool
@@ -48,16 +48,16 @@ async def handle_shop_role(
     async with APIClient() as client:
         match action:
 
-            case RolesActions.ADD:
+            case Actions.ADD:
                  await client.post(endpoint, query_params=query_params)
 
-            case RolesActions.REMOVE:
+            case Actions.REMOVE:
                 await client.delete(endpoint)
 
 
 async def handle_shop_key(
     guild_id: int,
-    action: RolesActions,
+    action: Actions,
     lootbox_type: LootboxTypes,
     exclusive: bool
 ) -> None:
@@ -66,10 +66,10 @@ async def handle_shop_key(
     async with APIClient() as client:
         match action:
 
-            case RolesActions.ADD:
+            case Actions.ADD:
                  await client.post(endpoint, query_params=query_params)
 
-            case RolesActions.REMOVE:
+            case Actions.REMOVE:
                 await client.delete(endpoint)
 
 

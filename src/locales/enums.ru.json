@@ -1,6 +1,6 @@
 {
     "ru": {
-        "roles-actions-add_name": "Добавить",
-        "roles-actions-remove_name": "Убрать"
+        "actions-add_name": "Добавить",
+        "actions-remove_name": "Убрать"
     }
 }
