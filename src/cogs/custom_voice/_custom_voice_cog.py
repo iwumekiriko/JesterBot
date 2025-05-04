@@ -3,10 +3,12 @@ import disnake
 from disnake.ext import commands
 
 from src.logger import get_logger
+from src.localization import get_localizator
 from src.bot import JesterBot
 from src.utils._converters import user_avatar
 
 
+_ = get_localizator("custom_voice")
 logger = get_logger()
 
 
@@ -56,7 +58,7 @@ class CustomVoiceCog(commands.Cog):
             return
 
         custom_channel = await voice_category.create_voice_channel(
-            name = f"Канал {member.name}")
+            name = f"{_('custom-voice_channel')} {member.name}")
         await custom_channel.set_permissions(
             member, manage_channels=True, view_channel=True, connect=True)
         try:
