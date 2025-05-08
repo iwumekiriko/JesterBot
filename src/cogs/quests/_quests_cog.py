@@ -64,7 +64,7 @@ class QuestsCog(commands.Cog):
             quests_cfg = cfg.quests_cfg(guild.id)
             await self._process_guild_quests(guild, quests_cfg, init_mode=True)
 
-        logger.info("Quests channels for guilds %s are ready.",
+        logger.info("Quest channels for guilds %s are ready.",
                     [guild.id for guild in self._bot.guilds])
 
     async def update_quests_board(self) -> None:
