@@ -19,22 +19,26 @@ class BaseData:
 @dataclass
 class RolesData(BaseData):
    roles_attempts: int
+   roles_got: int
 
    def to_dict(self) -> Dict:
         return {
             "totalAttempts": self.total_attempts,
-            "rolesAttempts": self.roles_attempts
+            "rolesAttempts": self.roles_attempts,
+            "rolesGot": self.roles_got
         }
 
 
 @dataclass
 class BackgroundsData(BaseData):
     backgrounds_attempts: int
+    backgrounds_got: int
 
     def to_dict(self) -> Dict:
         return {
             "totalAttempts": self.total_attempts,
-            "backgroundsAttempts": self.backgrounds_attempts
+            "backgroundsAttempts": self.backgrounds_attempts,
+            "backgroundsGot": self.backgrounds_got
         }
 
 

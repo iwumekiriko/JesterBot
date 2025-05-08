@@ -126,13 +126,15 @@ def _create_data_from_dict(data_type: LootboxTypes, data_dict: dict) -> BaseData
         case LootboxTypes.ROLES_LOOTBOX:
             return RolesData(
                 total_attempts=data_dict.get("totalAttempts", 0),
-                roles_attempts=data_dict.get("rolesAttempts", 0)
+                roles_attempts=data_dict.get("rolesAttempts", 0),
+                roles_got=data_dict.get("rolesGot", 0)
             )
 
         case LootboxTypes.BACKGROUNDS_LOOTBOX:
             return BackgroundsData(
                 total_attempts=data_dict.get("totalAttempts", 0),
-                backgrounds_attempts=data_dict.get("backgroundsAttempts", 0)
+                backgrounds_attempts=data_dict.get("backgroundsAttempts", 0),
+                backgrounds_got=data_dict.get("backgroundsGot", 0)
             )
 
         case _:

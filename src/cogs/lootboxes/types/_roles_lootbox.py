@@ -151,6 +151,8 @@ class RolesLootbox(BaseLootbox):
             roles_data = user_data.data
             roles_data.roles_attempts = (roles_data.roles_attempts + count 
                                          if dropped_roles <= 0 else 0)
+            roles_data.roles_got = (roles_data.roles_got + 1 
+                                    if dropped_roles > 0 else roles_data.roles_got)
         await self._save_user_data(user_data)
         return dict(Counter(prizes))
 
