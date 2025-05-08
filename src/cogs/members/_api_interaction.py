@@ -55,11 +55,15 @@ async def add_message_experience(member: dsMember, channel_id: int) -> mdlMember
         return mdlMember(**json_camel_to_snake(response))
 
 
-async def add_voice_time(member: dsMember, seconds: int, channel_id: int) -> mdlMember:
+async def add_voice_time(member: dsMember, seconds: int, channel_id: int, is_muted: bool) -> mdlMember:
     guild_id = member.guild.id
     user_id = member.id
     endpoint = f"Members/{guild_id}/{user_id}/voice"
-    query_params = {"channelId": channel_id, "seconds": seconds}
+    query_params = {
+        "channelId": channel_id,
+        "seconds": seconds,
+        "muted": str(is_muted)
+    }
     async with APIClient() as client:
         response = await client.put(
             endpoint,
