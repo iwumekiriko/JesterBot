@@ -1,5 +1,5 @@
 from src.bot import JesterBot
-from ._user_interactions_cog import UserInteractionsCog
+from ._interact_cog import UserInteractionsCog
 
 
 def setup(bot: JesterBot) -> None:

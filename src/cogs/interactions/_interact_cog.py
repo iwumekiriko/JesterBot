@@ -25,7 +25,7 @@ class UserInteractionsCog(commands.Cog):
         self.bot = bot
 
     @commands.slash_command(description=_("user_interaction_desc"))
-    async def user_interaction(
+    async def interact(
         self,
         interaction: disnake.GuildCommandInteraction,
         member: disnake.Member = commands.Param(
