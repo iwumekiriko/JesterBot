@@ -8,7 +8,7 @@ from src.bot import JesterBot
 from src.utils._converters import user_avatar
 
 
-_ = get_localizator("custom_voice")
+_ = get_localizator("custom-voice")
 logger = get_logger()
 
 
