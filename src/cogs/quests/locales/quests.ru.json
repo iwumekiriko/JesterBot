@@ -1,7 +1,7 @@
 {
     "ru": {
         "quests-desc": "Просмотр ежедневных/еженедельных заданий",
-        "quest_template_desc": "[Только для админов] изменение пула квестов",
+        "quest_template_desc": "[Только для админов] - изменение пула квестов",
         "quest_template-action_param": "Действие",
         "quest_template-time_type_param": "Тип квеста",
         "quest_template-task_type_param": "Задача квеста",
