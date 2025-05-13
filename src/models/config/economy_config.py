@@ -13,6 +13,6 @@ class EconomyConfig(BaseConfig):
         return {
             "guildId": self.guild_id,
             "defaultCurrencyIcon": self.default_currency_icon,
-            "donateCurrencyIcon": self.default_currency_icon,
+            "donateCurrencyIcon": self.donate_currency_icon,
             "dailyBonus": self.daily_bonus
         }
