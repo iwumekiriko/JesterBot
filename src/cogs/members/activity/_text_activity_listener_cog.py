@@ -105,6 +105,9 @@ async def _give_exp_for_message(author: disnake.Member, channel_id: int) -> None
     if not API_REQUIRED:
         return
 
+    if author.bot:
+        return
+
     member = await add_message_experience(author, channel_id)
     is_lvled, coins = is_new_lvl(member, ExpTypes.MESSAGE)
     if is_lvled:
