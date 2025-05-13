@@ -14,7 +14,7 @@
 
 
         "messages_top_format": "<@%{user}> — %{messages}",
-        "voice_top_format": "<@%{user}> — %{muted} 🔇 / %{unmuted} 🔊",
+        "voice_top_format": "<@%{user}> — %{unmuted} 🔊 / %{muted} 🔇",
         "experience_top_format": "<@%{user}> — %{experience}",
         "currency_top_format": "<@%{user}> — %{coins} %{coins_icon} / %{crystals} %{crystals_icon}",
         "lootboxes_top_format": "<@%{user}> — %{lootboxes}",
