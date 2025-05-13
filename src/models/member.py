@@ -19,7 +19,8 @@ class Member:
         crystals: int = 0,
         message_count: int = 0,
         voice_time: int = 0,
-        joined_at: Optional[datetime | str] = None
+        joined_at: Optional[datetime | str] = None,
+        is_bot: bool = False
     ) -> None:
         self._guild_id = guild_id
         self._guild = guild
@@ -33,6 +34,7 @@ class Member:
         self._message_count = message_count
         self._voice_time = voice_time
         self._joined_at = joined_at
+        self._is_bot = is_bot
 
     @property
     def guild_id(self) -> int:
@@ -109,6 +111,10 @@ class Member:
     @property
     def joined_at(self) -> Optional[datetime | str]:
         return self._joined_at
+    
+    @property
+    def is_bot(self) -> bool:
+        return self._is_bot
 
     def to_on_guild(self) -> dict:
         return {
