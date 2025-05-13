@@ -70,3 +70,10 @@ async def add_voice_time(member: dsMember, seconds: int, channel_id: int, is_mut
             query_params=query_params
         )
         return mdlMember(**json_camel_to_snake(response))
+
+
+async def get_top(guild_id: int, user_id: int, type_value: int) -> dict:
+    endpoint = f"Members/{guild_id}/{user_id}/top/{type_value}"
+
+    async with APIClient() as client:
+        return await client.get(endpoint)
