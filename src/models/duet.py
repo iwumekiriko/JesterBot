@@ -13,7 +13,8 @@ class Duet:
         proposer: User,
         duo_id: int,
         duo: User,
-        together_from: datetime | float
+        together_from: datetime | float,
+        active: bool
     ) -> None:
         self._guild_id = guild_id
         self._guild = guild
@@ -22,6 +23,7 @@ class Duet:
         self._duo_id = duo_id
         self._duo = duo
         self._together_from = together_from
+        self._active = active
 
     @property
     def guild_id(self) -> int:
@@ -50,3 +52,7 @@ class Duet:
     @property
     def together_from(self) -> datetime | float:
         return self._together_from
+    
+    @property
+    def active(self) -> bool:
+        return self._active
