@@ -26,7 +26,6 @@ class NitroBoostingActivityListenerCog(commands.Cog):
     ) -> None:
         if message.type == disnake.MessageType.premium_guild_subscription:
             member = message.author
-            logger.info(member)
             self._bot.dispatch(
                 CustomEvents.GUILD_NITRO_BOOSTED,
                 member=member
