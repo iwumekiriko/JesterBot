@@ -83,6 +83,7 @@ async def channels_cfg_modal_form(
     interaction: MessageCommandInteraction,
     base_general_channel_id: int | None = 0,
     base_offtop_channel_id: int | None = 0,
+    base_nitro_boosting_channel_id: int | None = 0,
     page: int = 0
 ):
     general_channel_id = ModalTextInput(
@@ -97,7 +98,17 @@ async def channels_cfg_modal_form(
         placeholder="offtop_channel_id",
         required=False
     )
-    components_data = [general_channel_id, offtop_channel_id]
+    nitro_boosting_channel_id = ModalTextInput(
+        label=_("nitro_boosting_channel_id_input"),
+        value=str(base_nitro_boosting_channel_id),
+        placeholder="nitro_boosting_channel_id",
+        required=False
+    )
+    components_data = [
+        general_channel_id,
+        offtop_channel_id,
+        nitro_boosting_channel_id
+    ]
     components = _page_components(components_data, page)
     data = await BaseModal(
         _("channels_cfg_modal"),

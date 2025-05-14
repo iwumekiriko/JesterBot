@@ -19,6 +19,7 @@
 
         "general_channel_id_input": "Id канала общего чата",
         "offtop_channel_id_input": "Id канала оффтопа",
+        "nitro_boosting_channel_id_input": "Id канала для оповещения о бустах",
         "channels_cfg_modal": "Управление каналами",
 
         "-----------------------------": "Модальное окно с настройками магазиника",

@@ -45,6 +45,7 @@
 
         "general_channel_id_field": "Id канала общего чата",
         "offtop_channel_id_field": "Id канала оффтопа",
+        "nitro_boosting_channel_id_field": "Id канала для оповещения о бустах",
 
         "shop_channel_id_field": "Id канала для магазиника",
         "shop_message_id_field": "Id сообщения для магазиника",
