@@ -8,5 +8,5 @@ class EvalEmbed(BaseEmbed):
         super().__init__(
             title = kwargs.get('title'),
             description = kwargs.get('description'),
-            color=0xd8bfd8
+            color=0x38e5ce
         )

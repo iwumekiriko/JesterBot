@@ -2,6 +2,7 @@ import disnake
 from disnake.ext import commands
 
 from .embeds import EvalEmbed, ExceptionEmbed
+from src.utils._converters import user_avatar
 
 
 class EvalCog(commands.Cog):
@@ -34,14 +35,14 @@ class EvalCog(commands.Cog):
             embed = EvalEmbed(
                 title="Evaled",
                 description=self._prepare_response(response),
-            ).set_thumbnail(url=ctx.bot.display_avatar.url)
+            ).set_thumbnail(url=user_avatar(jester=True))
             await ctx.send(embed=embed,
                            allowed_mentions=disnake.AllowedMentions(users=False))
 
         except Exception as error:
             embed = ExceptionEmbed(
                 error_msg=f"```{type(error).__name__}: {str(error)}```",
-            ).set_thumbnail(url=ctx.author.display_avatar.url)
+            ).set_thumbnail(url=user_avatar(jester=True))
             await ctx.send(embed=embed, 
                            allowed_mentions=disnake.AllowedMentions(users=False))
 
