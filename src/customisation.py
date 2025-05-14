@@ -1,5 +1,4 @@
-# Settings for commands customisation
-# Do not affect bot's work
+"""Settings for commands customisation"""
 
 ############################# Guild
 
@@ -51,3 +50,11 @@ SHOP_EMBED_THUMBNAIL = "https://i.imgur.com/xKICzua.jpeg"
 BASE_QUESTS_COLOR = 0x57248a
 QUESTS_KEEPER_NAME = "Помрежей"
 QUESTS_KEEPER_AVATAR = "https://i.imgur.com/xKICzua.jpeg"
+
+
+############################# Members Cog
+
+NITRO_BOOSTING_GRATITUDERS = { # name: (avatar_url, texts_list) | max_gratituders: 10
+    "Jester": ("https://i.ibb.co/ksmmG2yN/0378504ef44b939151a9e83a5d0f95bc.png", ["# Спасибо-спасибо-спасибо\nА тут я жду когда мне придумают текст///"]),
+    "Wacky": ("https://i.ibb.co/fdZ3cGgv/e5bdd509b0f455b90f2ecf5561d8c7be.jpg", ["# Спасибо-спасибо-спасибо\nА тут я жду когда мне придумают текст///"]),
+}

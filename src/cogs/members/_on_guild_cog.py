@@ -89,7 +89,7 @@ class OnGuildCog(commands.Cog):
         after: disnake.Member
     ) -> None:
         await self._log_common_updates(before, after, PersonType.MEMBER)
-        # self._check_for_boosting(before, after)
+        self._check_for_boosting(before, after)
 
     @commands.Cog.listener()
     async def on_user_update(
@@ -149,3 +149,11 @@ class OnGuildCog(commands.Cog):
                     "type": "members",
                     "guild_id": before.guild.id if isinstance(before, disnake.Member) else BASE_GUILD_ID
                 })
+
+    def _check_for_boosting(
+        self,
+        before: disnake.Member,
+        after: disnake.Member,
+    ) -> None:
+        if after.premium_since and before.premium_since != after.premium_since:
+            self._bot.dispatch(CustomEvents.GUILD_NITRO_BOOSTED, member=after)
