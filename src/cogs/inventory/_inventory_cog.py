@@ -39,7 +39,7 @@ class InventoryCog(commands.Cog):
         for guild in self.bot.guilds:
             users = await reset_boosters(guild.id)
             if users: logger.debug(
-                "У пользователей %s закончилось действие усилителя опыта",
+                "У пользователей [%s] закончилось действие усилителя опыта",
                 ", ".join([f"<@{user}>" for user in users]),
                 extra={
                     "user_avatar": user_avatar(jester=True),
