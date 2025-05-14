@@ -18,6 +18,18 @@ class NitroBoostingActivityListenerCog(commands.Cog):
     def __init__(self, bot: JesterBot):
         self._bot = bot
 
+    @commands.Cog.listener()
+    async def on_message(
+        self,
+        message: disnake.Message
+    ) -> None:
+        if message.type == disnake.MessageType.premium_guild_subscription:
+            member = message.mentions[0]
+            self._bot.dispatch(
+                CustomEvents.GUILD_NITRO_BOOSTED,
+                member=member
+            )
+
     @commands.Cog.listener(f'on_{CustomEvents.GUILD_NITRO_BOOSTED}')
     async def on_guild_nitro_boosted(
         self,
@@ -32,8 +44,11 @@ class NitroBoostingActivityListenerCog(commands.Cog):
             return
 
         nitro_boosting_channel = member.guild.get_channel(nbci)
-        if not isinstance(nitro_boosting_channel, disnake.TextChannel):
-            logger.warning("nitro boosting channel is not text channel")
+        if (
+            isinstance(nitro_boosting_channel, disnake.CategoryChannel)
+            or not nitro_boosting_channel
+        ):
+            logger.warning("nitro boosting channel is not valid")
             return
 
         gratituder_name = random.choice(list(NITRO_BOOSTING_GRATITUDERS.keys()))
