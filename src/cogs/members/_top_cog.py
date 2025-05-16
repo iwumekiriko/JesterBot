@@ -99,22 +99,22 @@ class TopCog(commands.Cog):
 
         for user in top_data['top']:
             stats_str = top_type.format_stats(user['userId'], guild_id, user['stats'])
-            
+
             is_duet_user = False
             if top_type == TopTypes.DUETS:
                 is_duet_user = requested_user_id in {user['stats']['proposerId'], user['stats']['duoId']}
-            
-            line = f"{user['rank']}。{stats_str}"
+
+            line = f"{user['rank']}\\. {stats_str}"
             if user['userId'] == requested_user_id or is_duet_user:
                 line = f"**{line}**"
                 is_user_in_top = True
-            
+
             data.append(line)
 
         if not is_user_in_top:
             user_stats = (top_type.format_stats(user_info['userId'], guild_id, user_info['stats'])
                            if user_info['stats'] else _("data_not_found", user=user_info['userId']))
-            data.append(f"———————————————————\n\n**{user_info['rank']}。{user_stats}**")
+            data.append(f"———————————————————\n\n**{user_info['rank']}\\. {user_stats}**")
 
         await interaction.response.send_message(
             embed=BaseEmbed(
