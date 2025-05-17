@@ -55,21 +55,30 @@ class JesterBot(commands.Bot):
         for guild in self.guilds:
             for voice_channel in guild.voice_channels:
                 for member in voice_channel.members:
+                    if not (state := member.voice):
+                        continue
+
+                    if state.deaf or state.self_deaf:
+                        continue
+
                     cog.count_user(  # type: ignore
                         member,
                         voice_channel.id,
-                        member.voice.mute or member.voice.deaf # type: ignore
+                        state.mute or state.self_mute
                     )
 
     async def sync_user_in_vc(self, member: disnake.Member):
-        if not member.voice:
+        if not (state := member.voice):
+            return
+
+        if state.deaf or state.self_deaf:
             return
 
         cog = self.get_cog("VoiceActivityListenerCog")
         await cog.sync_user_in_vc( # type: ignore
             member,
-            member.voice.mute or member.voice.deaf,
-            member.voice.channel.id if member.voice.channel else None,
+            state.mute or state.self_mute,
+            state.channel.id if state.channel else None,
         )
 
     def _load_cogs(self) -> None:

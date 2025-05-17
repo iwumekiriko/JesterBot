@@ -74,7 +74,8 @@ class VoiceActivityListenerCog(commands.Cog):
         if member.bot:
             return
 
-        is_muted = after.self_mute or after.self_deaf or after.mute or after.deaf
+        is_muted = after.self_mute or after.mute
+        is_deaf = after.deaf or after.self_deaf
 
         if ((before.channel is not None and after.channel is not None)
             and (
@@ -83,6 +84,11 @@ class VoiceActivityListenerCog(commands.Cog):
                 before.mute != after.mute or
                 before.deaf != after.deaf
             )):
+
+            if is_deaf:
+                await self._sync_user(member)
+                return
+
             await self.sync_user_in_vc(member, is_muted, after.channel.id)
 
         elif before.channel is None and after.channel is not None:
@@ -93,7 +99,9 @@ class VoiceActivityListenerCog(commands.Cog):
                             "type": "voice",
                             "guild_id": member.guild.id
                         })
-            self.count_user(member, after.channel.id, is_muted)
+
+            if not is_deaf:
+                self.count_user(member, after.channel.id, is_muted)
 
         elif before.channel is not None and after.channel is None:
             disconnected_by = await check_for_mod_actions(
@@ -137,7 +145,8 @@ class VoiceActivityListenerCog(commands.Cog):
                     "guild_id": before.channel.guild.id
                 })
 
-            await self.sync_user_in_vc(member, is_muted, after.channel.id)
+            if not is_deaf:
+                await self.sync_user_in_vc(member, is_muted, after.channel.id)
 
 
     async def _add_time(
