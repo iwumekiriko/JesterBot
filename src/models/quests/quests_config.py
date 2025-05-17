@@ -33,16 +33,16 @@ class QuestsConfig:
 
     @lru_cache()
     @staticmethod
-    def get_seed(required: int) -> int:
-        r_bytes = str(required).encode()
+    def get_seed(id: int) -> int:
+        r_bytes = str(id).encode()
         hash_obj = hashlib.md5(r_bytes)
         hash_int = int.from_bytes(hash_obj.digest(), byteorder='big')
 
         return hash_int % QuestsConfig.LOCALIZATION_VARIANTS + 1
 
     @staticmethod
-    def get_desc(quest_task_type: QuestTaskTypes, required: int) -> str:
-        return _(f"{QuestsConfig.descriptions[quest_task_type]}_{QuestsConfig.get_seed(required)}")
+    def get_desc(quest_task_type: QuestTaskTypes, id: int) -> str:
+        return _(f"{QuestsConfig.descriptions[quest_task_type]}_{QuestsConfig.get_seed(id)}")
 
     @staticmethod
     def get_task_desc(quest_task_type: QuestTaskTypes, required: int, progress: int, channel_id: int) -> str:
@@ -61,5 +61,5 @@ class QuestsConfig:
                  reward_type=reward_type.get_currency_emoji(guild_id), reward_amount=reward_amount)
     
     @staticmethod
-    def get_title(quest_task_type: QuestTaskTypes, required: int) -> str:
-        return _(f"{QuestsConfig.titles[quest_task_type]}_{QuestsConfig.get_seed(required)}")
+    def get_title(quest_task_type: QuestTaskTypes, id: int) -> str:
+        return _(f"{QuestsConfig.titles[quest_task_type]}_{QuestsConfig.get_seed(id)}")

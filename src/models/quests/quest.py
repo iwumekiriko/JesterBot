@@ -44,14 +44,14 @@ class Quest:
     def description(self) -> str:
         return QuestsConfig.get_desc(
             self.task_type,
-            self.required,
+            self.id,
         )
 
     @property
     def title(self) -> str:
         return QuestsConfig.get_title(
             self.task_type,
-            self.required
+            self.id
         )
     
     @property
