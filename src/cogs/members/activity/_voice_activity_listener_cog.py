@@ -7,7 +7,7 @@ from src.bot import JesterBot
 from .._api_interaction import add_voice_time
 from src.cogs.economy._api_interaction import update_member_coins
 from src.logger import get_logger
-from src.utils._experience import is_new_lvl, ExpTypes
+from src.utils._experience import check_if_new_lvl, ExpTypes
 from .._utils import send_reward_message, check_for_mod_actions
 
 
@@ -158,9 +158,9 @@ class VoiceActivityListenerCog(commands.Cog):
     ) -> None:
         if member.bot: # for some reasons third party bots trigger _add_time() so check is also here
             return
-        
+
         member_data = await add_voice_time(member, seconds, channel_id, is_muted)
-        is_lvled, coins = is_new_lvl(member_data, ExpTypes.VOICE)
+        is_lvled, coins = check_if_new_lvl(member_data, ExpTypes.VOICE)
         if is_lvled:
             await update_member_coins(member_data.guild_id, member_data.user_id, coins)
             await send_reward_message(member_data, coins)

@@ -1,12 +1,14 @@
 from src.models import Member
 from enum import Enum
 import math
+from weakref import WeakValueDictionary
 
 
 BASE_COINS = 300
 COINS_GRADATION = 15
 EXP_COEFF = 50
 LEVEL_EXPONENT = 2
+EXP_CACHE = WeakValueDictionary()
 
 
 class ExpTypes(str, Enum):
@@ -44,7 +46,7 @@ def get_level_from_exp(exp: int) -> int:
 #         level = new_level
 
 
-def is_new_lvl(member: Member, type: ExpTypes) -> tuple[bool, int]:
+def check_if_new_lvl(member: Member, type: ExpTypes) -> tuple[bool, int]: # (is_new_lvl, coins)
     from src.config import cfg
 
     if not member.experience:
@@ -54,15 +56,20 @@ def is_new_lvl(member: Member, type: ExpTypes) -> tuple[bool, int]:
     if not received_exp:
         return False, 0
 
+    key = member.user_id
+
     exp_before = member.experience - int(received_exp)
     exp_now = member.experience
+
+    if EXP_CACHE.get(key) == exp_before:
+        return False, 0
 
     level_before = get_level_from_exp(exp_before)
     level_now = get_level_from_exp(exp_now)
 
-    coins = _coins(level_now)
+    EXP_CACHE[key] = exp_before
 
-    return level_before < level_now, coins
+    return level_before < level_now, _coins(level_now)
 
 
 def _coins(level: int) -> int:
