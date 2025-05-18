@@ -21,12 +21,19 @@ class DuetsCog(commands.Cog):
         self._bot = bot
         self.__active_requests = {}
 
-    @commands.slash_command(description=_("duet-desc"))
+    @commands.slash_command()
     async def duet(
+        self,
+        interaction: disnake.GuildCommandInteraction
+    ) -> None:
+        pass
+
+    @duet.sub_command(description=_("duet-create_desc"))
+    async def create(
         self,
         interaction: disnake.GuildCommandInteraction,
         duo: disnake.Member = commands.Param(
-            converter=inter_member, description=_("duets-member_param"))
+            converter=inter_member, description=_("duets-create_member_param"))
     ) -> None:
         guild = interaction.guild
         proposer = interaction.user
@@ -72,8 +79,8 @@ class DuetsCog(commands.Cog):
         }
         return _(possible_errors[(bool(params[0]), bool(params[1]))])
 
-    @commands.slash_command(description=_("solo-desc"))
-    async def solo(
+    @duet.sub_command(description=_("duet-dispose_desc"))
+    async def dispose(
         self,
         interaction: disnake.GuildCommandInteraction
     ) -> None:
