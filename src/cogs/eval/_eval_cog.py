@@ -33,8 +33,7 @@ class EvalCog(commands.Cog):
                 return
 
             embed = EvalEmbed(
-                title="Evaled",
-                description=self._prepare_response(response),
+                message=self._prepare_response(response),
             ).set_thumbnail(url=user_avatar(jester=True))
             await ctx.send(embed=embed,
                            allowed_mentions=disnake.AllowedMentions(users=False))
