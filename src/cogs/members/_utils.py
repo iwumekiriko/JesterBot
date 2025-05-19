@@ -6,6 +6,7 @@ from src.models import Member
 from src.utils._experience import get_level_from_exp
 from src.utils.ui import BaseEmbed
 from src.localization import get_localizator
+from src.utils.enums import Currency
 
 
 _ = get_localizator("activity")
@@ -32,6 +33,8 @@ async def send_reward_message(
     level_after = get_level_from_exp(member.experience)
     level_before = level_after - 1
 
+    currency_icon=Currency.COINS.get_icon(member.guild.id)
+
     await offtop_channel.send(content=f"<@{member.user_id}>",
         embed = BaseEmbed(
             title=_("activity_listeners_reward_embed_title"),
@@ -39,7 +42,8 @@ async def send_reward_message(
                 "activity_listeners_reward_embed_desc",
                 level_before=level_before,
                 level_after=level_after,
-                rewards=reward
+                rewards=reward,
+                currency_icon=currency_icon
             )
         ))
 
