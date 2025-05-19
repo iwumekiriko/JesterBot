@@ -240,10 +240,14 @@ class QuestTemplateAlreadyExistsException(APIException):
         type = QuestTypes(str(kwargs.get("type", 1)))
         task = QuestTaskTypes(str(kwargs.get("task", 1)))
         required = kwargs.get("required", 1)
+        channel_id = kwargs.get("channelId", 1)
 
         if message is None:
             message = _("quest_template_already_exists_exception",
-                        type=type.get_translated_name(), task=task.get_translated_name(), required=required)
+                        type=type.get_translated_name(),
+                        task=task.get_translated_name(),
+                        required=required,
+                        channel_id=channel_id)
             
         self.message = message
         super().__init__(self.message)
@@ -258,10 +262,14 @@ class QuestTemplateDoesNotExistException(APIException):
         type = QuestTypes(str(kwargs.get("type", 1)))
         task = QuestTaskTypes(str(kwargs.get("task", 1)))
         required = kwargs.get("required", 1)
+        channel_id = kwargs.get("channelId", 1)
 
         if message is None:
             message = _("quest_template_does_not_exist_exception",
-                        type=type.get_translated_name(), task=task.get_translated_name(), required=required)
+                        type=type.get_translated_name(),
+                        task=task.get_translated_name(),
+                        required=required,
+                        channel_id=channel_id)
             
         self.message = message
         super().__init__(self.message)
