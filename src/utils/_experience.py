@@ -1,14 +1,13 @@
 from src.models import Member
 from enum import Enum
 import math
-from weakref import WeakValueDictionary
 
 
 BASE_COINS = 300
 COINS_GRADATION = 15
 EXP_COEFF = 50
 LEVEL_EXPONENT = 2
-EXP_CACHE = WeakValueDictionary()
+EXP_CACHE: dict[int, int] = {}
 
 
 class ExpTypes(str, Enum):
