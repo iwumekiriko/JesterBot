@@ -33,7 +33,7 @@ async def send_reward_message(
     level_after = get_level_from_exp(member.experience)
     level_before = level_after - 1
 
-    currency_icon=Currency.COINS.get_icon(member.guild.id)
+    currency_icon=Currency.COINS.get_icon(member.guild_id)
 
     await offtop_channel.send(content=f"<@{member.user_id}>",
         embed = BaseEmbed(
