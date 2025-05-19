@@ -51,7 +51,7 @@ class QuestsConfig:
                         required=required,
                         progress=progress)
         if channel_id: task_desc += f"\n{_('quests-config-channel_id_condition', channel_id=channel_id)}"
-        if progress == required: task_desc = f"~~{task_desc}~~ *({_('quests-config-completed_quest_string')})*"
+        if progress >= required: task_desc = f"~~{task_desc}~~ *({_('quests-config-completed_quest_string')})*"
 
         return task_desc
 

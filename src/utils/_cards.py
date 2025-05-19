@@ -60,8 +60,13 @@ def quests_card(quest: Quest) -> Embed:
                         task_desc=quest.task_desc,
                         reward_desc=quest.reward_string)
 
-    quest_desc += "\n" + (_("cards-quest-completed_field", completed=make_discord_timestamp(quest.completed_at))
-            if quest.completed_at else _("cards-quest-deadline_field", deadline=make_discord_timestamp(quest.completable_until)))
+    quest_desc += "\n" + (
+        _("cards-quest-completed_field",
+        completed=make_discord_timestamp(quest.completed_at))
+            if quest.completed_at else 
+        _("cards-quest-deadline_field",
+        deadline=make_discord_timestamp(quest.completable_until))
+    )
 
     embed = BaseEmbed(
         description = quest_desc,
