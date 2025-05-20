@@ -5,7 +5,7 @@ import disnake
 from src.localization import get_localizator
 from src.utils.ui import BaseView
 from ..embeds import QuestsEmbed
-from .quests_paginator import QuestsPaginator
+from ._quests_paginator import QuestsPaginator
 from .._api_interaction import get_available_now_guild_quests, get_quest_board_img
 from src.models.quests import QuestTypes
 from src.customisation import QUESTS_KEEPER_NAME, QUESTS_KEEPER_AVATAR

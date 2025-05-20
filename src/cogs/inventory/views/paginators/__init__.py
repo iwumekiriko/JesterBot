@@ -1,6 +1,6 @@
-from .roles_paginator import RolesPaginator
-from .boosters_paginator import BoostersPaginator
-from .lootbox_keys_paginator import LootboxKeysPaginator
+from ._roles_paginator import RolesPaginator
+from ._boosters_paginator import BoostersPaginator
+from ._lootbox_keys_paginator import LootboxKeysPaginator
 
 
 __all__ = ('RolesPaginator', 'BoostersPaginator', 'LootboxKeysPaginator', )

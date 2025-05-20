@@ -6,7 +6,7 @@ from src.localization import get_localizator
 from src.utils.ui import BaseEmbed
 from src.models.inventory_items import LootboxKey
 from ..cards import LootboxKeyCard
-from .inventory_items_paginator import InventoryItemsPaginator
+from ._inventory_items_paginator import InventoryItemsPaginator
 from src.customisation import LOOTBOX_KEYS_SELECT_THUMBNAIL
 
 

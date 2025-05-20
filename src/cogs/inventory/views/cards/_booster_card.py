@@ -6,7 +6,7 @@ from src.localization import get_localizator
 
 from src.models.inventory_items import ExpBooster
 from src.utils.ui import SuccessEmbed
-from .base_card import BaseCard
+from ._base_card import BaseCard
 from ..._api_interaction import use_booster
 
 

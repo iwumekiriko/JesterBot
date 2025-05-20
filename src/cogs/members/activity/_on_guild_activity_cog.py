@@ -150,7 +150,7 @@ class OnGuildActivityCog(commands.Cog):
 
         offtop_channel = self._bot.get_channel(general)
         if not isinstance(offtop_channel, disnake.TextChannel):
-            logger.warning("general channel [%d] is not text channel", general)
+            logger.warning("general channel [%s] is not text channel", general)
             return
 
         embed = WelcomeEmbed(

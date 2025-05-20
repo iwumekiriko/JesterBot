@@ -1,7 +1,7 @@
-from .role_card import RoleCard
-from .booster_card import BoosterCard
-from .lootbox_key_card import LootboxKeyCard
-from .base_card import BaseCard
+from ._role_card import RoleCard
+from ._booster_card import BoosterCard
+from ._lootbox_key_card import LootboxKeyCard
+from ._base_card import BaseCard
 
 
 __all__ = (

@@ -7,7 +7,7 @@ from src.localization import get_localizator
 from src.models.inventory_items import Role
 from src.utils._extra import (
     add_role_with_id, remove_role_with_id)
-from .base_card import BaseCard
+from ._base_card import BaseCard
 
 
 _ = get_localizator("inventory-cards")

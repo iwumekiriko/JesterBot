@@ -7,7 +7,7 @@ from src.localization import get_localizator
 from src.utils.ui import BaseEmbed
 from src.models.inventory_items import Role
 from ..cards import RoleCard
-from .inventory_items_paginator import InventoryItemsPaginator
+from ._inventory_items_paginator import InventoryItemsPaginator
 from src.customisation import ROLES_SELECT_THUMBNAIL
 
 

@@ -5,7 +5,7 @@ import disnake
 from src.localization import get_localizator
 
 from src.models.inventory_items import LootboxKey
-from .base_card import BaseCard
+from ._base_card import BaseCard
 from src.utils._extra import make_formatted_slash_command
 
 

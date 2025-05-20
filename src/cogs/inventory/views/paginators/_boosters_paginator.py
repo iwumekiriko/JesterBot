@@ -9,7 +9,7 @@ from src.utils._time import make_discord_timestamp
 from src.utils.ui import BaseEmbed, SuccessEmbed
 from src.models.inventory_items import ExpBooster
 from ..cards import BoosterCard
-from .inventory_items_paginator import InventoryItemsPaginator
+from ._inventory_items_paginator import InventoryItemsPaginator
 from ..._api_interaction import cancel_booster, get_active_booster
 from src.customisation import EXP_BOOSTERS_SELECT_THUMBNAIL
 

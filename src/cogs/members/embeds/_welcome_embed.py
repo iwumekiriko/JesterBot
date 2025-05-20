@@ -6,5 +6,5 @@ class WelcomeEmbed(BaseEmbed):
         super().__init__(
             title = kwargs.get('title'),
             description = kwargs.get('description'),
-            color = 0xFFB59E
+            color = 0xFFBCAD
         )
