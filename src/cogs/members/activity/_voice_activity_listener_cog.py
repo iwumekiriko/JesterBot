@@ -39,6 +39,7 @@ class VoiceActivityListenerCog(commands.Cog):
                     await self._add_time(member, voice_seconds, channel_id, is_muted)
                     self._counter[member] = (current_time, channel_id, is_muted)
                 except:
+                    logger.warning("unable to add voice time to user, skipping")
                     self.count_user(member, channel_id, is_muted)
         except RuntimeError:
             pass

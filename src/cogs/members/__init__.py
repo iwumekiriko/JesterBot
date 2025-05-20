@@ -17,5 +17,5 @@ def setup(bot: JesterBot) -> None:
         return
 
     bot.add_cog(ProfileCog(bot))
-    # bot.add_cog(VoiceActivityListenerCog(bot))
+    bot.add_cog(VoiceActivityListenerCog(bot))
     bot.add_cog(TopCog(bot))

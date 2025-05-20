@@ -56,6 +56,7 @@ async def add_message_experience(member: dsMember, channel_id: int) -> mdlMember
 
 
 async def add_voice_time(member: dsMember, seconds: int, channel_id: int, is_muted: bool) -> mdlMember:
+    logger.info("%d: %d seconds, is_muted: %s", member.id, seconds, is_muted)
     guild_id = member.guild.id
     user_id = member.id
     endpoint = f"Members/{guild_id}/{user_id}/voice"
