@@ -72,8 +72,8 @@ class BaseCard(BaseView):
         user_id: int,
         count: int = 1
     ) -> Tuple[int, int]:
-        from src.cogs.economy._api_interaction import update_member_coins
-        member_data = await update_member_coins(guild_id, user_id, -abs(self._price * count))
+        from src.cogs.economy._api_interaction import make_coins_transaction
+        member_data = await make_coins_transaction(guild_id, user_id, abs(self._price * count))
 
         left_coins = member_data.coins
         start_coins = left_coins + self._price * count
@@ -86,8 +86,8 @@ class BaseCard(BaseView):
         user_id: int,
         amount: int
     ) -> None:
-        from src.cogs.economy._api_interaction import update_member_coins
-        await update_member_coins(guild_id, user_id, amount)
+        from src.cogs.economy._api_interaction import make_coins_transaction
+        await make_coins_transaction(guild_id, user_id, -amount)
 
     async def handle_try(
         self,

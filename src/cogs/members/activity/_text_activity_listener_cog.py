@@ -7,7 +7,7 @@ from src.bot import JesterBot
 from src.localization import get_localizator
 from src.logger import get_logger
 from .._api_interaction import add_message_experience
-from src.cogs.economy._api_interaction import update_member_coins
+from src.cogs.economy._api_interaction import proceed_coins_reward
 from .._utils import send_reward_message, check_for_mod_actions
 from src.utils._experience import check_if_new_lvl, ExpTypes
 from src.utils._text import prepare_block_text
@@ -111,5 +111,5 @@ async def _give_exp_for_message(author: disnake.Member, channel_id: int) -> None
     member = await add_message_experience(author, channel_id)
     is_lvled, coins = check_if_new_lvl(member, ExpTypes.MESSAGE)
     if is_lvled:
-        await update_member_coins(member.guild_id, member.user_id, coins)
+        await proceed_coins_reward(member.guild_id, member.user_id, coins)
         await send_reward_message(member, coins)

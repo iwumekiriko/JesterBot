@@ -3,7 +3,7 @@ import disnake
 from src.utils.ui import BaseView, ModalTextInput, BaseModal, SuccessEmbed
 from src.localization import get_localizator
 from .._api_interaction import manage_keys
-from src.cogs.economy._api_interaction import update_member_coins
+from src.cogs.economy._api_interaction import make_coins_transaction
 from src.models.lootboxes import LootboxTypes
 
 
@@ -49,7 +49,7 @@ class LootboxBuyView(BaseView):
         if count > 1:
             price *= count
 
-        member = await update_member_coins(guild_id, user_id, -price)
+        member = await make_coins_transaction(guild_id, user_id, price)
         await manage_keys(guild_id, user_id, self._key_type, count)
 
         return member.coins
