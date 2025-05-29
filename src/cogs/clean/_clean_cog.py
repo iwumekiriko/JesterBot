@@ -59,7 +59,7 @@ def _make_file(channel, deleted: list[disnake.Message]) -> disnake.File:
     m_data = f"Канал: {channel.name} | {channel.id}\n"
     m_data += f"Время: {current_time().strftime('%d-%B-%Y — %H:%M:%S')}\n\n"
     m_data += "---------------------------\n\n"
-    for message in deleted:
+    for message in reversed(deleted):
         m_data += f"Автор: {message.author}\n"
         m_data += f"Контент: {message.content}\n"
         m_data += ("Вложения:" + ''.join([('\n     ' + f'{i}. {attachment.url}') 
