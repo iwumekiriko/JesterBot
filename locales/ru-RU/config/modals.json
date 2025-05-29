@@ -1,85 +1,82 @@
 {
-    "ru": {
-        "------------------------------------": "Модальное окно с настройками опыта",
+    "------------------------------------": "Модальное окно с настройками опыта",
 
-        "exp_for_message_input": "Кол-во опыта за сообщение",
-        "exp_for_voice_minute_input": "Кол-во опыта за 1 минуту в войсе",
-        "experience_cfg_modal": "Управление опытом",
-
-
-        "-----------------------------------": "Модальное окно с настройками ролей",
-
-        "moderator_role_id_input": "Id роли модератора",
-        "support_role_id_input": "Id роли саппорта",
-        "developer_role_id_input": "Id роли разработчика",
-        "roles_cfg_modal": "Управление ролями",
+    "exp_for_message_input": "Кол-во опыта за сообщение",
+    "exp_for_voice_minute_input": "Кол-во опыта за 1 минуту в войсе",
+    "experience_cfg_modal": "Управление опытом",
 
 
-        "---------------------------------": "Модальное окно с настройками каналов",
+    "-----------------------------------": "Модальное окно с настройками ролей",
 
-        "general_channel_id_input": "Id канала общего чата",
-        "offtop_channel_id_input": "Id канала оффтопа",
-        "nitro_boosting_channel_id_input": "Id канала для оповещения о бустах",
-        "channels_cfg_modal": "Управление каналами",
-
-        "-----------------------------": "Модальное окно с настройками магазиника",
-        
-        "shop_channel_id_input": "Id канала для магазиника",
-        "shop_message_id_input": "Id сообщения для магазиника",
-        "shop_cfg_modal": "Управление магазиником",
+    "moderator_role_id_input": "Id роли модератора",
+    "support_role_id_input": "Id роли саппорта",
+    "developer_role_id_input": "Id роли разработчика",
+    "roles_cfg_modal": "Управление ролями",
 
 
-        "--------------------------------": "Модальное окно с настройками тикетов",
+    "---------------------------------": "Модальное окно с настройками каналов",
 
-        "ticket_channel_id_input": "Id канала для тикетов",
-        "ticket_message_id_input": "Id сообщения для тикетов",
-        "ticket_report_channel_id_input": "Id канала для отчетов о тикетах",
-        "tickets_cfg_modal": "Управление тикетами",
+    "general_channel_id_input": "Id канала общего чата",
+    "offtop_channel_id_input": "Id канала оффтопа",
+    "nitro_boosting_channel_id_input": "Id канала для оповещения о бустах",
+    "channels_cfg_modal": "Управление каналами",
 
-        
-        "-------------------------------": "Модальное окно с настройками войса",
-
-        "custom_voice_creation_channel_id_input": "Id канала для создания кастом войса",
-        "custom_voice_category_id_input": "Id категории для кастом войсов",
-        "custom_voice_deletion_time_input": "Кол-во секунд для удаления кастом войсов",
-        "voice_cfg_modal": "Управление войсами",
+    "-----------------------------": "Модальное окно с настройками магазиника",
+    
+    "shop_channel_id_input": "Id канала для магазиника",
+    "shop_message_id_input": "Id сообщения для магазиника",
+    "shop_cfg_modal": "Управление магазиником",
 
 
-        "------------------------------": "Модальное окно с настройками логов",
-        
-        "command_interactions_webhook_url_input": "Логи команд",
-        "messages_webhook_url_input": "Логи сообщений",
-        "tickets_webhook_url_input": "Логи тикетов",
-        "guild_webhook_url_input": "Логи сервера",
-        "members_webhook_url_input": "Логи пользователей",
-        "voice_webhook_url_input": "Логи войс каналов",
-        "else_webhook_url_input": "Логи остальное",
-        "logs_cfg_modal": "Управление логами",
+    "--------------------------------": "Модальное окно с настройками тикетов",
+
+    "ticket_channel_id_input": "Id канала для тикетов",
+    "ticket_message_id_input": "Id сообщения для тикетов",
+    "ticket_report_channel_id_input": "Id канала для отчетов о тикетах",
+    "tickets_cfg_modal": "Управление тикетами",
+
+    
+    "-------------------------------": "Модальное окно с настройками войса",
+
+    "custom_voice_creation_channel_id_input": "Id канала для создания кастом войса",
+    "custom_voice_category_id_input": "Id категории для кастом войсов",
+    "custom_voice_deletion_time_input": "Кол-во секунд для удаления кастом войсов",
+    "voice_cfg_modal": "Управление войсами",
 
 
-        "----------------------------": "Модальное окно с настройками лутбоксов",
-
-        "roles_lootbox_key_price_input": "Цена за ключ от лутбокса с ролями",
-        "backgrounds_lootbox_key_price_input": "Цена за ключ от лутбокса с фонами",
-        "active_lootboxes_input": "Список активных лутбоксов",
-        "active_lootboxes_tip": "Подсказка к полю выше",
-        "active_lootboxes_tip_value": "ДАННОЕ ПОЛЕ НЕ ПРЕДНАЗНАЧЕНО ДЛЯ ВВОДА ДАННЫХ И СЛУЖИТ ПОДСКАЗКОЙ К ПОЛЮ «%{.active_lootboxes_input}»\nДАННЫЕ ВВОДЯТСЯ В ФОРМАТЕ: «lootbox_type | lootbox_type | ...»\nВОЗМОЖНЫЕ ВАРИАНТЫ ВВОДА: %{available}",
-        "lootboxes_cfg_modal": "Управление лутбоксами",
-
-
-        "---------------------------": "Модальное окно с настройками экономики",
-
-        "default_currency_icon_input": "Иконка (эмодзи) стандартной валюты",
-        "donate_currency_icon_input": "Иконка (эмодзи) донатной валюты",
-        "daily_bonus_input": "Кол-во валюты за /daily",
-        "economy_cfg_modal": "Управление экономикой",
+    "------------------------------": "Модальное окно с настройками логов",
+    
+    "command_interactions_webhook_url_input": "Логи команд",
+    "messages_webhook_url_input": "Логи сообщений",
+    "tickets_webhook_url_input": "Логи тикетов",
+    "guild_webhook_url_input": "Логи сервера",
+    "members_webhook_url_input": "Логи пользователей",
+    "voice_webhook_url_input": "Логи войс каналов",
+    "else_webhook_url_input": "Логи остальное",
+    "logs_cfg_modal": "Управление логами",
 
 
-        "--------------------------": "Модальное окно с настройками квестов",
+    "----------------------------": "Модальное окно с настройками лутбоксов",
 
-        "quests_channel_id_input": "Id канала для квестов",
-        "quests_message_id_input": "Id сообщения для квестов",
-        "quests_cfg_modal": "Управление квестами"
+    "roles_lootbox_key_price_input": "Цена за ключ от лутбокса с ролями",
+    "backgrounds_lootbox_key_price_input": "Цена за ключ от лутбокса с фонами",
+    "active_lootboxes_input": "Список активных лутбоксов",
+    "active_lootboxes_tip": "Подсказка к полю выше",
+    "active_lootboxes_tip_value": "ДАННОЕ ПОЛЕ НЕ ПРЕДНАЗНАЧЕНО ДЛЯ ВВОДА ДАННЫХ И СЛУЖИТ ПОДСКАЗКОЙ К ПОЛЮ «%{.active_lootboxes_input}»\nДАННЫЕ ВВОДЯТСЯ В ФОРМАТЕ: «lootbox_type | lootbox_type | ...»\nВОЗМОЖНЫЕ ВАРИАНТЫ ВВОДА: %{available}",
+    "lootboxes_cfg_modal": "Управление лутбоксами",
 
-    }
+
+    "---------------------------": "Модальное окно с настройками экономики",
+
+    "default_currency_icon_input": "Иконка (эмодзи) стандартной валюты",
+    "donate_currency_icon_input": "Иконка (эмодзи) донатной валюты",
+    "daily_bonus_input": "Кол-во валюты за /daily",
+    "economy_cfg_modal": "Управление экономикой",
+
+
+    "--------------------------": "Модальное окно с настройками квестов",
+
+    "quests_channel_id_input": "Id канала для квестов",
+    "quests_message_id_input": "Id сообщения для квестов",
+    "quests_cfg_modal": "Управление квестами"
 }
