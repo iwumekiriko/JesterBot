@@ -10,7 +10,7 @@ from .paginators import RolesPaginator, BoostersPaginator, LootboxKeysPaginator
 from src.customisation import CATEGORIES_SELECT_THUMBNAIL
 
 
-_ = get_localizator("inventory-categories")
+_ = get_localizator("inventory.categories")
 
 
 class InventoryCategoriesView(BaseView):

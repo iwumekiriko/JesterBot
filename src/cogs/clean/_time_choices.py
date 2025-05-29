@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from src.localization import get_localizator
 
 
-_ = get_localizator("clean")
+_ = get_localizator("clean.common")
 
 
 class TimeChoices(str, Enum):

@@ -1,0 +1,22 @@
+{
+        "economy-donate_desc": "Передать другому пользователю свои монеты",
+
+        "economy-donate_member_param": "Пользователь, которому вы хотите передать монеты",
+        "economy-donate_amount_param": "Кол-во монет, которые вы хотите передать",
+        "economy-donate_appointment_param": "Назначение платежа",
+        "economy-donate_appointment_param_default": "На круассан",
+
+        "economy-donate_embed_title": "Квитанция",
+        "economy-donate_receiver_field": "Получатель",
+        "economy-donate_payment_account_field": "Платёжный счёт",
+        "economy-donate_payer_field": "Плательщик",
+        "economy-donate_payer_adress_field": "Адрес плательщика",
+        "economy-donate_payment_appointment_field": "Назначение платежа",
+        "economy-donate_payment_amount_field": "Сумма",
+        "economy-donate_payment_date_field": "Дата",
+        "economy-donate_PJSC_field": "ПАО",
+        "economy-donate_BIC_field": "БИК",
+
+        "economy-daily_desc": "Ежедневная подачка",
+        "economy-daily_response": "Копи на круассан"
+}

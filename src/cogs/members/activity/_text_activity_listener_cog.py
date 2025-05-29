@@ -14,7 +14,7 @@ from src.utils._text import prepare_block_text
 from src.settings import API_REQUIRED
 
 
-_ = get_localizator("activity")
+_ = get_localizator("members.activity")
 logger = get_logger()
 
 

@@ -10,7 +10,7 @@ from src.models.inventory_items import Item, ExpBooster
 from src.utils.ui import State
 
 
-_ = get_localizator("inventory-cards")
+_ = get_localizator("inventory.cards")
 
 
 class BaseCard(BaseView):

@@ -25,7 +25,7 @@ from src.customisation import ROLES_LOOTBOX_THUMBNAIL
 
 
 logger = get_logger()
-_ = get_localizator("lootboxes-roles")
+_ = get_localizator("lootboxes.roles-lootbox")
 
 
 LOOTBOX_OPENING_TIME = 5

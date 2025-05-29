@@ -8,7 +8,7 @@ from ._modals import BaseModal, ModalTextInput
 from src.localization import get_localizator
 
 
-_ = get_localizator("ui")
+_ = get_localizator("general.ui")
 T = TypeVar('T')
 
 

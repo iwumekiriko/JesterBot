@@ -10,7 +10,7 @@ from src.utils._time import make_discord_timestamp
 from src.localization import get_localizator
 
 
-_ = get_localizator("cards")
+_ = get_localizator("general.cards")
 
 
 def item_card(item: Item, with_count: bool = True) -> Embed:

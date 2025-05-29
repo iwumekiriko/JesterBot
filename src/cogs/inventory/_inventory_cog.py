@@ -10,7 +10,7 @@ from src.utils._converters import user_avatar
 
 
 logger = get_logger()
-_ = get_localizator("inventory")
+_ = get_localizator("inventory.common")
 
 
 class InventoryCog(commands.Cog):

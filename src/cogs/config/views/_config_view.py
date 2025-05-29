@@ -11,7 +11,7 @@ from src.utils.ui._embeds import BaseEmbed
 
 
 logger = get_logger()
-_ = get_localizator("configs")
+_ = get_localizator("config.common")
 
 
 class ConfigView(BaseView):

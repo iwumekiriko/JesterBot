@@ -15,7 +15,7 @@ from src.customisation import (
 )
 
 
-_ = get_localizator("shop")
+_ = get_localizator("shop.common")
 
 
 class ShopCreationView(BaseView):

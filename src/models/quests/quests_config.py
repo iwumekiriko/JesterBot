@@ -6,7 +6,7 @@ from .quest_task_types import QuestTaskTypes
 from .quest_reward_types import QuestRewardTypes
 from src.localization import get_localizator
 
-_ = get_localizator("quests-config")
+_ = get_localizator("general.quests-config")
 
 
 class QuestsConfig:

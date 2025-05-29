@@ -3,7 +3,7 @@ from enum import Enum
 from src.localization import get_localizator
 
 
-_ = get_localizator("quests-config")
+_ = get_localizator("general.quests-config")
 
 
 class QuestTypes(str, Enum):

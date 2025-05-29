@@ -1,0 +1,11 @@
+{
+    "cards-table_type": "Предмет",
+    "cards-table_count": "Количество",
+
+    "cards-count": "Количество: **%{count}**",
+    "cards-summary": "Сводка предметов",
+
+    "cards-quest-composite_desc": "# %{title}\n%{main_desc}\n## Задача\n%{task_desc}\n## Награды\n%{reward_desc}",
+    "cards-quest-completed_field": "## Выполнено\nКвест был завершен %{completed}",
+    "cards-quest-deadline_field": "## Дедлайн\nМожно выполнить до: %{deadline}"
+}

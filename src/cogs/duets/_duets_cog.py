@@ -13,7 +13,7 @@ from src.utils.ui import BaseEmbed
 
 
 logger = get_logger()
-_ = get_localizator("duets")
+_ = get_localizator("duets.common")
 
 
 class DuetsCog(commands.Cog):

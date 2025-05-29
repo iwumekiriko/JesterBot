@@ -11,7 +11,7 @@ from src.utils._time import current_time
 from src.customisation import BANK_NAME, BANK_INDEF_CODE
 
 
-_ = get_localizator("economy")
+_ = get_localizator("economy.common")
 
 
 class EconomyCog(commands.Cog):
@@ -31,6 +31,13 @@ class EconomyCog(commands.Cog):
             default=_("economy-donate_appointment_param_default"),
             max_length=55)
     ) -> None:
+        if amount == 0:  # what's the point? :clueless:
+            await interaction.response.send_message(
+                _("economy-donate_zero_amount_error"),
+                ephemeral=True
+            )
+            return
+
         amount = abs(amount) # amount must be > 0
 
         guild_id = interaction.guild_id

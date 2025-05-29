@@ -1,0 +1,24 @@
+{
+    "top_desc": "Просмотр топа сервера",
+    "top-type_param": "Тип топа",
+    "top-member_param": "Выбор конкретного пользователя",
+
+    "top-messages_type": "Топ по количеству сообщений",
+    "top-voice_type": "Топ по количеству времени в войсе",
+    "top-experience_type": "Топ по опыту",
+    "top-currency_type": "Топ по балансу",
+    "top-lootboxes_type": "Топ по количеству открытых лутбоксов",
+    "top-quests_type": "Топ по количеству завершенных квестов",
+    "top-duets_type": "Топ по самому длительному дуэту",
+
+
+    "messages_top_format": "<@%{user}> — %{messages}",
+    "voice_top_format": "<@%{user}> — %{unmuted} 🔊 / %{muted} 🔇",
+    "experience_top_format": "<@%{user}> — %{experience}",
+    "currency_top_format": "<@%{user}> — %{coins} %{coins_icon} / %{crystals} %{crystals_icon}",
+    "lootboxes_top_format": "<@%{user}> — %{lootboxes}",
+    "quests_top_format": "<@%{user}> — %{quests}",
+    "duest_top_format": "<@%{proposer}> & <@%{duo}> — создан: %{together_from}",
+
+    "data_not_found": "<@%{user}> — Данные не найдены"
+}

@@ -11,7 +11,7 @@ from src.localization import get_localizator
 from src.utils.ui import BaseEmbed
 
 
-_ = get_localizator("lootboxes-backgrounds")
+_ = get_localizator("lootboxes.backgrounds-lootbox")
 
 
 GIF_ANIMATION_TIME = 5

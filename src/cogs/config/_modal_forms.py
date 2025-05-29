@@ -7,7 +7,7 @@ from ._api_interaction import set_local_cfg
 from src.models.config import *
 
 
-_ = get_localizator("config_modals")
+_ = get_localizator("config.modals")
 
 
 FIELDS_PER_PAGE = 5

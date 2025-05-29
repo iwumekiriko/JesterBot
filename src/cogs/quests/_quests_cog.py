@@ -25,7 +25,7 @@ from src.models.config import QuestsConfig
 from src.customisation import QUESTS_KEEPER_NAME, QUESTS_KEEPER_AVATAR
 
 
-_ = get_localizator("quests")
+_ = get_localizator("quests.common")
 logger = get_logger()
 
 

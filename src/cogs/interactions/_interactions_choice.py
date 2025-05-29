@@ -3,7 +3,7 @@ from enum import Enum
 from src.localization import get_localizator
 
 
-_ = get_localizator("interactions")
+_ = get_localizator("interactions.common")
 
 
 class InteractionActions(Enum):

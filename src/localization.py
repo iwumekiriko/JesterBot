@@ -1,19 +1,19 @@
 import i18n
+import os
 from typing import Any
 
 
-i18n.set("locale", "ru")
-i18n.set("fallback", "ru")
-i18n.set("enable_memoization", True)
+i18n.load_path.append("./locales")
+
+i18n.set("fallback", "ru-RU")
 i18n.set('file_format', 'json')
-i18n.load_path.append("./src/locales")
+i18n.set("enable_memoization", True)
+i18n.set("filename_format", "{namespace}.{format}")
+i18n.set("skip_locale_root_data", True)
+i18n.set("use_locale_dirs", True)
 
 
-def load_locales(path: str) -> None:
-    i18n.load_path.append(path)
-
-
-def get_localizator(route: str = "base"):
+def get_localizator(route: str):
     def localization(key: str, **kwargs: Any) -> str:
         # TODO logs
         key = f"{route}.{key}" if route else key

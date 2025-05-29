@@ -12,7 +12,7 @@ from src import settings
 
 
 logger = get_logger()
-_ = get_localizator()
+_ = get_localizator("general.errors")
 
 
 class JesterBot(commands.Bot):

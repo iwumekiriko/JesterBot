@@ -9,7 +9,7 @@ from src.localization import get_localizator
 from src.utils.enums import Currency
 
 
-_ = get_localizator("activity")
+_ = get_localizator("members.activity")
 
 
 async def send_reward_message(

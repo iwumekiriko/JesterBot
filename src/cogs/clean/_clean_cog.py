@@ -11,7 +11,7 @@ from src.logger import get_logger
 from src.utils._time import current_time
 
 
-_ = get_localizator("clean")
+_ = get_localizator("clean.common")
 logger = get_logger()
 
 

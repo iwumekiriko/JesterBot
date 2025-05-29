@@ -1,0 +1,12 @@
+{
+    "lootboxes-roles_coins_prize": "Серверная Валюта",
+    "lootboxes-roles_exp_booster_prize": "Усилитель опыта",
+    "lootboxes-roles_lootbox_key_roles_prize": "Билетик от лутбокса с ролями",
+    "lootboxes-roles_role_prize": "Роль",
+    "lootboxes-roles_roles_listing": "\nПул ролей: %{listing}",
+
+
+    "lootboxes-roles-embed_title": "Лутбокс с ролями",
+
+    "lootboxes-roles_wait_for_opening_desc": "Обработка данных, пожалуйста, подождите..."
+}

@@ -7,7 +7,7 @@ from ._api_interaction import ticket_create
 from src.localization import get_localizator
 
 
-_ = get_localizator("tickets")
+_ = get_localizator("tickets.common")
 
 
 async def _ticket_thread_create(

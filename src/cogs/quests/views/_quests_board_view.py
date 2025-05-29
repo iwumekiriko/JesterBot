@@ -11,7 +11,7 @@ from src.models.quests import QuestTypes
 from src.customisation import QUESTS_KEEPER_NAME, QUESTS_KEEPER_AVATAR
 
 
-_ = get_localizator("quests-views")
+_ = get_localizator("quests.views")
 
 
 class QuestsBoardView(BaseView):

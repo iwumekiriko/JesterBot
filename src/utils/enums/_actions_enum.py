@@ -3,7 +3,7 @@ from enum import Enum
 from src.localization import get_localizator
 
 
-_ = get_localizator("enums")
+_ = get_localizator("general.enums")
 
 
 class Actions(str, Enum):

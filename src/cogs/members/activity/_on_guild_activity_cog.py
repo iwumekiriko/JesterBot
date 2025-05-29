@@ -20,7 +20,7 @@ from ..embeds import WelcomeEmbed
 
 
 logger = get_logger()
-_ = get_localizator("activity")
+_ = get_localizator("members.activity")
 
 
 WELCOME_MESSAGE_DELETE_TIMER = 60 * 3

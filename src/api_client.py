@@ -165,7 +165,7 @@ class APIClient:
             
         Returns:
             Dict[str, Any]: JSON response from server
-            
+                
         Examples:
             >>> await get("users", {"id": 1})
             {"id": 1, "name": "John"}

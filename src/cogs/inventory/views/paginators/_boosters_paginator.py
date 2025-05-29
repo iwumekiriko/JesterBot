@@ -15,7 +15,7 @@ from src.customisation import EXP_BOOSTERS_SELECT_THUMBNAIL
 
 
 logger = get_logger()
-_ = get_localizator("inventory-paginators")
+_ = get_localizator("inventory.paginators")
 
 
 class BoostersPaginator(InventoryItemsPaginator[ExpBooster]):

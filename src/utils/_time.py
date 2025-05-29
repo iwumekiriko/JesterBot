@@ -7,7 +7,7 @@ import pytz
 from src.localization import get_localizator
 
 
-_ = get_localizator("time")
+_ = get_localizator("general.time")
 
 
 def seconds_to_hms(seconds: int) -> str:

@@ -9,7 +9,7 @@ from .._api_interaction import accept_quest
 from src.localization import get_localizator
 
 
-_ = get_localizator("quests-views")
+_ = get_localizator("quests.views")
 
 
 class QuestsPaginator(Paginator[Quest]):

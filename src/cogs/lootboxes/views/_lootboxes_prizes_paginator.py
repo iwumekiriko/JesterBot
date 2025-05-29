@@ -11,7 +11,7 @@ from src.customisation import PRIZES_PAGINATOR_THUMBNAIL
 from src.localization import get_localizator
 
 
-_ = get_localizator("lootboxes")
+_ = get_localizator("lootboxes.common")
 
 
 class LootboxesPrizesPaginator(Paginator[Item]):

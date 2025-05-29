@@ -9,7 +9,7 @@ from src.utils.ui import BaseView, BaseEmbed
 from .._api_interaction import become_duet
 
 
-_ = get_localizator("duets")
+_ = get_localizator("duets.common")
 
 
 class ProposalView(BaseView):

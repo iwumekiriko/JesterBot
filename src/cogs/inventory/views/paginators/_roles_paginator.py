@@ -11,7 +11,7 @@ from ._inventory_items_paginator import InventoryItemsPaginator
 from src.customisation import ROLES_SELECT_THUMBNAIL
 
 
-_ = get_localizator("inventory-paginators")
+_ = get_localizator("inventory.paginators")
 
 
 class RolesPaginator(InventoryItemsPaginator[Role]):

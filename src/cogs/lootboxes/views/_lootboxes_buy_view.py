@@ -7,7 +7,7 @@ from src.cogs.economy._api_interaction import make_coins_transaction
 from src.models.lootboxes import LootboxTypes
 
 
-_ = get_localizator("lootboxes")
+_ = get_localizator("lootboxes.common")
 
 
 class LootboxBuyView(BaseView):

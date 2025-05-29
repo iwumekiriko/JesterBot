@@ -9,7 +9,7 @@ from src.utils.ui import BaseEmbed
 from ._api_interaction import get_gif
 
 
-_ = get_localizator("interactions")
+_ = get_localizator("interactions.common")
 
 
 limits = {

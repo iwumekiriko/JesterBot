@@ -12,7 +12,7 @@ from src.cogs.duets._api_interaction import get_duet
 from src.cogs.inventory._api_interaction import get_active_booster
 
 
-_ = get_localizator("members-profile")
+_ = get_localizator("members.profile")
 
 
 class ProfileCog(commands.Cog):

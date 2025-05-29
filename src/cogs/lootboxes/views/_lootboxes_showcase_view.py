@@ -15,7 +15,7 @@ from src.models.lootboxes import LootboxTypes
 from ..types import BaseLootbox, RolesLootbox, BackgroundsLootbox
 
 
-_ = get_localizator("lootboxes")
+_ = get_localizator("lootboxes.common")
 
 
 l_types: Dict[type[BaseLootbox], LootboxTypes] = {

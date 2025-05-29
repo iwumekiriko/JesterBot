@@ -9,7 +9,7 @@ from ._base_card import BaseCard
 from src.utils._extra import make_formatted_slash_command
 
 
-_ = get_localizator("inventory-cards")
+_ = get_localizator("inventory.cards")
 
 
 class LootboxKeyCard(BaseCard):

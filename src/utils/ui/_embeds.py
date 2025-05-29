@@ -9,7 +9,7 @@ from src.customisation import (
 )
 
 
-_ = get_localizator("ui")
+_ = get_localizator("general.ui")
 
 
 class BaseEmbed(disnake.Embed):

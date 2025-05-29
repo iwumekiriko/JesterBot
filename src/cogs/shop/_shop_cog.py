@@ -26,7 +26,7 @@ from src.localization import get_localizator
 
 
 logger = get_logger()
-_ = get_localizator("shop")
+_ = get_localizator("shop.common")
 CONFIG_LOAD_TIME = 3
 
 

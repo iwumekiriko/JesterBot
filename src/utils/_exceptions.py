@@ -6,7 +6,7 @@ from src.models.lootboxes import LootboxTypes
 from src.models.quests import QuestRewardTypes, QuestTaskTypes, QuestTypes
 
 
-_ = get_localizator("exceptions")
+_ = get_localizator("general.exceptions")
 
 
 class CustomException(Exception):

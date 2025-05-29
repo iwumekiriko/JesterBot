@@ -6,7 +6,7 @@ from src.utils.ui import ModalTextInput, BaseModal
 from ._utils import ticket
 
 
-_ = get_localizator("tickets-modals")
+_ = get_localizator("tickets.modals")
 
 
 async def support_modal_form(interaction: MessageCommandInteraction):

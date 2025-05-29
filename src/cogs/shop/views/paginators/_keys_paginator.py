@@ -11,7 +11,7 @@ from ..cards import KeysCard
 from src.localization import get_localizator
 
 
-_ = get_localizator("shop-paginators")
+_ = get_localizator("shop.paginators")
 
 
 class KeysPaginator(ShopPaginator[ShopKey]):

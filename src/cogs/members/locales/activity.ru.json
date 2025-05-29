@@ -1,9 +1,0 @@
-{
-    "ru": {
-        "activity_listeners_reward_embed_title": "Поздравляем, вы получили новый уровень!",
-        "activity_listeners_reward_embed_desc": "Уровень: **%{level_before} -> %{level_after}**\nНаграда: **+%{rewards} %{currency_icon}**",
-
-        "activity_listeners_welcome_embed_title": "",
-        "activity_listeners_welcome_embed_desc": "Привет!"
-    }
-}

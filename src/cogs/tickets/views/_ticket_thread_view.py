@@ -8,7 +8,7 @@ from src.utils._converters import user_avatar
 from src.utils._time import current_time
 
 
-_ = get_localizator("tickets")
+_ = get_localizator("tickets.common")
 
 
 class TicketThreadView(BaseView):

@@ -9,7 +9,7 @@ from src.localization import get_localizator
 
 
 U = TypeVar("U", bound=ShopItem)
-_ = get_localizator("shop-paginators")
+_ = get_localizator("shop.paginators")
 
 
 class ShopPaginator(Paginator[U], Generic[U]):

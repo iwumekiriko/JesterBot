@@ -6,7 +6,7 @@ from .types import BaseLootbox, RolesLootbox, BackgroundsLootbox
 from src.models.lootboxes.lootbox_types import LootboxTypes
 
 
-_ = get_localizator("lootboxes")
+_ = get_localizator("lootboxes.common")
 
 
 class LootboxMap(str, Enum):

@@ -9,7 +9,7 @@ from src.utils.ui import ExceptionEmbed
 from src.utils._exceptions import ModalTimeoutException
 
 
-_ = get_localizator("ui")
+_ = get_localizator("general.ui")
 
 
 @dataclass

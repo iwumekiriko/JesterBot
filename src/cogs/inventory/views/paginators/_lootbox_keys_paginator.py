@@ -11,7 +11,7 @@ from src.customisation import LOOTBOX_KEYS_SELECT_THUMBNAIL
 
 
 logger = get_logger()
-_ = get_localizator("inventory-paginators")
+_ = get_localizator("inventory.paginators")
 
 
 class LootboxKeysPaginator(InventoryItemsPaginator[LootboxKey]):

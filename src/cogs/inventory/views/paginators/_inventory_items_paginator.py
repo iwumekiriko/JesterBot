@@ -12,7 +12,7 @@ from ..cards import BaseCard
 
 
 logger = get_logger()
-_ = get_localizator("inventory-paginators")
+_ = get_localizator("inventory.paginators")
 U = TypeVar("U", bound = Item)
 
 

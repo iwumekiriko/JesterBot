@@ -9,7 +9,7 @@ from src.utils._cards import item_card
 from src.localization import get_localizator
 
 
-_ = get_localizator("shop-cards")
+_ = get_localizator("shop.cards")
 
 
 class BaseCard(BaseView):

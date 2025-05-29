@@ -2,7 +2,7 @@ from typing import Dict
 
 from src.localization import get_localizator
 
-_ = get_localizator("items-config")
+_ = get_localizator("general.items-config")
 
 class ItemsConfig:
     descriptions: Dict[str, str] = {

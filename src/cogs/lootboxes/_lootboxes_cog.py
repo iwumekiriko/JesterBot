@@ -21,7 +21,7 @@ from src.utils.enums import Actions
 
 
 logger = get_logger()
-_ = get_localizator("lootboxes")
+_ = get_localizator("lootboxes.common")
 
 
 LOOTBOXES_TIMEOUT = 600

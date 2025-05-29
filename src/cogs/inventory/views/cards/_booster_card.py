@@ -10,7 +10,7 @@ from ._base_card import BaseCard
 from ..._api_interaction import use_booster
 
 
-_ = get_localizator("inventory-cards")
+_ = get_localizator("inventory.cards")
 
 
 class BoosterCard(BaseCard):

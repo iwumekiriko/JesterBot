@@ -10,7 +10,7 @@ from .._modal_forms import (
 from src.localization import get_localizator
 
 
-_ = get_localizator("tickets")
+_ = get_localizator("tickets.common")
 
 
 class TicketCreationView(disnake.ui.View):

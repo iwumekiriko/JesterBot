@@ -13,7 +13,7 @@ from src.utils._time import make_discord_timestamp, seconds_to_hms
 from src.utils.enums import Currency
 
 
-_ = get_localizator("top")
+_ = get_localizator("members.top")
 
 
 TOP_AMOUNT = 10
