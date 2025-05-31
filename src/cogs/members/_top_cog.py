@@ -26,7 +26,8 @@ class TopTypes(str, Enum):
     CURRENCY = 4
     LOOTBOXES = 5
     QUESTS = 6
-    DUETS = 7
+    DND = 7
+    DUETS = 8
 
     @property
     def translated(self) -> str:
@@ -61,6 +62,12 @@ class TopTypes(str, Enum):
             TopTypes.QUESTS: lambda s: _(f"quests_top_format",
                 user = user_id,
                 quests = s['questsCompletedCount']
+            ),
+            TopTypes.DND: lambda s: _(f"dnd_top_format",
+                user = user_id,
+                count = s['dndDiceRolledCount'],
+                max = s['dndDiceRolledMaxCount'],
+                min = s['dndDiceRolledMinCount']
             ),
             TopTypes.DUETS: lambda s: _(f"duest_top_format",
                 proposer=s['proposerId'],

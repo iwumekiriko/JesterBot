@@ -9,6 +9,7 @@
     "top-currency_type": "Топ по балансу",
     "top-lootboxes_type": "Топ по количеству открытых лутбоксов",
     "top-quests_type": "Топ по количеству завершенных квестов",
+    "top-dnd_type": "Топ по броскам кубиков",
     "top-duets_type": "Топ по самому длительному дуэту",
 
 
@@ -18,6 +19,7 @@
     "currency_top_format": "<@%{user}> — %{coins} %{coins_icon} / %{crystals} %{crystals_icon}",
     "lootboxes_top_format": "<@%{user}> — %{lootboxes}",
     "quests_top_format": "<@%{user}> — %{quests}",
+    "dnd_top_format": "<@%{user}> — %{count} бросков / %{max} крит. усп. / %{min} крит. пров.",
     "duest_top_format": "<@%{proposer}> & <@%{duo}> — создан: %{together_from}",
 
     "data_not_found": "<@%{user}> — Данные не найдены"
