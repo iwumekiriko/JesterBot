@@ -20,6 +20,7 @@ class InteractionActions(Enum):
 class InteractionTypes(Enum):
     CAT = 1
     ANIME = 2
+    BUNNY = 3
 
     @property
     def translated_name(self) -> str:
