@@ -22,6 +22,7 @@ from src.utils._exceptions import (
     LastTryDidntEndException,
     QuestTemplateAlreadyExistsException,
     QuestTemplateDoesNotExistException,
+    NoAvailableGifs,
     APIException
 )
 
@@ -46,6 +47,7 @@ api_exceptions: Dict[str, type[APIException]] = {
     "09922": LastTryDidntEndException,
     "01717": QuestTemplateAlreadyExistsException,
     "01718": QuestTemplateDoesNotExistException,
+    "00622": NoAvailableGifs
 }
 
 

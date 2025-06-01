@@ -273,3 +273,26 @@ class QuestTemplateDoesNotExistException(APIException):
             
         self.message = message
         super().__init__(self.message)
+
+
+class NoAvailableGifs(APIException):
+    def __init__(
+        self,
+        message: Optional[str] = None,
+        **kwargs
+    ) -> None:
+        from src.cogs.interactions._interactions_choice import (
+            InteractionActions,
+            InteractionTypes
+        )
+        
+        action = InteractionActions(kwargs.get("action", 1))
+        type = InteractionTypes(kwargs.get("type", 1))
+
+        if message is None:
+            message = _("no_available_gifs_exception",
+                        action=action.translated_name,
+                        type=type.translated_name)
+            
+        self.message = message
+        super().__init__(self.message)
