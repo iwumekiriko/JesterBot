@@ -31,13 +31,9 @@ SUPPRESS_WEBHOOK_CONFIGURATION = False
 # https://discord.com/developers/applications/ -> Your Application -> Bot -> Reset Token
 BOT_TOKEN: str = os.getenv("BOT_TOKEN") # type: ignore
 
-# Will not be needed in the future.
-# Currently used in /user_interaction for gifs.
-TENOR_API_KEY = os.getenv("TENOR_API_KEY")
-
 # The beginning of API url.
 # Not needed if API_REQUIRED = False.
-# [example] https://localhost:8080/api/
+# [example] https://localhost:8080/api
 API_PATH: str = os.getenv("PATH_TO_API") # type: ignore
 
 # Main Guild of the bot.
