@@ -14,6 +14,7 @@ from ._interactions_choice import InteractionActions, InteractionTypes
 from src.models.interactions import InteractionsAsset
 from src.utils.ui import BaseEmbed
 from ._api_interaction import get_gif, upload_gifs
+from src.utils._permissions import for_admins
 
 
 logger = get_logger()
@@ -23,14 +24,6 @@ _ = get_localizator("interactions.common")
 ACCEPTABLE_DF_COLUMNS = ['Url', 'Action', 'Type']
 ACCEPTABLE_ACTIONS = [action.name.lower() for action in InteractionActions]
 ACCEPTABLE_TYPES = [type.name.lower() for type in InteractionTypes]
-
-
-limits = {
-    "kiss": 30,
-    "hug": 30,
-    "pat": 30,
-    "hit": 15
-}
 
 
 class UserInteractionsCog(commands.Cog):
@@ -65,7 +58,7 @@ class UserInteractionsCog(commands.Cog):
                 type.value
             )))
 
-    @commands.slash_command(description=_("interactions-gifs-upload_desc"))
+    @commands.slash_command(**for_admins, description=_("interactions-gifs-upload_desc"))
     async def _ug(
         self,
         interaction: disnake.GuildCommandInteraction,

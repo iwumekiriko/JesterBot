@@ -5,6 +5,9 @@
     "user_interaction_action_param": "Действие, которое вы хотите совершить",
     "user_interaction_type_param": "Стилизация гиф картинки",
 
+    "interactions-gifs-upload_desc": "[Только для админов] - загрузка гифок через файл",
+    "interactions-gifs-upload_attachment_param": "Файл с данными (.csv / .xlsx)",
+
     "-------------------------------------": "Перевод параметра 'действие'",
     "kiss_choice": "Поцеловать",
     "hug_choice": "Обнять",
