@@ -8,6 +8,10 @@
     "interactions-gifs-upload_desc": "[Только для админов] - загрузка гифок через файл",
     "interactions-gifs-upload_attachment_param": "Файл с данными (.csv / .xlsx)",
 
+    "wrong_file_type_error": "Неверный тип файла: принимаются только csv и xlsx",
+    "wrong_dataframe_structure_error": "Неверный формат таблицы",
+    "success_upload_response": "Успешно загружено",
+
     "-------------------------------------": "Перевод параметра 'действие'",
     "kiss_choice": "Поцеловать",
     "hug_choice": "Обнять",

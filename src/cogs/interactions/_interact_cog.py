@@ -15,6 +15,7 @@ from src.models.interactions import InteractionsAsset
 from src.utils.ui import BaseEmbed
 from ._api_interaction import get_gif, upload_gifs
 from src.utils._permissions import for_admins
+from src.utils.ui import SuccessEmbed, ExceptionEmbed
 
 
 logger = get_logger()
@@ -68,7 +69,9 @@ class UserInteractionsCog(commands.Cog):
         if (attachment.filename and not 
             ("csv" in attachment.filename or "xlsx" in attachment.filename)
         ):
-            await interaction.response.send_message("wrong file type")
+            await interaction.response.send_message(
+                embed=ExceptionEmbed(error_msg=_("wrong_file_type_error")),
+                ephemeral=True)
             return
 
         await interaction.response.defer(ephemeral=True)
@@ -81,11 +84,15 @@ class UserInteractionsCog(commands.Cog):
                 df = pd.read_excel(BytesIO(await attachment.read()))
 
         if not self.is_dataframe_correct(df):
-            await interaction.followup.send("not correct dataframe structure")
+            await interaction.followup.send(
+                embed=ExceptionEmbed(error_msg=_("wrong_dataframe_structure_error")),
+                ephemeral=True)
 
         gifs = await self.handle_dataframe(df)
         await upload_gifs(interaction.guild.id, gifs)
-        await interaction.followup.send("in process...", ephemeral=True)
+        await interaction.followup.send(
+            embed=SuccessEmbed(success_msg=_("success_upload_response")),
+            ephemeral=True)
 
     async def handle_dataframe(self, df: pd.DataFrame) -> List[InteractionsAsset]:
         if not (df.columns.to_list() == ['Url', 'Action', 'Type']):
