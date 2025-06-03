@@ -12,6 +12,7 @@
     "top-dnd_type": "Топ по броскам кубиков",
     "top-duets_type": "Топ по самому длительному дуэту",
 
+    "top_footer": "-# Данные по крит. броскам берутся при d20 и выше",
 
     "messages_top_format": "<@%{user}> — %{messages}",
     "voice_top_format": "<@%{user}> — %{unmuted} 🔊 / %{muted} 🔇",

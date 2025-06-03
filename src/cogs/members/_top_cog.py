@@ -123,6 +123,9 @@ class TopCog(commands.Cog):
                            if user_info['stats'] else _("data_not_found", user=user_info['userId']))
             data.append(f"———————————————————\n\n**{user_info['rank']}\\. {user_stats}**")
 
+        if top_type == TopTypes.DND:
+            data.append(_("top_footer"))
+
         await interaction.response.send_message(
             embed=BaseEmbed(
                 title=top_type.translated,
