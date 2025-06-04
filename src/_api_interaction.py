@@ -15,7 +15,7 @@ async def get_cfg(guild_id: int, cfg_type: type[T]) -> T:
         return cfg_type(**json_camel_to_snake(response))
 
 
-async def set_cfg(cfg: T) -> None:
+async def set_cfg(cfg: T) -> None: # type: ignore
     data = cfg.to_dict()
     endpoint = f"Config/{cfg.short_name}"
     async with APIClient() as client:
