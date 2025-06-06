@@ -3,10 +3,11 @@ from disnake.ext import commands
 
 from src.bot import JesterBot
 from src.utils._converters import inter_member
-from ._api_interaction import make_coins_transaction
+from ._api_interaction import make_transaction
 from src.utils.ui import BaseEmbed
 from src.localization import get_localizator
 from src.utils._time import current_time
+from src.utils.enums import Currency
 
 from src.customisation import BANK_NAME, BANK_INDEF_CODE
 
@@ -44,7 +45,7 @@ class EconomyCog(commands.Cog):
         payer_id = interaction.author.id
         receiver_id = member.id
 
-        await make_coins_transaction(guild_id, payer_id, amount, recipient_id=receiver_id)
+        await make_transaction(Currency.COINS, guild_id, payer_id, amount, recipient_id=receiver_id)
         embed = (BaseEmbed(title = _("economy-donate_embed_title"))
             .add_field(name=_("economy-donate_receiver_field"),
                         value=f"<@{receiver_id}>", inline=True)

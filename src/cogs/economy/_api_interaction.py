@@ -3,9 +3,11 @@ from typing import Optional
 from src.models import Member
 from src.utils._mapping import json_camel_to_snake
 from src.api_client import APIClient
+from src.utils.enums import Currency
 
 
-async def make_coins_transaction(
+async def make_transaction(
+    currency: Currency,
     guild_id: int,
     payer_id: int,
     amount: int,
@@ -15,7 +17,7 @@ async def make_coins_transaction(
         from src.bot import bot
         recipient_id = bot.user.id
 
-    endpoint = f"Economy/{guild_id}/transactions/{payer_id}/{recipient_id}"
+    endpoint = f"Economy/{guild_id}/transactions/{currency.name.lower()}/{payer_id}/{recipient_id}"
     query_params = {"amount": amount}
 
     async with APIClient() as client:

@@ -5,6 +5,7 @@ import disnake
 from src.models.shop import ShopItem, ShopRole
 from src.utils.ui import BaseView, State, SuccessEmbed, WarningEmbed, ModalTextInput, BaseModal
 from src.utils._cards import item_card
+from src.utils.enums import Currency
 
 from src.localization import get_localizator
 
@@ -72,8 +73,8 @@ class BaseCard(BaseView):
         user_id: int,
         count: int = 1
     ) -> Tuple[int, int]:
-        from src.cogs.economy._api_interaction import make_coins_transaction
-        member_data = await make_coins_transaction(guild_id, user_id, abs(self._price * count))
+        from src.cogs.economy._api_interaction import make_transaction
+        member_data = await make_transaction(Currency.COINS, guild_id, user_id, abs(self._price * count))
 
         left_coins = member_data.coins
         start_coins = left_coins + self._price * count
@@ -86,8 +87,8 @@ class BaseCard(BaseView):
         user_id: int,
         amount: int
     ) -> None:
-        from src.cogs.economy._api_interaction import make_coins_transaction
-        await make_coins_transaction(guild_id, user_id, -amount)
+        from src.cogs.economy._api_interaction import make_transaction
+        await make_transaction(Currency.COINS, guild_id, user_id, -amount)
 
     async def handle_try(
         self,
