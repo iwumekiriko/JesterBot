@@ -18,5 +18,7 @@
         "economy-donate_BIC_field": "БИК",
 
         "economy-daily_desc": "Ежедневная подачка",
-        "economy-daily_response": "Копи на круассан"
+        "economy-daily_response": "Копи на круассан",
+
+        "economy-donate_zero_amount_error": "Передаёшь 0???"
 }
