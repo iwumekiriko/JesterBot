@@ -23,6 +23,7 @@ from src.utils._time import seconds_until_next_day
 from src.models.quests import QuestRewardTypes, QuestTaskTypes, QuestTypes, Quest
 from src.models.config import QuestsConfig
 from src.customisation import QUESTS_KEEPER_NAME, QUESTS_KEEPER_AVATAR
+from src.utils._permissions import for_admins
 
 
 _ = get_localizator("quests.common")
@@ -156,7 +157,7 @@ class QuestsCog(commands.Cog):
         view = QuestsPaginator(items=user_quests, on_board=False)
         await view.start(interaction, kwargs={"quests": user_quests})
 
-    @commands.slash_command(description=_("quest_template_desc"))
+    @commands.slash_command(**for_admins, description=_("quest_template_desc"))
     async def _qt(
         self,
         interaction: disnake.GuildCommandInteraction,
