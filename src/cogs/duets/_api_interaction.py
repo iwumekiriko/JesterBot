@@ -23,3 +23,9 @@ async def get_duet(guild_id: int, user_id: int) -> Optional[Duet]:
         response = await client.get(endpoint)
         if (not response): return None
         return Duet(**json_camel_to_snake(response))
+
+
+async def is_dispose_restricted(guild_id: int, user_id: int) -> bool:
+    endpoint = f"Duets/{guild_id}/{user_id}/is-restricted"
+    async with APIClient() as client:
+        return await client.get(endpoint)

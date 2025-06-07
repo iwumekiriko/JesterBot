@@ -7,7 +7,8 @@ from src.logger import get_logger
 from src.settings import API_PATH, DEVELOPMENT
 from src.utils._exceptions import (
     CustomException,
-    NotEnoughMoneyException,
+    NotEnoughCoinsException,
+    NotEnoughCrystalsException,
     NoActiveBoosterException,
     BoosterAlreadyActiveException,
     AlreadyOwnsRoleException,
@@ -22,7 +23,11 @@ from src.utils._exceptions import (
     LastTryDidntEndException,
     QuestTemplateAlreadyExistsException,
     QuestTemplateDoesNotExistException,
-    NoAvailableGifs,
+    NoAvailableGifsException,
+    GuildSettingAlreadyExistsException,
+    GuildSettingDoesNotExistException,
+    NoGuildSettingsAvailableException,
+    DuetDisposeRestrictedException,
     APIException
 )
 
@@ -32,7 +37,8 @@ logger = get_logger()
 
 api_exceptions: Dict[str, type[APIException]] = {
     "00000": APIException,
-    "00317": NotEnoughMoneyException,
+    "00317": NotEnoughCoinsException,
+    "00318": NotEnoughCrystalsException,
     "00059": BoosterAlreadyActiveException,
     "00058": NoActiveBoosterException,
     "01403": AlreadyOwnsRoleException,
@@ -47,7 +53,11 @@ api_exceptions: Dict[str, type[APIException]] = {
     "09922": LastTryDidntEndException,
     "01717": QuestTemplateAlreadyExistsException,
     "01718": QuestTemplateDoesNotExistException,
-    "00622": NoAvailableGifs
+    "00622": NoAvailableGifsException,
+    "00301": GuildSettingAlreadyExistsException,
+    "00302": GuildSettingDoesNotExistException,
+    "00303": NoGuildSettingsAvailableException,
+    "80038": DuetDisposeRestrictedException,
 }
 
 

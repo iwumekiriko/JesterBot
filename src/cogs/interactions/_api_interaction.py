@@ -10,6 +10,12 @@ from src.utils._exceptions import CustomException
 from src.api_client import APIClient
 
 
+async def is_interaction_restricted(guild_id: int, target_id: int) -> bool:
+    endpoint = f"Interactions/{guild_id}/{target_id}/is-restricted"
+    async with APIClient() as client:
+        return await client.get(endpoint)
+
+
 async def get_gif(
     guild_id: int,
     action_value: int,

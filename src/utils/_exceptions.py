@@ -3,7 +3,10 @@ from typing import Optional
 from src.localization import get_localizator
 from ._time import seconds_to_hms, make_discord_timestamp
 from src.models.lootboxes import LootboxTypes
+from src.models.settings import SettingTypes
+from src.utils.enums import Currency
 from src.models.quests import QuestRewardTypes, QuestTaskTypes, QuestTypes
+from src.settings import BASE_GUILD_ID
 
 
 _ = get_localizator("general.exceptions")
@@ -34,7 +37,7 @@ class APIException(CustomException):
         super().__init__(self.message)
 
 
-class NotEnoughMoneyException(APIException):
+class NotEnoughCoinsException(APIException):
     def __init__(
         self,
         message: Optional[str] = None,
@@ -42,9 +45,28 @@ class NotEnoughMoneyException(APIException):
     ) -> None:
         needed = kwargs.get("needed", -1)
         current = kwargs.get("current", -1)
+        guild_id = kwargs.get("guildId", BASE_GUILD_ID)
         if message is None:
             message = _("not_enough_money_exception",
-                         needed=needed, current=current)
+                        needed=needed, current=current,
+                        currency=Currency.COINS.get_icon(guild_id))
+        self.message = message
+        super().__init__(self.message)
+
+    
+class NotEnoughCrystalsException(APIException):
+    def __init__(
+        self,
+        message: Optional[str] = None,
+        **kwargs
+    ) -> None:
+        needed = kwargs.get("needed", -1)
+        current = kwargs.get("current", -1)
+        guild_id = kwargs.get("guildId", BASE_GUILD_ID)
+        if message is None:
+            message = _("not_enough_money_exception",
+                        needed=needed, current=current,
+                        currency=Currency.CRYSTALS.get_icon(guild_id))
         self.message = message
         super().__init__(self.message)
 
@@ -275,7 +297,7 @@ class QuestTemplateDoesNotExistException(APIException):
         super().__init__(self.message)
 
 
-class NoAvailableGifs(APIException):
+class NoAvailableGifsException(APIException):
     def __init__(
         self,
         message: Optional[str] = None,
@@ -294,5 +316,61 @@ class NoAvailableGifs(APIException):
                         action=action.translated_name,
                         type=type.translated_name)
             
+        self.message = message
+        super().__init__(self.message)
+
+
+class GuildSettingAlreadyExistsException(APIException):
+    def __init__(
+        self,
+        message: Optional[str] = None,
+        **kwargs
+    ) -> None:
+        type = SettingTypes(kwargs.get("type", 1))
+        
+        if message is None:
+            message = _("guild_setting_already_exists_error", type=type.translated)
+        
+        self.message = message
+        super().__init__(self.message)
+
+
+class GuildSettingDoesNotExistException(APIException):
+    def __init__(
+        self,
+        message: Optional[str] = None,
+        **kwargs
+    ) -> None:
+        type = SettingTypes(kwargs.get("type", 1))
+        
+        if message is None:
+            message = _("guild_setting_does_not_exist_error", type=type.translated)
+        
+        self.message = message
+        super().__init__(self.message)
+
+
+class NoGuildSettingsAvailableException(APIException):
+    def __init__(
+        self,
+        message: Optional[str] = None,
+        **kwargs
+    ) -> None:
+        if message is None:
+            message = _("no_guild_settings_available_error")
+
+        self.message = message
+        super().__init__(self.message)
+
+
+class DuetDisposeRestrictedException(APIException):
+    def __init__(
+        self,
+        message: Optional[str] = None,
+        **kwargs
+    ) -> None:
+        if message is None:
+            message = _("duet_dispose_restricted_error")
+
         self.message = message
         super().__init__(self.message)

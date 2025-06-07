@@ -27,5 +27,7 @@
     "kiss": "<@%{command_user}> целует <@%{command_target}>",
     "hug": "<@%{command_user}> обнимает <@%{command_target}>",
     "pat": "<@%{command_user}> гладит <@%{command_target}>",
-    "hit": "<@%{command_user}> бьет <@%{command_target}>"
+    "hit": "<@%{command_user}> бьет <@%{command_target}>",
+
+    "user_interaction_target_restricted_error": "Пользователь <@%{target_id}> запретил действия над собой."
 }

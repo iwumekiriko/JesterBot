@@ -12,8 +12,8 @@ from src.logger import get_logger
 from src.utils._converters import inter_member
 from ._interactions_choice import InteractionActions, InteractionTypes
 from src.models.interactions import InteractionsAsset
-from src.utils.ui import BaseEmbed
-from ._api_interaction import get_gif, upload_gifs
+from src.utils.ui import BaseEmbed, ExceptionEmbed
+from ._api_interaction import get_gif, upload_gifs, is_interaction_restricted
 from src.utils._permissions import for_admins
 from src.utils.ui import SuccessEmbed, ExceptionEmbed
 
@@ -44,6 +44,12 @@ class UserInteractionsCog(commands.Cog):
             choices={type.translated_name: str(type.value) for type in InteractionTypes},
             description=_("user_interaction_type_param"))
     ) -> None:
+        if await is_interaction_restricted(interaction.guild.id, member.id):
+            await interaction.response.send_message(embed=ExceptionEmbed(
+                error_msg=_("user_interaction_target_restricted_error", target_id=member.id)
+            ), ephemeral=True)
+            return
+
         action = InteractionActions(int(action))
         type = InteractionTypes(int(type))
 
