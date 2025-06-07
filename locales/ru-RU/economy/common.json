@@ -20,5 +20,14 @@
         "economy-daily_desc": "Ежедневная подачка",
         "economy-daily_response": "Копи на круассан",
 
-        "economy-donate_zero_amount_error": "Передаёшь 0???"
+        "economy-donate_zero_amount_error": "Передаёшь 0???",
+
+
+        "balance_desc": "[Только для модеров] - изменение баланса пользователя",
+        "balance-currency_param": "Тип валюты",
+        "balance-member_param": "Пользователь, у которого будет изменен баланс",
+        "balance-amount_param": "Кол-во валюты для изменения",
+
+        "balance-not_owner_error": "Недостаточно прав для выдачи «%{currency}»",
+        "success_balance_changed": "Баланс пользователя %{user} успешно изменен на %{amount} %{currency}"
 }

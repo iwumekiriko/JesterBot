@@ -4,10 +4,12 @@ from disnake.ext import commands
 from src.bot import JesterBot
 from src.utils._converters import inter_member
 from ._api_interaction import make_transaction
-from src.utils.ui import BaseEmbed
+from src.utils.ui import BaseEmbed, SuccessEmbed, ExceptionEmbed
 from src.localization import get_localizator
 from src.utils._time import current_time
 from src.utils.enums import Currency
+from src.utils._permissions import for_moders
+from src.utils._converters import bot_excluding
 
 from src.customisation import BANK_NAME, BANK_INDEF_CODE
 
@@ -69,6 +71,55 @@ class EconomyCog(commands.Cog):
             .set_footer(text=(f"{_('economy-donate_PJSC_field')} «{BANK_NAME}»"
                         f" | {_('economy-donate_BIC_field')} {BANK_INDEF_CODE}")))
         await interaction.response.send_message(embed=embed)
+
+    @commands.slash_command(**for_moders, description=_("balance_desc"))
+    async def balance(
+        self,
+        interaction: disnake.GuildCommandInteraction,
+        currency=commands.Param(
+            choices={ currency.translated: currency for currency in Currency},
+            description=_("balance-currency_param")),
+        member: disnake.Member = commands.Param(converter=bot_excluding, description=_("balance-member_param")),
+        amount: int = commands.Param(description=_("balance-amount_param"))
+    ) -> None:
+        if amount == 0:  # what's the point? :clueless:
+            await interaction.response.send_message(
+                _("economy-donate_zero_amount_error"),
+                ephemeral=True
+            )
+            return
+
+        currency = Currency[currency.upper()]
+
+        from src.bot import bot
+        if currency == Currency.CRYSTALS:
+            is_owner = await bot.is_owner(interaction.user)
+
+            if not is_owner:
+                await interaction.response.send_message(
+                    embed=ExceptionEmbed(
+                        error_msg=_("balance-not_owner_error",
+                                    currency=currency.translated)),
+                    ephemeral=True
+                )
+                return
+
+        await make_transaction(
+            currency,
+            interaction.guild.id,
+            bot.user.id,
+            amount,
+            member.id
+        )
+
+        await interaction.response.send_message(
+            embed=SuccessEmbed(
+                success_msg=_("success_balance_changed",
+                            user=member.mention,
+                            amount=amount,
+                            currency=currency.get_icon(interaction.guild.id))
+            ), ephemeral=True)
+
 
     # @commands.cooldown(1, 24*60*60, commands.BucketType.user)
     # @commands.slash_command(description=_("economy-daily_desc"))
