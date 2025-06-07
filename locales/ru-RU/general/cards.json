@@ -7,5 +7,8 @@
 
     "cards-quest-composite_desc": "# %{title}\n%{main_desc}\n## Задача\n%{task_desc}\n## Награды\n%{reward_desc}",
     "cards-quest-completed_field": "## Выполнено\nКвест был завершен %{completed}",
-    "cards-quest-deadline_field": "## Дедлайн\nМожно выполнить до: %{deadline}"
+    "cards-quest-deadline_field": "## Дедлайн\nМожно выполнить до: %{deadline}",
+
+    "cards-settings-embed_title": "Пользовательские настройки",
+    "setting_cost": "стоимость: %{cost} %{currency}"
 }

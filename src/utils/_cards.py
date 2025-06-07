@@ -2,10 +2,12 @@ from disnake import Embed
 
 from src.models.inventory_items import Item, Role
 from src.models.quests import Quest
+from src.models.settings import UserSettings
 from .ui import BaseEmbed
 from ._mapping import tabled_, BorderStyle, AlignStyle
-from src.customisation import ITEMS_SUMMARY_EMBED_COLOR
+from src.customisation import ITEMS_SUMMARY_EMBED_COLOR, BASE_SETTINGS_COLOR
 from src.utils._time import make_discord_timestamp
+from src.utils.enums import Currency
 
 from src.localization import get_localizator
 
@@ -73,4 +75,23 @@ def quests_card(quest: Quest) -> Embed:
         color = (int(quest.embed_color, 0)) 
                 if quest.embed_color else BaseEmbed.color
     ).set_thumbnail(quest.thumbnail)
+    return embed
+
+
+def settings_card(u_settings: UserSettings) -> Embed:
+    desc_lines = []
+    for setting in u_settings.settings:
+        title = f"{setting.type.translated} — {'✔️' if setting.state else '❌'}"
+        cost = f"({_('setting_cost', cost=setting.cost, currency=Currency.CRYSTALS.get_icon(u_settings.guild_id))})" if setting.cost else ''
+        if setting.cost and setting.bought:
+            cost = f"~~{cost}~~"
+
+        desc = setting.type.translated_desc
+        desc_lines.append(f"- {title} {cost}\n-# {desc}")
+
+    embed = BaseEmbed(
+        title = _("cards-settings-embed_title"),
+        description = "\n".join(desc_lines),
+        color = BASE_SETTINGS_COLOR
+    )
     return embed

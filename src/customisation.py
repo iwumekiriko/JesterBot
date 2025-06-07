@@ -58,3 +58,8 @@ NITRO_BOOSTING_GRATITUDERS = { # name: (avatar_url, texts_list) | max_gratituder
     "Jester": ("https://i.ibb.co/ksmmG2yN/0378504ef44b939151a9e83a5d0f95bc.png", ["# Спасибо-спасибо-спасибо\nА тут я жду когда мне придумают текст///"]),
     "Wacky": ("https://i.ibb.co/fdZ3cGgv/e5bdd509b0f455b90f2ecf5561d8c7be.jpg", ["# Спасибо-спасибо-спасибо\nА тут я жду когда мне придумают текст///"]),
 }
+
+
+############################# Settings Cog
+
+BASE_SETTINGS_COLOR = 0x42AAF5

@@ -1,0 +1,9 @@
+{
+    "buy_embed_title": "Покупка",
+    "buy_embed_desc": "Желаете ли вы приобрести данную настройку за %{cost} %{currency}?",
+
+    "buy_approve_button_label": "Приобрести",
+    "buy_deny_button_label": "Отказаться",
+
+    "success_buy_message": "**Баланс:** ~~%{start_crystals}~~%{currency_icon} **->** %{left_crystals}%{currency_icon}"
+}
