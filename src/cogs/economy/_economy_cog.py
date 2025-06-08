@@ -76,11 +76,12 @@ class EconomyCog(commands.Cog):
     async def balance(
         self,
         interaction: disnake.GuildCommandInteraction,
+        member: disnake.Member = commands.Param(converter=bot_excluding, description=_("balance-member_param")),
+        amount: int = commands.Param(description=_("balance-amount_param")),
         currency=commands.Param(
             choices={ currency.translated: currency for currency in Currency},
+            default=Currency.COINS,
             description=_("balance-currency_param")),
-        member: disnake.Member = commands.Param(converter=bot_excluding, description=_("balance-member_param")),
-        amount: int = commands.Param(description=_("balance-amount_param"))
     ) -> None:
         if amount == 0:  # what's the point? :clueless:
             await interaction.response.send_message(
