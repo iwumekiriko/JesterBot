@@ -1,8 +1,8 @@
 {
-        "economy-donate_desc": "Передать другому пользователю свои монеты",
+        "economy-donate_desc": "Передача серверной валюты другому       пользователю",
 
-        "economy-donate_member_param": "Пользователь, которому вы хотите передать монеты",
-        "economy-donate_amount_param": "Кол-во монет, которые вы хотите передать",
+        "economy-donate_member_param": "Пользователь, которому вы хотите передать валюту",
+        "economy-donate_amount_param": "Кол-во валюты, которую вы хотите передать",
         "economy-donate_appointment_param": "Назначение платежа",
         "economy-donate_appointment_param_default": "На круассан",
 
