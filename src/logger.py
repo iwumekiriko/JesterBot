@@ -100,11 +100,11 @@ class DiscordHandler(logging.Handler):
         except exceptions.MissingSchema:
             if not settings.SUPPRESS_WEBHOOK_CONFIGURATION:
                 print(
-                    "-----------------------------------------------------------------------------------------\n"
-                    "Webhooks parameters have not been setted yet.\n "
-                    "If you're using API, make sure, that it works correctly and configure parameters using /config.\n "
-                    "If you're not using API, then enter parameters manually in 'src/manual_config.py'.\n "
-                   "-----------------------------------------------------------------------------------------")
+                    "-----------------------------------------------------------------------------------------\n",
+                    "Webhooks parameters have not been setted yet.\n",
+                    "If you're using API, make sure, that it works correctly and configure parameters using /config.\n",
+                    "If you're not using API, then enter parameters manually in 'src/manual_config.py'.\n",
+                    "-----------------------------------------------------------------------------------------")
 
         except KeyError:
             pass

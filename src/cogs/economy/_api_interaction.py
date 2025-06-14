@@ -36,7 +36,7 @@ async def proceed_coins_reward(
     from src.bot import bot
     payer_id = bot.user.id
 
-    endpoint = f"Economy/{guild_id}/transactions/{payer_id}/{recipient_id}"
+    endpoint = f"Economy/{guild_id}/transactions/{Currency.COINS.name.lower()}/{payer_id}/{recipient_id}"
     query_params = {"amount": amount}
 
     async with APIClient() as client:
