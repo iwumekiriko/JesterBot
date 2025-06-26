@@ -58,7 +58,7 @@ class QuestsConfig:
     @staticmethod
     def get_reward_string(reward_type: QuestRewardTypes, reward_amount: int, guild_id: int) -> str:
         return _("quests-config-reward_string",
-                 reward_type=reward_type.get_currency_emoji(guild_id), reward_amount=reward_amount)
+                 reward_type=reward_type.get_reward_emoji(guild_id), reward_amount=reward_amount)
     
     @staticmethod
     def get_title(quest_task_type: QuestTaskTypes, id: int) -> str:

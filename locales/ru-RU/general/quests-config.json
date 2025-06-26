@@ -8,7 +8,8 @@
 
     "quests-config-reward_types-coins_name": "Стандартная валюта",
     "quests-config-reward_types-crystalls_name": "Донатная валюта",
-    "quests-config-reward_types-lootbox_key_name": "Случайный билетик от лутбокса",
+    "quests-config-reward_types-lootbox_key_name": "Билетик от лутбокса",
+    "quests-config-reward_types-cards_pack_name": "Набор карточек",
 
     "quests-config-completed_quest_string": "завершено",
 
