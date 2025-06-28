@@ -1,6 +1,7 @@
 from ._base_card import BaseCard
 from ._roles_card import RolesCard
 from ._keys_card import KeysCard
+from ._packs_card import PacksCard
 
 
-__all__ = ('BaseCard', 'RolesCard', 'KeysCard')
+__all__ = ('BaseCard', 'RolesCard', 'KeysCard', 'PacksCard')

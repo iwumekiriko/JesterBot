@@ -1,7 +1,9 @@
 {
     "shop-paginators-roles_embed_title": "Магазиник ролей",
     "shop-paginators-keys_embed_title": "Магазиник билетиков",
+    "shop-paginators-packs_embed_title": "Магазиник паков с карточками",
     "shop-paginators-embed_empty": "Тут пока пусто...",
 
-    "shop-paginators-roles-got_by_user": "*выкуплено*"
+    "shop-paginators-roles-got_by_user": "*выкуплено*",
+    "shop-paginators-pack_type": "Пак «%{name}»"
 }

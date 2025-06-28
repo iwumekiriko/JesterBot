@@ -58,6 +58,14 @@ async def manage_keys(guild_id: int, user_id: int, type: LootboxTypes, count: in
         await client.put(endpoint)
 
 
+async def update_packs(guild_id: int, user_id: int, pack_id: int, count: int) -> int:
+    endpoint = f"CCG/cards/packs/update/{guild_id}/{user_id}/{pack_id}"
+    query_params = { "amount": count }
+
+    async with APIClient() as client:
+        return await client.put(endpoint, query_params=query_params)
+
+
 async def owns_role(guild_id: int, user_id: int, guild_role_id: int) -> bool:
     endpoint = f"Inventory/{guild_id}/{user_id}/roles/{guild_role_id}"
     async with APIClient() as client:

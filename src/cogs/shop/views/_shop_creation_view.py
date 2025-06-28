@@ -5,8 +5,8 @@ import disnake
 from src.localization import get_localizator
 from src.utils.ui import BaseView
 from ..embeds import ShopEmbed
-from .paginators import ShopPaginator, RolesPaginator, KeysPaginator
-from .._api_interaction import get_shop_keys, get_user_shop_roles
+from .paginators import ShopPaginator, RolesPaginator, KeysPaginator, PacksPaginator
+from .._api_interaction import get_shop_keys, get_user_shop_roles, get_shop_packs
 from src.customisation import (
     SHOP_EMBED_THUMBNAIL,
     SHOP_KEEPER_NAME,
@@ -27,7 +27,8 @@ class ShopCreationView(BaseView):
         super().__init__(timeout=timeout)
         self.shop_categories: Dict[Tuple[str, str], Tuple[type[ShopPaginator], Callable]] = {
             (_("shop-roles_category"), "♣️"): (RolesPaginator, get_user_shop_roles),
-            (_("shop-keys_category"), "🎫"): (KeysPaginator, get_shop_keys)
+            (_("shop-keys_category"), "🎫"): (KeysPaginator, get_shop_keys),
+            (_("shop-packs_category"), "🃏"): (PacksPaginator, get_shop_packs)
         }
         self.add_item(CategoriesSelect(self.shop_categories))
 

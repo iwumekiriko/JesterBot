@@ -3,7 +3,7 @@ from typing import Dict, List
 from src._api_interaction import set_cfg
 from src.config import cfg as config
 from src.models.config import ShopConfig
-from src.models.shop import ShopRole, ShopKey, ShopRoleTries
+from src.models.shop import ShopRole, ShopKey, ShopPack, ShopRoleTries
 from src.api_client import APIClient
 from src.utils._mapping import json_camel_to_snake
 from src.models.lootboxes import LootboxTypes
@@ -34,6 +34,14 @@ async def get_shop_keys(guild_id: int, user_id: int) -> List[ShopKey]:
         response = await client.get(endpoint)
         [item.update({"lootboxType": LootboxTypes(item["lootboxType"])}) for item in response]
         return [ShopKey(**json_camel_to_snake(key)) for key in response]
+
+
+async def get_shop_packs(guild_id: int, user_id: int) -> List[ShopPack]:
+    endpoint = f"CCG/cards/packs/{guild_id}/{user_id}"
+    async with APIClient() as client:
+        response = await client.get(endpoint)
+        return [ShopPack(**json_camel_to_snake(pack), guild_id=0, guild=None) for pack in response]
+        
 
 
 async def handle_shop_role(
