@@ -15,7 +15,7 @@ class Role(Item):
     @property
     def description(self) -> str:
         return ItemsConfig.get_formatted_desc(
-            self.name, role_id=self.guild_role_id)
+            self.classname, role_id=self.guild_role_id)
     
     @property
     def discord_role(self) -> Optional[dRole]:

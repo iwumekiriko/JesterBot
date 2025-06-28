@@ -14,7 +14,7 @@ class ExpBooster(Item):
     @property
     def description(self) -> str:
         return ItemsConfig.get_formatted_desc(
-            self.name, value=self.value, duration=self.hms_duration)
+            self.classname, value=self.value, duration=self.hms_duration)
     
     @property
     def hms_duration(self) -> str:

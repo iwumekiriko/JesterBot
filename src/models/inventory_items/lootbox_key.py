@@ -12,4 +12,4 @@ class LootboxKey(Item):
     @property
     def description(self) -> str:
         return ItemsConfig.get_formatted_desc(
-            self.name, type=self.type.translated.lower())
+            self.classname, type=self.type.translated.lower())

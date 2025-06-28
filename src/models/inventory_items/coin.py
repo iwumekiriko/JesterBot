@@ -19,4 +19,4 @@ class Coin(Item):
         icon = cfg.economy_cfg(self.guild_id).default_currency_icon
 
         return ItemsConfig.get_formatted_desc(
-            self.name, amount=self.amount, currency=icon)
+            self.classname, amount=self.amount, currency=icon)

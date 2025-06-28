@@ -13,29 +13,29 @@ class Item(ABC):
     quantity: int
 
     @property
-    def name_lower(self) -> str:
-        return self.name.lower()
-    
+    def classname_lower(self) -> str:
+        return self.classname.lower()
+
     @property
-    def name(self) -> str:
+    def classname(self) -> str:
         return self.__class__.__name__
 
     @property
     def description(self) -> str:
         raise NotImplementedError
-    
+
     @property
     def translated_name(self) -> str:
-        return ItemsConfig.get_translated_name(self.name_lower)
+        return ItemsConfig.get_translated_name(self.classname_lower)
 
     @property
     def lootbox_gif(self) -> Optional[str]:
-        return ItemsConfig.assets.get(self.name, {}).get("lootbox_gif")
-    
+        return ItemsConfig.assets.get(self.classname, {}).get("lootbox_gif")
+
     @property
     def thumbnail(self) -> Optional[str]:
-        return ItemsConfig.assets.get(self.name, {}).get("thumbnail")
-    
+        return ItemsConfig.assets.get(self.classname, {}).get("thumbnail")
+
     @property
     def embed_color(self) -> Optional[str]:
-        return ItemsConfig.assets.get(self.name, {}).get("embed_color")
+        return ItemsConfig.assets.get(self.classname, {}).get("embed_color")
