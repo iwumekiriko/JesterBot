@@ -3,6 +3,7 @@
     "items-config-expbooster_name": "Усилитель опыта",
     "items-config-lootboxkey_name": "Билетик",
     "items-config-role_name": "Серверная роль",
+    "items-config-pack_name": "Пак с карточками",
 
     "items-config-roles_lootbox_type_name": "Лутбоксы ролей",
     "items-config-backgrounds_lootbox_type_name": "Лутбоксы фонов",
@@ -10,5 +11,6 @@
     "items-config-exp_booster_desc": "Позволяет получать x%{value} опыта в течении %{duration}",
     "items-config-lootbox_key_desc": "Позволяет открывать %{type}",
     "items-config-role_desc": "Позволяет надеть/снять роль <@&%{role_id}>",
-    "items-config-coin_desc": "Серверная валюта в размере %{amount} %{currency}"
+    "items-config-coin_desc": "Серверная валюта в размере %{amount} %{currency}",
+    "items-config-pack_desc": "Позволяет открыть пак с карточками типа **«%{name}»**"
 }

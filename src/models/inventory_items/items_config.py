@@ -9,7 +9,8 @@ class ItemsConfig:
         "ExpBooster": "items-config-exp_booster_desc",
         "LootboxKey": "items-config-lootbox_key_desc",
         "Role": "items-config-role_desc",
-        "Coin": "items-config-coin_desc"
+        "Coin": "items-config-coin_desc",
+        "Pack": "items-config-pack_desc"
     }
     assets: Dict[str, Dict[str, str]] = {
         "ExpBooster": {
@@ -31,6 +32,11 @@ class ItemsConfig:
             "lootbox_gif": "https://i.pinimg.com/originals/d9/b2/9f/d9b29fdd541404f5df42c52362dca5bf.gif",
             "thumbnail": "https://i.imgur.com/xKICzua.jpeg",
             "embed_color": "0x111111"
+        },
+        "Pack": {
+            "lootbox_gif": "https://i.pinimg.com/originals/d9/b2/9f/d9b29fdd541404f5df42c52362dca5bf.gif",
+            "thumbnail": "https://i.imgur.com/xKICzua.jpeg",
+            "embed_color": "0x15afbc"
         }
     }
 
