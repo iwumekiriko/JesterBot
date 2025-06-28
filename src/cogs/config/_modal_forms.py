@@ -420,6 +420,28 @@ async def quests_cfg_modal_form(
     return data[0]
 
 
+async def packs_cfg_modal_form(
+    interaction: MessageCommandInteraction,
+    base_packs_price: int | None = 0,
+    page: int = 0
+):
+    packs_price = ModalTextInput(
+        label=_("packs_price_input"),
+        value=str(base_packs_price),
+        placeholder="packs_price",
+        required=False
+    )
+    component_data = [packs_price]
+    components = _page_components(component_data, page)
+    data = await BaseModal(
+        _("packs_cfg_modal"),
+        components=components,
+        interaction=interaction
+    ).receive_data()
+    await set_local_cfg(_make_data(components, data), PacksConfig)
+    return data[0]
+
+
 def _make_data(components: List[ModalTextInput], data: Any) -> Dict:
     modified_data = [value if value != '' else None for value in data[1:]]
     components = [component for component in components if component.placeholder != EXCLUDING]

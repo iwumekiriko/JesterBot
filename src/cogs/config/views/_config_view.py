@@ -35,6 +35,7 @@ class ConfigView(BaseView):
             (_("lootboxes_cfg_0"), "🎁"): "lootboxes_cfg",
             (_("economy_cfg_0"), "🪙"): "economy_cfg",
             (_("quests_cfg_0"), "❗"): "quests_cfg",
+            (_("packs_cfg_0"), "🃏"): "packs_cfg"
         }
 
         self.config_modals: dict[str, Callable] = {
@@ -48,6 +49,7 @@ class ConfigView(BaseView):
             "Lootboxes": lootboxes_cfg_modal_form,
             "Economy": economy_cfg_modal_form,
             "Quests": quests_cfg_modal_form,
+            "Packs": packs_cfg_modal_form
         }
 
         self.add_item(ConfigSelect(self.config_map))

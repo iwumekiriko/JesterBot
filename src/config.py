@@ -47,7 +47,10 @@ class Config:
     
     def quests_cfg(self, guild_id: int) -> QuestsConfig:
         return self.__cfg[guild_id]["Quests"]
-
+    
+    def packs_cfg(self, guild_id: int) -> PacksConfig:
+        return self.__cfg[guild_id]["Packs"]
+ 
     async def _load_cfg(self) -> None:
         from src.bot import bot
         cfgs: list[type[BaseConfig]] = [ExperienceConfig,
@@ -59,7 +62,8 @@ class Config:
                                         LogsConfig,
                                         LootboxesConfig,
                                         EconomyConfig,
-                                        QuestsConfig]
+                                        QuestsConfig,
+                                        PacksConfig]
 
         local_cfg = {}
         for c in cfgs:
@@ -124,6 +128,9 @@ class Config:
                 config.daily_bonus = DAILY_BONUS
                 config.default_currency_icon = DEFAULT_CURRENCY_ICON
                 config.donate_currency_icon = DONATE_CURRENCY_ICON
+
+            case PacksConfig():
+                config.packs_price = PACKS_PRICE
 
         return config
 

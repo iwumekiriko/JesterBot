@@ -8,6 +8,7 @@ from .channels_config import ChannelsConfig
 from .lootboxes_config import LootboxesConfig
 from .economy_config import EconomyConfig
 from .quests_config import QuestsConfig
+from .packs_config import PacksConfig
 
 
 __all__ = (
@@ -21,4 +22,5 @@ __all__ = (
     'LootboxesConfig',
     'EconomyConfig',
     'QuestsConfig',
+    'PacksConfig'
 )   

@@ -102,3 +102,9 @@ DAILY_BONUS = 300
 DAILY_QUESTS_AMOUNT = 0
 WEEKLY_QUESTS_AMOUNT = 0
 
+# -------------------
+
+# Packs parameters
+
+PACKS_PRICE = 2000
+

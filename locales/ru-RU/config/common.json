@@ -15,6 +15,7 @@
     "lootboxes_cfg_0": "Управление лутбоксами 1",
     "economy_cfg_0": "Управление экономикой 1",
     "quests_cfg_0": "Управление квестами 1",
+    "packs_cfg_0": "Управление паками 1",
 
 
     "----------------------------------": "Название эмбеда для команды /config",
@@ -28,6 +29,7 @@
     "lootboxes_config_embed_title": "Настройки лутбоксов",
     "economy_config_embed_title": "Настройки экономики",
     "quests_config_embed_title": "Настройки квестов",
+    "packs_config_embed_title": "Настройки паков",
 
     "---------------------------------": "Кнопка для изменения конфига",
     "change_cfg_button": "Изменить настройки",
@@ -73,5 +75,7 @@
     "daily_bonus_field": "Кол-во валюты за /daily",
 
     "quests_channel_id_field": "Id канала для квестов",
-    "quests_message_id_field": "Id сообщения для квестов"
+    "quests_message_id_field": "Id сообщения для квестов",
+
+    "packs_price_field": "Стоимость паков"
 }
