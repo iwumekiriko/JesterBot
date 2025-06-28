@@ -35,6 +35,7 @@ CATEGORIES_SELECT_THUMBNAIL = "https://i.imgur.com/xKICzua.jpeg"
 ROLES_SELECT_THUMBNAIL = "https://i.imgur.com/xKICzua.jpeg"
 EXP_BOOSTERS_SELECT_THUMBNAIL = "https://i.imgur.com/xKICzua.jpeg"
 LOOTBOX_KEYS_SELECT_THUMBNAIL = "https://i.imgur.com/xKICzua.jpeg"
+PACKS_SELECT_THUMBNAIL = "https://i.imgur.com/xKICzua.jpeg"
 
 
 ############################# Shop Cog

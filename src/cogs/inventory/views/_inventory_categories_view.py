@@ -6,7 +6,7 @@ from src.localization import get_localizator
 
 from src.models.inventory import Inventory
 from src.utils.ui import BaseView, BaseEmbed, State
-from .paginators import RolesPaginator, BoostersPaginator, LootboxKeysPaginator
+from .paginators import RolesPaginator, BoostersPaginator, LootboxKeysPaginator, PacksPaginator
 from src.customisation import CATEGORIES_SELECT_THUMBNAIL
 
 
@@ -29,6 +29,8 @@ class InventoryCategoriesView(BaseView):
                 (BoostersPaginator, self.inventory.exp_boosters),
             _("inventory-lootbox_keys_category"):
                 (LootboxKeysPaginator, self.inventory.lootbox_keys),
+            _("inventory-packs_category"):
+                (PacksPaginator, self.inventory.packs)
         }
         self.add_item(CategoriesSelect(self.categories))
 

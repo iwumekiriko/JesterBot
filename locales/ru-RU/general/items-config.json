@@ -5,6 +5,8 @@
     "items-config-role_name": "Серверная роль",
     "items-config-pack_name": "Пак с карточками",
 
+    "items-config-pack_formatted_name": "Пак «%{name}»",
+
     "items-config-roles_lootbox_type_name": "Лутбоксы ролей",
     "items-config-backgrounds_lootbox_type_name": "Лутбоксы фонов",
 

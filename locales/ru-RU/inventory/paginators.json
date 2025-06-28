@@ -8,6 +8,9 @@
     "inventory-keys_paginator_embed_title": "Билетики от лутбоксов",
     "inventory-keys_paginator_embed_desc": "-# Здесь собраны все купленные/полученные билеты.\n-# Выберите желаемый билетик ниже.",
 
+    "inventory-packs_paginator_embed_title": "Паки карточек",
+    "inventory-packs_paginator_embed_desc": "-# Здесь собраны все купленные/полученные паки карточек.\n-# Выберите желаемый пак ниже.",
+
     "inventory-boosters_paginator_cancel_button_label": "Отменить активный",
     "inventory-boosters_paginator_cancel_button_response": "Усилитель успешно отменён!",
 

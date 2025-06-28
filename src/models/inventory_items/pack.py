@@ -3,12 +3,23 @@ from dataclasses import dataclass
 from .item import Item
 from .items_config import ItemsConfig
 
+from src.localization import get_localizator
+
+
+_ = get_localizator("general.items-config")
+
+
 @dataclass
 class Pack(Item):
-    pack_id: int
-    pack_name: str
+    id: int
+    name: str
+    quantity: int
 
     @property
     def description(self) -> str:
         return ItemsConfig.get_formatted_desc(
-            self.name, name=self.pack_name)
+            self.classname, name=self.name)
+
+    @property
+    def formatted_name(self) -> str:
+        return _("items-config-pack_formatted_name", name=self.name)

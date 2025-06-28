@@ -3,7 +3,7 @@ import json
 
 from .guild import Guild
 from .user import User
-from .inventory_items import Role, ExpBooster, LootboxKey
+from .inventory_items import Role, ExpBooster, LootboxKey, Pack
 
 
 class Inventory:
@@ -16,7 +16,8 @@ class Inventory:
         user: User,
         roles: Optional[list[Role]] = None,
         exp_boosters: Optional[list[ExpBooster]] = None,
-        lootbox_keys: Optional[list[LootboxKey]] = None
+        lootbox_keys: Optional[list[LootboxKey]] = None,
+        packs: Optional[list[Pack]] = None
     ) -> None:
         self._inventory_id = inventory_id
         self._guild_id = guild_id
@@ -26,6 +27,7 @@ class Inventory:
         self._roles = roles
         self._exp_boosters = exp_boosters
         self._lootbox_keys = lootbox_keys
+        self._packs = packs
 
     @property
     def guild_id(self) -> int:
@@ -54,3 +56,7 @@ class Inventory:
     @property
     def lootbox_keys(self) -> Optional[list[LootboxKey]]:
         return self._lootbox_keys
+    
+    @property
+    def packs(self) -> Optional[list[Pack]]:
+        return self._packs

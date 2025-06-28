@@ -3,5 +3,6 @@
     "inventory-select_view_embed_desc": "-# Здесь собраны все ваши предметы.\n-# Выберите желаемую категорию ниже.",
     "inventory-roles_category": "Роли",
     "inventory-exp_boosters_category": "Усилители опыта",
-    "inventory-lootbox_keys_category": "Билетики от лутбоксов"
+    "inventory-lootbox_keys_category": "Билетики от лутбоксов",
+    "inventory-packs_category": "Паки карточек"
 }

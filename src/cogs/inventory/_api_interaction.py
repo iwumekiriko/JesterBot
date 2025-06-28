@@ -10,7 +10,8 @@ from src.models.inventory import Inventory
 from src.models.inventory_items import (
     Role,
     ExpBooster, ActiveExpBooster,
-    LootboxKey 
+    LootboxKey,
+    Pack
 )
 from src.models.lootboxes import LootboxTypes
 from src.models import Guild, User
@@ -29,9 +30,16 @@ async def get_inventory(guild_id: int, user_id: int) -> Inventory:
         guild = response.get("guild", Guild(id=guild_id)) 
         user = response.get("user", User(id=user_id))
 
-        roles = _process_list(response.get("roles"), Role)
-        exp_boosters = _process_list(response.get("expBoosters"), ExpBooster, sort_key=('value', 'duration'))
-        lootbox_keys = _process_list(response.get("lootboxKeys"), LootboxKey, LootboxTypes)
+        roles = _process_dict(response.get("roles"), Role)
+        exp_boosters = _process_dict(response.get("expBoosters"), ExpBooster, sort_key=('value', 'duration'))
+        lootbox_keys = _process_dict(response.get("lootboxKeys"), LootboxKey, LootboxTypes)
+        packs = [Pack(
+            guild=None,
+            guild_id=guild_id,
+            quantity=pack["amount"],
+            id=pack["id"],
+            name=pack["name"]
+        ) for pack in response.get("packs", {})]
 
         return Inventory(
             inventory_id=inv_id,
@@ -41,11 +49,12 @@ async def get_inventory(guild_id: int, user_id: int) -> Inventory:
             user=user,
             roles=roles,
             exp_boosters=exp_boosters,
-            lootbox_keys=lootbox_keys
+            lootbox_keys=lootbox_keys,
+            packs=packs
         )
 
 
-def _process_list(
+def _process_dict(
     data: Optional[dict],
     data_class,
     type_enum=None,
