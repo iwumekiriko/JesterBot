@@ -39,7 +39,7 @@ async def get_inventory(guild_id: int, user_id: int) -> Inventory:
             quantity=pack["amount"],
             id=pack["id"],
             name=pack["name"]
-        ) for pack in response.get("packs", {})]
+        ) for pack in response.get("packs", {}) if pack["amount"] > 0]
 
         return Inventory(
             inventory_id=inv_id,
