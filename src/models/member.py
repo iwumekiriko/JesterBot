@@ -3,6 +3,8 @@ from datetime import datetime
 
 from .user import User
 from .guild import Guild
+from .duet import Duet
+from .inventory_items.active_exp_booster import ActiveExpBooster
 
 
 class Member:
@@ -17,6 +19,8 @@ class Member:
         exp_multiplier: int = 1,
         coins: int = 0,
         crystals: int = 0,
+        duet: Optional[Duet] = None,
+        active_exp_booster: Optional[ActiveExpBooster] = None,
         message_count: int = 0,
         voice_time: int = 0,
         joined_at: Optional[datetime | str] = None,
@@ -31,6 +35,8 @@ class Member:
         self._exp_multiplier = exp_multiplier
         self._coins = coins
         self._crystals = crystals
+        self._duet = duet
+        self._active_exp_booster = active_exp_booster
         self._message_count = message_count
         self._voice_time = voice_time
         self._joined_at = joined_at
@@ -93,6 +99,14 @@ class Member:
         self._crystals = crystals
 
     @property
+    def duet(self) -> Optional[Duet]:
+        return self._duet
+    
+    @property
+    def active_exp_booster(self) -> Optional[ActiveExpBooster]:
+        return self._active_exp_booster
+
+    @property
     def message_count(self) -> int:
         return self._message_count
 
@@ -130,6 +144,7 @@ class Member:
             "experience": self._experience,
             "expMultiplier": self._exp_multiplier,
             "coins": self._coins,
+            "crystals": self._crystals,
             "messageCount": self._message_count,
             "voiceTime": self._voice_time
         }
