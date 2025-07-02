@@ -2,8 +2,10 @@
 
 ############################# Guild
 
-GUILD_CURRENCY_NAME = "Reminissecent"
-GUILD_CURRENCY_SHORT_NAME = "Реми"
+GUILD_DEF_CURRENCY_NAME = "Reminissecent"
+GUILD_DEF_CURRENCY_SHORT_NAME = "Реми"
+GUILD_DONATE_CURRENCY_NAME = "Yumirei"
+GUILD_DONATE_CURRENCY_SHORT_NAME = "Юмэ"
 
 
 ############################# UI
