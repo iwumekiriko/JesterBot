@@ -1,6 +1,7 @@
 from typing import List
 import pandas as pd
 from io import BytesIO
+import random
 
 import disnake
 from disnake.ext import commands
@@ -42,7 +43,8 @@ class UserInteractionsCog(commands.Cog):
             description=_("user_interaction_action_param")),
         type = commands.Param(
             choices={type.translated_name: str(type.value) for type in InteractionTypes},
-            description=_("user_interaction_type_param"))
+            description=_("user_interaction_type_param"),
+            default=random.choice([str(type.value) for type in InteractionTypes]))
     ) -> None:
         if await is_interaction_restricted(interaction.guild.id, member.id):
             await interaction.response.send_message(embed=ExceptionEmbed(
