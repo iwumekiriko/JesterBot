@@ -10,6 +10,9 @@ from src.utils._mapping import json_camel_to_snake
 from src.utils._exceptions import CustomException
 from src.api_client import APIClient
 
+from src.models import Duet
+from src.models.inventory_items import ActiveExpBooster
+
 
 logger = get_logger()
 
@@ -18,6 +21,9 @@ async def get_member(guild_id: int, user_id: int) -> mdlMember:
     endpoint = f"Members/{guild_id}/{user_id}"
     async with APIClient() as client:
         response = await client.get(endpoint)
+        if (response["duet"]): response["duet"] = Duet(**json_camel_to_snake(response["duet"]))
+        if (response["activeExpBooster"]): response["activeExpBooster"] = ActiveExpBooster(**json_camel_to_snake(response["activeExpBooster"]), quantity=1)
+
         return mdlMember(**json_camel_to_snake(response))
             
 

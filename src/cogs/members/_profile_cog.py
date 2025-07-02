@@ -10,6 +10,7 @@ from src.utils._experience import get_level_from_exp
 from src.utils._time import seconds_to_hms, make_discord_timestamp
 from src.cogs.duets._api_interaction import get_duet
 from src.cogs.inventory._api_interaction import get_active_booster
+from src.utils.enums import Currency
 
 
 _ = get_localizator("members.profile")
@@ -36,22 +37,25 @@ class ProfileCog(commands.Cog):
         await self.bot.sync_user_in_vc(member)
 
         member_data = await get_member(guild.id, member.id)
-        duet = await get_duet(guild.id, member.id)
-        active_booster = await get_active_booster(
-            guild.id, member.id)
-        currency_icon = cfg.economy_cfg(member.guild.id).default_currency_icon
+        def_currency_icon = Currency.COINS.get_icon(member.guild.id)
+        donate_currency_icon = Currency.CRYSTALS.get_icon(member.guild.id)
 
         embed = BaseEmbed(
                 title = _("members-profile_embed_title", username=member.display_name),
                 description = _(
                     "members-profile_embed_desc",
                     exp=member_data.experience,
-                    coins=f"{member_data.coins} {currency_icon}",
+                    coins_name=Currency.COINS.short_name,
+                    coins=f"{member_data.coins} {def_currency_icon}",
+                    crystals_name=Currency.CRYSTALS.short_name,
+                    crystals=f"{member_data.crystals} {donate_currency_icon}",
                     level=get_level_from_exp(member_data.experience), # type: ignore
                     messages=member_data.message_count,
                     voice_time=seconds_to_hms(member_data.voice_time) # type: ignore
                 )
             ).set_thumbnail(member.display_avatar.url)
+        
+        active_booster = member_data.active_exp_booster
 
         if active_booster and active_booster.activated_at:
             embed.add_field(
@@ -64,6 +68,8 @@ class ProfileCog(commands.Cog):
                           )),
                 inline=True
             )
+
+        duet = member_data.duet
 
         if duet is not None:
             embed.add_field(
