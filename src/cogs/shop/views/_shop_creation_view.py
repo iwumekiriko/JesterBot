@@ -10,8 +10,8 @@ from .._api_interaction import get_shop_keys, get_user_shop_roles, get_shop_pack
 from src.customisation import (
     SHOP_EMBED_THUMBNAIL,
     SHOP_KEEPER_NAME,
-    GUILD_CURRENCY_NAME,
-    GUILD_CURRENCY_SHORT_NAME
+    GUILD_DEF_CURRENCY_NAME,
+    GUILD_DEF_CURRENCY_SHORT_NAME
 )
 
 
@@ -35,8 +35,8 @@ class ShopCreationView(BaseView):
     def create_embed(self) -> disnake.Embed:
         return ShopEmbed(description = _('shop-embed_desc',
                         shop_keeper_name=SHOP_KEEPER_NAME,
-                        guild_currency_short_name=GUILD_CURRENCY_SHORT_NAME,
-                        guild_currency_name=GUILD_CURRENCY_NAME))
+                        guild_currency_short_name=GUILD_DEF_CURRENCY_SHORT_NAME,
+                        guild_currency_name=GUILD_DEF_CURRENCY_NAME))
 
 
 class CategoriesSelect(disnake.ui.Select):
