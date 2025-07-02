@@ -44,13 +44,16 @@ class UserInteractionsCog(commands.Cog):
         type = commands.Param(
             choices={type.translated_name: str(type.value) for type in InteractionTypes},
             description=_("user_interaction_type_param"),
-            default=random.choice([str(type.value) for type in InteractionTypes]))
+            default=None)
     ) -> None:
         if await is_interaction_restricted(interaction.guild.id, member.id):
             await interaction.response.send_message(embed=ExceptionEmbed(
                 error_msg=_("user_interaction_target_restricted_error", target_id=member.id)
             ), ephemeral=True)
             return
+
+        if type is None:
+            type = str(InteractionTypes.get_random().value)
 
         action = InteractionActions(int(action))
         type = InteractionTypes(int(type))

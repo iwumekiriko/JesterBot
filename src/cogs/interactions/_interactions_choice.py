@@ -1,3 +1,4 @@
+import random
 from enum import Enum
 
 from src.localization import get_localizator
@@ -25,3 +26,7 @@ class InteractionTypes(Enum):
     @property
     def translated_name(self) -> str:
         return _(self.name.lower() + '_choice')
+
+    @staticmethod
+    def get_random() -> 'InteractionTypes':
+        return random.choice(list(InteractionTypes))
