@@ -32,14 +32,14 @@ class Currency(str, Enum):
         }[self]
     
     @property
-    def name(self) -> str:
+    def guild_name(self) -> str:
         return {
             Currency.COINS: GUILD_DEF_CURRENCY_NAME,
             Currency.COINS: GUILD_DONATE_CURRENCY_NAME
         }[self]
     
     @property
-    def short_name(self) -> str:
+    def guild_short_name(self) -> str:
         return {
             Currency.COINS: GUILD_DEF_CURRENCY_SHORT_NAME,
             Currency.CRYSTALS: GUILD_DONATE_CURRENCY_SHORT_NAME

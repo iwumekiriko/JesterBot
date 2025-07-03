@@ -45,9 +45,9 @@ class ProfileCog(commands.Cog):
                 description = _(
                     "members-profile_embed_desc",
                     exp=member_data.experience,
-                    coins_name=Currency.COINS.short_name,
+                    coins_name=Currency.COINS.guild_short_name,
                     coins=f"{member_data.coins} {def_currency_icon}",
-                    crystals_name=Currency.CRYSTALS.short_name,
+                    crystals_name=Currency.CRYSTALS.guild_short_name,
                     crystals=f"{member_data.crystals} {donate_currency_icon}",
                     level=get_level_from_exp(member_data.experience), # type: ignore
                     messages=member_data.message_count,
