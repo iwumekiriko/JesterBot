@@ -12,6 +12,8 @@ class InteractionActions(Enum):
     HUG = 2
     PAT = 3
     HIT = 4
+    LICK = 5
+    BITE = 6
 
     @property
     def translated_name(self) -> str:
