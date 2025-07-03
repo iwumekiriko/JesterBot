@@ -17,6 +17,8 @@
     "hug_choice": "Обнять",
     "pat_choice": "Погладить",
     "hit_choice": "Ударить",
+    "bite_choice": "Укусить",
+    "lick_choice": "Облизнуть",
 
     "-----------------------------------": "Перевод параметра 'тип'",
     "cat_choice": "Кошачьи",
@@ -28,6 +30,8 @@
     "hug": "<@%{command_user}> обнимает <@%{command_target}>",
     "pat": "<@%{command_user}> гладит <@%{command_target}>",
     "hit": "<@%{command_user}> бьет <@%{command_target}>",
+    "bite": "<@%{command_user}> кусает <@%{command_target}>",
+    "lick": "<@%{command_user}> облизывает <@%{command_target}>",
 
     "user_interaction_target_restricted_error": "Пользователь <@%{target_id}> запретил действия над собой."
 }
