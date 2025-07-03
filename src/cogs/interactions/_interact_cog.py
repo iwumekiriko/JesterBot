@@ -102,7 +102,7 @@ class UserInteractionsCog(commands.Cog):
         gifs = await self.handle_dataframe(df)
         await upload_gifs(interaction.guild.id, gifs)
         await interaction.followup.send(
-            embed=SuccessEmbed(success_msg=_("success_upload_response")),
+            embed=SuccessEmbed(success_msg=_("success_upload_response", amount=len(gifs))),
             ephemeral=True)
 
     async def handle_dataframe(self, df: pd.DataFrame) -> List[InteractionsAsset]:

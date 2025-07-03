@@ -10,7 +10,7 @@
 
     "wrong_file_type_error": "Неверный тип файла: принимаются только csv и xlsx",
     "wrong_dataframe_structure_error": "Неверный формат таблицы",
-    "success_upload_response": "Успешно загружено",
+    "success_upload_response": "Успешно загружено %{amount} ассетов",
 
     "-------------------------------------": "Перевод параметра 'действие'",
     "kiss_choice": "Поцеловать",
