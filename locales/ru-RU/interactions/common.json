@@ -24,6 +24,7 @@
     "cat_choice": "Кошачьи",
     "anime_choice": "Аниме",
     "bunny_choice": "Кроличьи",
+    "pig_choice": "Свиняшки",
 
     "--------------------------------------": "Отображение в embed'е",
     "kiss": "<@%{command_user}> целует <@%{command_target}>",
