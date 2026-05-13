@@ -20,3 +20,10 @@ async def set_cfg(cfg: T) -> None: # type: ignore
     endpoint = f"Config/{cfg.short_name}"
     async with APIClient() as client:
         await client.put(endpoint, body=data)
+
+
+async def send_log_to_api(log) -> None:
+    endpoint = "Logs"
+
+    async with APIClient() as client:
+        await client.post(endpoint, body = log.to_dict())
