@@ -148,8 +148,8 @@ class OnGuildActivityCog(commands.Cog):
             logger.warning("general channel is not configured")
             return
 
-        offtop_channel = self._bot.get_channel(general)
-        if not isinstance(offtop_channel, disnake.TextChannel):
+        general_channel = self._bot.get_channel(general)
+        if not isinstance(general_channel, disnake.TextChannel):
             logger.warning("general channel [%s] is not text channel", general)
             return
 
@@ -157,7 +157,7 @@ class OnGuildActivityCog(commands.Cog):
             title=_("activity_listeners_welcome_embed_title"),
             description=_("activity_listeners_welcome_embed_desc")
         )
-        await offtop_channel.send(
+        await general_channel.send(
             member.mention,
             embed=embed,
             delete_after=WELCOME_MESSAGE_DELETE_TIMER
