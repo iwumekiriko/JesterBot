@@ -3,8 +3,9 @@ from disnake.ext import commands
 
 from typing import Optional
 from datetime import datetime
+
 from src._cog_manager import CogManager
-from src.logger import get_logger
+from src.logger import get_logger, start_log_worker
 from src.localization import get_localizator
 from src.utils._time import seconds_to_hms
 from src.utils._exceptions import CustomException
@@ -46,6 +47,7 @@ class JesterBot(commands.Bot):
             self.__persistent_views_added = True
 
         await self._sync_voice_users()
+        await start_log_worker()
         print(f"[{datetime.now().strftime('%c')}]: {self.user}'s ready!")
 
     async def save_avatar(self, user: disnake.Member | disnake.User) -> str:

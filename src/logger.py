@@ -117,6 +117,16 @@ def get_logger() -> logging.Logger:
     return logging.getLogger(settings.APP_NAME)
 
 
+async def start_log_worker():
+    from ._api_interaction import send_log_to_api
+    while True:
+        log = await _queue.get()
+        try:
+            await send_log_to_api(log)
+        except Exception as e:
+            print(f"!!! Failed to send log: {e}")
+
+
 def _create_logger() -> None:
     level = logging.DEBUG if settings.DEBUG else logging.INFO
 
