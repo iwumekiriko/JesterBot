@@ -12,6 +12,3 @@ __pycache__/
 
 # virtual enviroment
 venv/
-
-# logs folder
-logs/
