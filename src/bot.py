@@ -202,8 +202,8 @@ class JesterBot(commands.Bot):
             interaction.channel.id,
             command_options,
             extra={
-                "user_avatar": interaction.user.display_avatar.url,
-                "type": "command_interaction",
+                "user_avatar": await self.save_avatar(interaction.user),
+                "type": "command",
                 "guild_id": interaction.guild.id # type: ignore
             }
         )

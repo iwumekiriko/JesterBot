@@ -96,7 +96,7 @@ class VoiceActivityListenerCog(commands.Cog):
             logger.info("Пользователь <@%d> присоединяется к войс каналу [%s]",
                         member.id, after.channel.jump_url,
                         extra={
-                            "user_avatar": member.display_avatar.url,
+                            "user_avatar": await self._bot.save_avatar(member),
                             "type": "voice",
                             "guild_id": member.guild.id
                         })
@@ -118,7 +118,7 @@ class VoiceActivityListenerCog(commands.Cog):
             logger.info(
                 info_message,
                 extra={
-                    "user_avatar": member.display_avatar.url,
+                    "user_avatar": await self._bot.save_avatar(member),
                     "type": "voice",
                     "guild_id": member.guild.id
                 })
@@ -141,7 +141,7 @@ class VoiceActivityListenerCog(commands.Cog):
             logger.info(
                 info_message,
                 extra={
-                    "user_avatar": member.display_avatar.url,
+                    "user_avatar": await self._bot.save_avatar(member),
                     "type": "voice",
                     "guild_id": before.channel.guild.id
                 })

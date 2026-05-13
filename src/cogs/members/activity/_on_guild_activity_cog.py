@@ -44,11 +44,11 @@ class OnGuildActivityCog(commands.Cog):
             "**Кол-во участников на сервере: **%d\n**Id пользователя:** %d",
             member.id, member.guild.member_count, user_id,
             extra={
-                "user_avatar": member.display_avatar.url,
+                "user_avatar": await self._bot.save_avatar(member),
                 "type": "guild",
                 "guild_id": member.guild.id
             })
-        
+
         await self._send_welcome_message(member)
 
         if member_data and not member_data.is_active:
@@ -68,7 +68,7 @@ class OnGuildActivityCog(commands.Cog):
             "**Кол-во участников на сервере: **%d\n**Id пользователя:** %d\n**Присоединился: **<t:%d:F>",
             member.id, member.guild.member_count, user_id, member.joined_at.timestamp(), # type: ignore
             extra={
-                "user_avatar": member.display_avatar.url,
+                "user_avatar": await self._bot.save_avatar(member),
                 "type": "guild",
                 "guild_id": member.guild.id
             })
@@ -97,10 +97,10 @@ class OnGuildActivityCog(commands.Cog):
         before: Union[disnake.Member, disnake.User],
         after: Union[disnake.Member, disnake.User],
     ) -> None:
-        self._check_for_log_avatar(before, after)
+        await self._check_for_log_avatar(before, after)
         await self._check_for_log_username(before, after)
 
-    def _check_for_log_avatar(
+    async def _check_for_log_avatar(
         self,
         before: Union[disnake.Member, disnake.User],
         after: Union[disnake.Member, disnake.User],
@@ -109,7 +109,7 @@ class OnGuildActivityCog(commands.Cog):
             logger.warning(
                 "Аватар пользователя <@%d> был изменён!", after.id,
                 extra={
-                    "user_avatar": after.display_avatar.url,
+                    "user_avatar": await self._bot.save_avatar(after),
                     "type": "members",
                     "guild_id": before.guild.id if isinstance(before, disnake.Member) else BASE_GUILD_ID
                 })
@@ -135,7 +135,7 @@ class OnGuildActivityCog(commands.Cog):
             logger.warning(
                 warning_message,
                 extra={
-                    "user_avatar": after.display_avatar.url,
+                    "user_avatar": await self._bot.save_avatar(after),
                     "type": "members",
                     "guild_id": before.guild.id if isinstance(before, disnake.Member) else BASE_GUILD_ID
                 })
