@@ -1,6 +1,7 @@
 import disnake
 from disnake.ext import commands
 
+from typing import Optional
 from datetime import datetime
 from src._cog_manager import CogManager
 from src.logger import get_logger
