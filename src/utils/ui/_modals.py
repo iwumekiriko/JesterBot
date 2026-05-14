@@ -8,11 +8,13 @@ from src.utils._exceptions import ModalTimeoutException
 class ModalTextDisplay(disnake.ui.TextDisplay):
     def __init__(
         self,
-        content: str
+        content: str,
+        key: Optional[str] = None,
     ) -> None:
         super().__init__(
             content = content
         )
+        self.key = key
 
 
 class ModalTextInput(disnake.ui.TextInput):
@@ -63,6 +65,7 @@ class ModalLabel(disnake.ui.Label):
         self,
         text: str,
         component: Union[ModalTextInput, ModalSelectMenu],
+        key: Optional[str] = None,
         description: Optional[str] = None
     ) -> None:
         super().__init__(
@@ -70,6 +73,7 @@ class ModalLabel(disnake.ui.Label):
             component=component,
             description=description
         )
+        self.key = key
 
 
 class BaseModal(disnake.ui.Modal):
