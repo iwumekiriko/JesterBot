@@ -1,9 +1,11 @@
 import disnake
 from disnake.ext import commands
 
+from typing import Optional
 from datetime import datetime
+
 from src._cog_manager import CogManager
-from src.logger import get_logger
+from src.logger import get_logger, start_log_worker
 from src.localization import get_localizator
 from src.utils._time import seconds_to_hms
 from src.utils._exceptions import CustomException
@@ -45,7 +47,35 @@ class JesterBot(commands.Bot):
             self.__persistent_views_added = True
 
         await self._sync_voice_users()
+        await start_log_worker()
         print(f"[{datetime.now().strftime('%c')}]: {self.user}'s ready!")
+
+    async def save_avatar(self, user: disnake.Member | disnake.User) -> str:
+        url = None
+        if isinstance(user, disnake.Member):
+            url = await self.save_file(user.guild.id, await user.display_avatar.to_file())
+        return url or user.display_avatar.url
+
+    async def save_file(self, guild_id: int, file: disnake.File) -> Optional[str]:
+        from src.config import cfg
+        channels_cfg = cfg.channels_cfg(guild_id)
+
+        if not (image_saver_ch_id := channels_cfg.image_saver_channel_id):
+            logger.warning("image saver channel is not configured!")
+            return
+
+        image_saver_ch = self.get_channel(image_saver_ch_id)
+        if not isinstance(image_saver_ch, disnake.TextChannel):
+            logger.warning("image saver channel [%s] is not text channel", image_saver_ch)
+            return
+
+        try:
+            file.filename = f"SPOILER_{file.filename}"
+            message = await image_saver_ch.send(file=file)
+        except (disnake.HTTPException, disnake.Forbidden):
+            return None
+
+        return message.attachments[0].url
 
     async def _sync_voice_users(self) -> None:
         if not settings.API_REQUIRED:
@@ -172,8 +202,8 @@ class JesterBot(commands.Bot):
             interaction.channel.id,
             command_options,
             extra={
-                "user_avatar": interaction.user.display_avatar.url,
-                "type": "command_interaction",
+                "user_avatar": await self.save_avatar(interaction.user),
+                "type": "command",
                 "guild_id": interaction.guild.id # type: ignore
             }
         )

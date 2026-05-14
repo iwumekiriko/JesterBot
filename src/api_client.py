@@ -5,31 +5,7 @@ from typing import Optional, Dict, Any, Union
 from src.logger import get_logger
 
 from src.settings import API_PATH, DEVELOPMENT
-from src.utils._exceptions import (
-    CustomException,
-    NotEnoughCoinsException,
-    NotEnoughCrystalsException,
-    NoActiveBoosterException,
-    BoosterAlreadyActiveException,
-    AlreadyOwnsRoleException,
-    NotEnoughItemsException,
-    LootboxRoleAlreadyExistsException,
-    LootboxRoleDoesNotExistException,
-    ShopRoleAlreadyExistsException,
-    ShopRoleDoesNotExistException,
-    ShopKeyAlreadyExistsException,
-    ShopKeyDoesNotExistException,
-    AllShopTriesAreUsedException,
-    LastTryDidntEndException,
-    QuestTemplateAlreadyExistsException,
-    QuestTemplateDoesNotExistException,
-    NoAvailableGifsException,
-    GuildSettingAlreadyExistsException,
-    GuildSettingDoesNotExistException,
-    NoGuildSettingsAvailableException,
-    DuetDisposeRestrictedException,
-    APIException
-)
+from src.utils._exceptions import *
 
 
 logger = get_logger()

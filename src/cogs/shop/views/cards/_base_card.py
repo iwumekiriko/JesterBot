@@ -3,7 +3,15 @@ from typing import Optional, Tuple
 import disnake
 
 from src.models.shop import ShopItem, ShopRole
-from src.utils.ui import BaseView, State, SuccessEmbed, WarningEmbed, ModalTextInput, BaseModal
+from src.utils.ui import (
+    BaseView,
+    State,
+    SuccessEmbed,
+    WarningEmbed,
+    ModalTextInput,
+    BaseModal,
+    ModalLabel
+)
 from src.utils._cards import item_card
 from src.utils.enums import Currency
 
@@ -133,11 +141,12 @@ class BuyManyButton(disnake.ui.Button):
         self,
         interaction: disnake.MessageInteraction
     ) -> None:
-        count_in = ModalTextInput(
-            label=_("shop-cards-buy_many_modal_count_input"),
-            max_length=5,
-            min_length=1
-        )
+        count_in = ModalLabel(
+            text=_("shop-cards-buy_many_modal_count_input"),
+            component=ModalTextInput(
+                max_length=5,
+                min_length=1
+            ))
 
         modal_data = await BaseModal(
             title=_("shop-cards-buy_many_modal_label"),

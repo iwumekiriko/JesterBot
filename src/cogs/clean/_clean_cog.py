@@ -23,7 +23,7 @@ class CleanCog(commands.Cog):
     async def clean(
         self,
         interaction: disnake.GuildCommandInteraction,
-        amount: int = commands.Param(default=20, description=_("clean_amount_param")),
+        amount: int = commands.Param(default=1, description=_("clean_amount_param")),
         member: disnake.Member = commands.Param(converter=is_member, default=None, description=_("clean_member_param")),
         time = commands.Param(
             choices={choice.translated_name: choice for choice in TimeChoices}, default=None, description=_("clean_time_param")),
@@ -43,13 +43,22 @@ class CleanCog(commands.Cog):
             await interaction.followup.send(
                     content=_("cleaned", count=d_count), ephemeral=True)
 
-
             d_file = _make_file(channel, deleted) if len(deleted) > 0 else None
 
-            logger.warning("Сообщения были удалены из канала: <#%d>\n\n-# Количество: %d\n-# Модератор: <@%d>",
-                            interaction.channel.id, d_count, interaction.author.id,
-                            extra={"user_avatar": user_avatar(jester=True), "type": "message",
-                                    "files": [d_file], "guild_id": interaction.guild.id})
+            files_urls = []
+            if d_file:
+                files_urls.append(await self.bot.save_file(interaction.guild_id, d_file))
+
+            logger.warning(
+                "Сообщения были удалены из канала: <#%d>\n\n-# Количество: %d\n-# Модератор: <@%d>",
+                interaction.channel.id, d_count, interaction.author.id,
+                extra = {
+                    "user_avatar": user_avatar(jester=True),
+                    "type": "message",
+                    "files_urls": files_urls,
+                    "guild_id": interaction.guild.id
+                }
+            )
 
         except Exception as e:
             raise commands.BadArgument(str(e))

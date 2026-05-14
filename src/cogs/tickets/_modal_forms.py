@@ -2,7 +2,7 @@ from disnake import MessageCommandInteraction, TextInputStyle
 
 from src.localization import get_localizator
 from .classes import ThreadClassification
-from src.utils.ui import ModalTextInput, BaseModal
+from src.utils.ui import ModalTextInput, BaseModal, ModalLabel
 from ._utils import ticket
 
 
@@ -10,11 +10,12 @@ _ = get_localizator("tickets.modals")
 
 
 async def support_modal_form(interaction: MessageCommandInteraction):
-    question = ModalTextInput(
-        label=_("tickets_problem_desc"),
-        placeholder=_("tickets_problem_placeholder"),
-        style=TextInputStyle.long
-    )
+    question = ModalLabel(
+        text=_("tickets_problem_desc"),
+        component=ModalTextInput(
+            placeholder=_("tickets_problem_placeholder"),
+            style=TextInputStyle.long
+        ))
     data = await BaseModal(
         _("tickets_support_question"),
         components=[question],
@@ -24,11 +25,12 @@ async def support_modal_form(interaction: MessageCommandInteraction):
     
 
 async def moderator_modal_form(interaction: MessageCommandInteraction):
-    problem = ModalTextInput(
-        label=_("tickets_problem_desc"),
-        placeholder=_("tickets_problem_placeholder"),
-        style=TextInputStyle.long
-    )
+    problem = ModalLabel(
+        text=_("tickets_problem_desc"),
+        component=ModalTextInput(
+            placeholder=_("tickets_problem_placeholder"),
+            style=TextInputStyle.long
+        ))
     # offender = ModalTextInput(
     #     label=_("offender_id"),
     #     placeholder=_("offender_placeholder"),
@@ -43,11 +45,12 @@ async def moderator_modal_form(interaction: MessageCommandInteraction):
 
 
 async def bot_modal_form(interaction: MessageCommandInteraction):
-    problem = ModalTextInput(
-        label=_("tickets_problem_desc"),
-        placeholder=_("tickets_problem_placeholder"),
-        style=TextInputStyle.long
-    )
+    problem = ModalLabel(
+        text=_("tickets_problem_desc"),
+        component=ModalTextInput(
+            placeholder=_("tickets_problem_placeholder"),
+            style=TextInputStyle.long
+        ))
     # command = ModalTextInput(
     #     label=_("command_name"),
     #     placeholder=_("command_placeholder"),
@@ -62,10 +65,11 @@ async def bot_modal_form(interaction: MessageCommandInteraction):
 
 
 async def solution_modal_form(interaction: MessageCommandInteraction):
-    solution = ModalTextInput(
-        label=_("tickets_solution_text"),
-        style=TextInputStyle.long
-    )
+    solution = ModalLabel(
+        text=_("tickets_solution_text"),
+        component=ModalTextInput(
+            style=TextInputStyle.long
+        ))
     data = await BaseModal(
         _("tickets_solution"),
         components=[solution],

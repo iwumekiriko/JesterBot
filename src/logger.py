@@ -3,10 +3,12 @@ import logging
 import sys
 from requests import post, exceptions
 from logging import Formatter, StreamHandler
+from asyncio import Queue
 
 from src import settings
 from src.utils._time import current_time
 from src.utils._exceptions import LoggerException
+from src.models.logs import Log, LogLevel
 
 
 CONSOLE_COLORS = {
@@ -16,36 +18,10 @@ CONSOLE_COLORS = {
     'ERROR': '\033[91m',
     'CRITICAL': '\033[41m'
 }
+
 RESET = '\033[0m'
 
-
-EMBED_COLORS = {
-    "ERROR": 0x8b0000,
-    "INFO": 0x90ee90,
-    "WARNING": 0xffd700,
-    "CRITICAL": 0xff0000,
-    "DEBUG": 0x00bffff
-}
-
-
-EMBED_TITLES = {
-    "ERROR": "ОШИБКА",
-    "INFO": "ИНФОРМАЦИЯ",
-    "WARNING": "ПРЕДУПРЕЖДЕНИЕ",
-    "CRITICAL": "КРИТИЧЕСКАЯ ОШИБКА",
-    "DEBUG": "ДЕБАГ"
-}
-
-
-LOG_WEBHOOKS = {
-    "message": "messages_webhook_url",
-    "command_interaction": "command_interactions_webhook_url",
-    "ticket": "tickets_webhook_url",
-    "members": "members_webhook_url",
-    "guild": "guild_webhook_url",
-    "voice": "voice_webhook_url",
-    "else": "else_webhook_url",
-}
+_queue = Queue()
 
 
 class DiscordFilter(logging.Filter):
@@ -75,46 +51,32 @@ class DiscordHandler(logging.Handler):
         self.addFilter(DiscordFilter())
 
     def emit(self, record: logging.LogRecord) -> None:
-        from src.config import cfg
         params = record.__dict__
+        log = Log(
+            guild_id = params.get("guild_id", 0),
+            level = LogLevel[record.levelname],
+            message = self.format(record),
+            category = params.get("type", "else"),
+            avatar_url = params.get("user_avatar", None),
+            images_urls = params.get("images_urls", []),
+            files_urls = params.get("files_urls", [])
+        )
 
-        data = { "embeds": 
-            [{
-                "description": f"## {EMBED_TITLES[record.levelname]}\n\n{self.format(record)}",
-                "thumbnail": { "url": params.get("user_avatar", None) },
-                "footer": { "text": current_time().strftime("%d %B %Y — %H:%M") },
-                "color": EMBED_COLORS[record.levelname],
-            }] }
-        files = {}
-        for l_file in params.get("files", []):
-            if l_file: files[l_file.filename] = l_file.fp
-
-        try:
-            webhook_url = getattr(cfg.logs_cfg(
-                params.get("guild_id", cfg.base_guild_id)),
-                LOG_WEBHOOKS[params.get("type", "else")])
-            post(webhook_url, data={"payload_json": json.dumps(data)})
-            if files:
-                post(webhook_url, files=files)
-
-        except exceptions.MissingSchema:
-            if not settings.SUPPRESS_WEBHOOK_CONFIGURATION:
-                print(
-                    "-----------------------------------------------------------------------------------------\n",
-                    "Webhooks parameters have not been setted yet.\n",
-                    "If you're using API, make sure, that it works correctly and configure parameters using /config.\n",
-                    "If you're not using API, then enter parameters manually in 'src/manual_config.py'.\n",
-                    "-----------------------------------------------------------------------------------------")
-
-        except KeyError:
-            pass
-
-        except Exception as e:
-            raise LoggerException(str(e))
+        _queue.put_nowait(log)
 
 
 def get_logger() -> logging.Logger:
     return logging.getLogger(settings.APP_NAME)
+
+
+async def start_log_worker():
+    from ._api_interaction import send_log_to_api
+    while True:
+        log = await _queue.get()
+        try:
+            await send_log_to_api(log)
+        except Exception as e:
+            print(f"!!! Failed to send log: {e}")
 
 
 def _create_logger() -> None:

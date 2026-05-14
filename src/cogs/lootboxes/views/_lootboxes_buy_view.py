@@ -1,6 +1,6 @@
 import disnake
 
-from src.utils.ui import BaseView, ModalTextInput, BaseModal, SuccessEmbed
+from src.utils.ui import BaseView, ModalTextInput, SuccessEmbed, ModalLabel, BaseModal
 from src.localization import get_localizator
 from .._api_interaction import manage_keys
 from src.cogs.economy._api_interaction import make_transaction
@@ -115,11 +115,12 @@ class LootboxBuyManyButton(disnake.ui.Button):
         self,
         interaction: disnake.MessageCommandInteraction
     ) -> None:
-        count_in = ModalTextInput(
-            label=_("lootboxes-buy_modal_count_input"),
-            max_length=5,
-            min_length=1
-        )
+        count_in = ModalLabel(
+            text=_("lootboxes-buy_modal_count_input"),
+            component=ModalTextInput(
+                max_length=5,
+                min_length=1
+            ))
 
         modal_data = await BaseModal(
             title=_("lootboxes-buy_modal_label"),

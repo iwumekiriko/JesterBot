@@ -4,7 +4,7 @@ from math import ceil
 from typing import Optional, TypeVar, Generic, List
 
 from src.utils.ui._views import BaseView
-from ._modals import BaseModal, ModalTextInput
+from ._modals import BaseModal, ModalTextInput, ModalLabel
 from src.localization import get_localizator
 
 
@@ -162,11 +162,12 @@ class CurrentPageButton(disnake.ui.Button):
         self,
         interaction: disnake.MessageCommandInteraction
     ) -> None:
-        page_ = ModalTextInput(
-            label=_("paginator_page_modal_field"),
-            value=str(self.view.page),
-            max_length=10
-        )
+        page_ = ModalLabel(
+            text=_("paginator_page_modal_field"),
+            component=ModalTextInput(
+                value=str(self.view.page),
+                max_length=10
+            ))
         data = await BaseModal(
             title=_("paginator_page_modal"),
             components=[page_],

@@ -37,15 +37,17 @@ class ExceptionEmbed(BaseEmbed):
         Args:
             error_msg (`str`): Embed's description.
         """
+        footer_text = ""
         if (act_len := len(error_msg)) > 3500:
             error_msg = error_msg[:3500] + "..."
+            footer_text = f'{len(error_msg)}/{act_len}'
 
-        self.set_footer(text=f'{len(error_msg)}/{act_len}')
         super().__init__(
             title=_("exception_title"),
             description=error_msg,
             color=BASE_EXCEPTION_COLOR
         )
+        self.set_footer(text=footer_text)
 
 
 class WarningEmbed(BaseEmbed):

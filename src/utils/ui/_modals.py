@@ -1,14 +1,25 @@
 import disnake
 import uuid
-from typing import List, Optional, Any, Union
+from typing import List, Optional, Any, Sequence, Union
 
 from src.utils._exceptions import ModalTimeoutException
+
+
+class ModalTextDisplay(disnake.ui.TextDisplay):
+    def __init__(
+        self,
+        content: str,
+        key: Optional[str] = None,
+    ) -> None:
+        super().__init__(
+            content = content
+        )
+        self.key = key
 
 
 class ModalTextInput(disnake.ui.TextInput):
     def __init__(
         self,
-        label: str,
         style: disnake.TextInputStyle
                 = disnake.TextInputStyle.short,
         placeholder: Optional[str] = None,
@@ -18,7 +29,6 @@ class ModalTextInput(disnake.ui.TextInput):
         max_length: Optional[int] = None
     ) -> None:
         super().__init__(
-            label=label,
             custom_id=str(uuid.uuid4()),
             style=style,
             placeholder=placeholder,
@@ -29,11 +39,48 @@ class ModalTextInput(disnake.ui.TextInput):
         )
 
 
+class ModalSelectMenu(disnake.ui.Select):
+    def __init__(
+        self,
+        options: list[disnake.SelectOption],
+        placeholder: Optional[str] = None,
+        min_values: int = 1,
+        max_values: int = 1,
+        disabled: bool = False,
+        required: bool = True
+    ) -> None:
+        super().__init__(
+            custom_id=str(uuid.uuid4()),
+            options=options,
+            placeholder=placeholder,
+            disabled=disabled,
+            required=required,
+            min_values=min_values,
+            max_values=max_values
+        )
+
+
+class ModalLabel(disnake.ui.Label):
+    def __init__(
+        self,
+        text: str,
+        component: Union[ModalTextInput, ModalSelectMenu],
+        key: Optional[str] = None,
+        description: Optional[str] = None
+    ) -> None:
+        super().__init__(
+            text=text,
+            component=component,
+            description=description
+        )
+        self.key = key
+
+
 class BaseModal(disnake.ui.Modal):
     def __init__(
         self,
         title: str,
-        components: List[ModalTextInput],
+        components: Sequence[Union[ModalTextDisplay, ModalLabel]],
         interaction: Union[
                 disnake.MessageCommandInteraction,
                 disnake.ApplicationCommandInteraction],
@@ -46,6 +93,7 @@ class BaseModal(disnake.ui.Modal):
             timeout=timeout
         )
         self.interaction = interaction
+        self._components = components
 
     async def receive_data(self) -> List[Any]:
         inter = self.interaction
@@ -60,12 +108,37 @@ class BaseModal(disnake.ui.Modal):
             await self._timeout_handler()
 
         inter.response = modal_inter.response # type: ignore
-        text_values = modal_inter.text_values
-        data: List[Any] = [
-            text_values[child.custom_id] for component
-             in self.components for child in component]
-        data.insert(0, modal_inter)
-        return data
+        components_data = {}
+        for label in modal_inter.data["components"]:
+            component = label["component"]
+            components_data[component["custom_id"]] = component
+
+        values = []
+
+        for item in self._components:
+            if isinstance(item, ModalLabel):
+                component = item.component
+
+            else:
+                component = item 
+
+            if isinstance(component, ModalTextDisplay):
+                continue
+
+            raw = components_data.get(component.custom_id)
+
+            if raw is None:
+                values.append(None)
+                continue
+
+            if isinstance(component, ModalTextInput):
+                values.append(raw.get("value"))
+
+            elif isinstance(component, ModalSelectMenu):
+                values.append(raw.get("values", []))
+
+        values.insert(0, modal_inter)
+        return values
 
     async def on_error(
         self,

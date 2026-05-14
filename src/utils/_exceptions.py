@@ -12,6 +12,33 @@ from src.settings import BASE_GUILD_ID
 _ = get_localizator("general.exceptions")
 
 
+__all__ = (
+    'CustomException',
+    'NotEnoughCoinsException',
+    'NotEnoughCrystalsException',
+    'NoActiveBoosterException',
+    'BoosterAlreadyActiveException',
+    'AlreadyOwnsRoleException',
+    'NotEnoughItemsException',
+    'LootboxRoleAlreadyExistsException',
+    'LootboxRoleDoesNotExistException',
+    'ShopRoleAlreadyExistsException',
+    'ShopRoleDoesNotExistException',
+    'ShopKeyAlreadyExistsException',
+    'ShopKeyDoesNotExistException',
+    'AllShopTriesAreUsedException',
+    'LastTryDidntEndException',
+    'QuestTemplateAlreadyExistsException',
+    'QuestTemplateDoesNotExistException',
+    'NoAvailableGifsException',
+    'GuildSettingAlreadyExistsException',
+    'GuildSettingDoesNotExistException',
+    'NoGuildSettingsAvailableException',
+    'DuetDisposeRestrictedException',
+    'APIException'
+)
+
+
 class CustomException(Exception):
     """Base custom exception"""
 
