@@ -101,22 +101,22 @@ class CustomVoiceCog(commands.Cog):
                 await channel.delete()
                 del self._delete_timers[channel.id]
             except:
-                logger.debug(
+                logger.warning(
                     "Попытка удалить кастомный войс канал [%s | %s] прошла неудачно.",
                     channel.jump_url, channel.name,
                     extra={
                         "user_avatar": user_avatar(jester=True),
-                        "type": "else",
+                        "type": "voice",
                         "guild_id": channel.guild.id
                     })
 
         task = asyncio.create_task(delete_channel(before_channel))
-        logger.debug(
+        logger.info(
             "Голосовой канал [%s | %s] удалится через %d секунд",
             before_channel.jump_url, before_channel.name, CUSTOM_VOICE_DELETE_TIME,
             extra={
                 "user_avatar": user_avatar(jester=True),
-                "type": "else",
+                "type": "voice",
                 "guild_id": before_channel.guild.id
             })
         self._delete_timers[before_channel.id] = task
@@ -130,11 +130,11 @@ class CustomVoiceCog(commands.Cog):
 
         self._delete_timers[after_channel.id].cancel()
         del self._delete_timers[after_channel.id]
-        logger.debug(
+        logger.warning(
             "Голосовой канал [%s | %s] больше не подлежит тотальному уничтожению!!!!",
             after_channel.jump_url, after_channel.name,
             extra={
                 "user_avatar": user_avatar(jester=True),
-                "type": "else",
+                "type": "voice",
                 "guild_id": after_channel.guild.id
             })
