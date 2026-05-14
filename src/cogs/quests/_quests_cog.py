@@ -93,7 +93,7 @@ class QuestsCog(commands.Cog):
             if message:
                 await message.delete()
             await self._create_board_message(quests_channel)
-            logger.debug("Доска объявлений обновлена",
+            logger.info("Доска объявлений обновлена",
                       extra=self._log_extra_params(guild.id))
 
     async def _get_quests_channel(
