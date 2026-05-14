@@ -19,6 +19,7 @@
     "general_channel_id_input": "Id канала общего чата",
     "offtop_channel_id_input": "Id канала оффтопа",
     "nitro_boosting_channel_id_input": "Id канала для оповещения о бустах",
+    "image_saver_channel_id_input": "Id канала для сохранения картинок (для логов)",
     "channels_cfg_modal": "Управление каналами",
 
     "-----------------------------": "Модальное окно с настройками магазиника",
@@ -62,7 +63,7 @@
     "backgrounds_lootbox_key_price_input": "Цена за ключ от лутбокса с фонами",
     "active_lootboxes_input": "Список активных лутбоксов",
     "active_lootboxes_tip": "Подсказка к полю выше",
-    "active_lootboxes_tip_value": "ДАННОЕ ПОЛЕ НЕ ПРЕДНАЗНАЧЕНО ДЛЯ ВВОДА ДАННЫХ И СЛУЖИТ ПОДСКАЗКОЙ К ПОЛЮ «%{.active_lootboxes_input}»\nДАННЫЕ ВВОДЯТСЯ В ФОРМАТЕ: «lootbox_type | lootbox_type | ...»\nВОЗМОЖНЫЕ ВАРИАНТЫ ВВОДА: %{available}",
+    "active_lootboxes_tip_value": "## ПОДСКАЗКA К «%{.active_lootboxes_input}»\nДАННЫЕ ВВОДЯТСЯ В ФОРМАТЕ: «lootbox_type | lootbox_type | ...»\nВОЗМОЖНЫЕ ВАРИАНТЫ ВВОДА: %{available}",
     "lootboxes_cfg_modal": "Управление лутбоксами",
 
 
